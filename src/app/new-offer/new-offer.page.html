@@ -1,0 +1,64 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>new-offer</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col offset-lg="3" offset-md="2" offset="1" size-lg="6" size-md="8" size="10">
+        <ion-item>
+          <ion-label position="floating">Promo code</ion-label>
+          <ion-input type="text"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Deduction type</ion-label>
+          <ion-select placeholder="Select One">
+            <ion-select-option value="1">Percentage</ion-select-option>
+            <ion-select-option value="2">Amount</ion-select-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="floating">Deduction value</ion-label>
+          <ion-input type="number"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="floating">Description</ion-label>
+          <ion-textarea></ion-textarea>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="floating">Prerequisite order number</ion-label>
+          <ion-input type="number"></ion-input>
+        </ion-item>
+
+
+        <ion-item>
+          <ion-label position="floating">Prerequisite order number</ion-label>
+          <ion-input type="number"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Start date</ion-label>
+          <ion-datetime displayFormat="MM DD YY" placeholder="Select Date"></ion-datetime>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>End date</ion-label>
+          <ion-datetime displayFormat="MM DD YY" placeholder="Select Date"></ion-datetime>
+        </ion-item>
+
+        <ion-item lines="none">
+          <ion-button slot="end"  size="default">
+            Create
+          </ion-button>
+        </ion-item>
+
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

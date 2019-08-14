@@ -1,0 +1,31 @@
+ion-col,
+ion-item {
+  text-align: center;
+}
+ion-icon {
+  position: absolute;
+  left: 3vw;
+  font-size: 50px;
+}
+ion-item {
+  height: auto;
+  margin-top: 20px;
+  padding: 20px;
+}
+@media only screen and (min-width: 360px) {
+  ion-icon {
+    left: 5vw;
+  }
+}
+
+@media only screen and (min-width: 400px) {
+  ion-icon {
+    left: 30%;
+  }
+}
+
+@media only screen and (min-width: 550px) {
+  ion-icon {
+    left: 35%;
+  }
+}
