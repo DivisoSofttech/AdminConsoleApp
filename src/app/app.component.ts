@@ -4,7 +4,7 @@ import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { OAuthService, JwksValidationHandler } from 'angular-oauth2-oidc';
-import {authConfig } from './security/configs/security-config';
+import {authConfig } from './security/configs/security.config';
 
 @Component({
   selector: 'app-root',

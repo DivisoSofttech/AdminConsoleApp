@@ -10,50 +10,43 @@
       <ion-col offset-lg="3" offset-md="2" offset="1" size-lg="6" size-md="8" size="10">
         <ion-item>
           <ion-label position="floating">Promo code</ion-label>
-          <ion-input type="text"></ion-input>
+          <ion-input type="text" [(ngModel)]="offerModel.promoCode"></ion-input>
         </ion-item>
 
         <ion-item>
           <ion-label>Deduction type</ion-label>
-          <ion-select placeholder="Select One">
-            <ion-select-option value="1">Percentage</ion-select-option>
-            <ion-select-option value="2">Amount</ion-select-option>
+          <ion-select placeholder="Select One" [(ngModel)]="offerModel.deduction_value_type_id">
+            <ion-select-option [value]="option.id" *ngFor="let option of deductionValueTypes">{{option.deductionValueType}}</ion-select-option>
           </ion-select>
         </ion-item>
 
         <ion-item>
           <ion-label position="floating">Deduction value</ion-label>
-          <ion-input type="number"></ion-input>
+          <ion-input type="number" [(ngModel)]="offerModel.deductionValue"></ion-input>
         </ion-item>
 
         <ion-item>
           <ion-label position="floating">Description</ion-label>
-          <ion-textarea></ion-textarea>
+          <ion-textarea [(ngModel)]="offerModel.description"></ion-textarea>
         </ion-item>
 
         <ion-item>
           <ion-label position="floating">Prerequisite order number</ion-label>
-          <ion-input type="number"></ion-input>
-        </ion-item>
-
-
-        <ion-item>
-          <ion-label position="floating">Prerequisite order number</ion-label>
-          <ion-input type="number"></ion-input>
+          <ion-input type="number" [(ngModel)]="offerModel.prerequisiteOrderNumber"></ion-input>
         </ion-item>
 
         <ion-item>
           <ion-label>Start date</ion-label>
-          <ion-datetime displayFormat="MM DD YY" placeholder="Select Date"></ion-datetime>
+          <ion-datetime displayFormat="DD-MM-YYYY" placeholder="Select Date" [(ngModel)]="offerModel.startDate"></ion-datetime>
         </ion-item>
 
         <ion-item>
           <ion-label>End date</ion-label>
-          <ion-datetime displayFormat="MM DD YY" placeholder="Select Date"></ion-datetime>
+          <ion-datetime displayFormat="DD-MM-YYYY" placeholder="Select Date" [(ngModel)]="offerModel.endDate"></ion-datetime>
         </ion-item>
 
         <ion-item lines="none">
-          <ion-button slot="end"  size="default">
+          <ion-button slot="end"  size="default" (click)="createNewOffer()">
             Create
           </ion-button>
         </ion-item>
