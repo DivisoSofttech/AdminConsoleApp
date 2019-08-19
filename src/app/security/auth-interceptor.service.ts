@@ -22,8 +22,7 @@ export class AuthInterceptor implements HttpInterceptor {
     if (oauthService.hasValidAccessToken()) {
       request = request.clone({
         setHeaders: {
-          Authorization: oauthService.authorizationHeader(),
-          "Access-Control-Allow-Origin": "*"
+          Authorization: oauthService.authorizationHeader()
         }
       });
     }

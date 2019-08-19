@@ -30,7 +30,8 @@ export class LoginPage implements OnInit {
         this.navCtrl.navigateRoot('/home');
       }
     }).catch((err: HttpErrorResponse) => {
-      this.presentToast(err.error.error_description);
+      console.log("error",err);
+      this.presentToast(err.error);
     });
   }
 

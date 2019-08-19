@@ -11,7 +11,7 @@ import { ToastController, NavController } from '@ionic/angular';
 export class NewOfferPage implements OnInit {
 
   deductionValueTypes: DeductionValueTypeDTO[];
-  message: String;
+  message: string;
   offerModel: OfferModel={};
 
   constructor(private queryResourceService: AggregateQueryResourceService, 
@@ -52,7 +52,7 @@ export class NewOfferPage implements OnInit {
   }
   async presentToast() {
     const toast = await this.toastController.create({
-      message: 'Your settings have been saved.',
+      message: this.message,
       duration: 2000
     });
     toast.present();

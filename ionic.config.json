@@ -1,5 +1,7 @@
 {
   "name": "AdminConsole",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }
