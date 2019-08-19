@@ -29,9 +29,16 @@ export class SignupPage implements OnInit {
   configureKeycloakAdmin() {
     this.kcAdminClient.auth({
       username: 'admin',
-      password: 'karma999',
+      password: 'admin999',
       grantType: 'password',
-      clientId: 'admin-cli'
+      clientId: 'admin-cli',
+      clientSecret: '7f8a027d-36dd-48fa-b09b-b26762029aa1'
+    }).then((success)=>{
+      console.log("success",success);
+    }).catch(reason=>{
+      console.log("error",reason);
+    }).finally(()=>{
+      console.log("in finally");
     });
   }
 
@@ -62,7 +69,7 @@ export class SignupPage implements OnInit {
           console.log(this.username);
         }
       }).catch((err: HttpErrorResponse) => {
-        this.presentToast(err.error.error_description);
+        this.presentToast(err);
       });
       this.navCtrl.navigateForward('/login');
     }, err => {

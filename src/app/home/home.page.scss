@@ -1,4 +1,4 @@
-ion-col,
+/* ion-col,
 ion-item {
   text-align: center;
 }
@@ -28,4 +28,32 @@ ion-item {
   ion-icon {
     left: 35%;
   }
+} */
+.white-background {
+  background-color: #fff;
+  border: 0px;
+  border-radius: 5px;
+  text-align: center;
 }
+.white-background h6 {
+  color: #8d8f9c;
+  margin-bottom: 0px;
+}
+.white-background h1 {
+  color: #353536;
+  margin-top: 5px;
+}
+.white-background-small {
+  font-size: 80%;
+}
+.side-border {
+  border-right: 0.5px solid #8d8f9c;
+  border-radius: 0px;
+}
+.white-background-small h6 {
+  margin-bottom: 2px; 
+}
+.white-background-small h5 {
+  margin-top: 2px; 
+}
+
