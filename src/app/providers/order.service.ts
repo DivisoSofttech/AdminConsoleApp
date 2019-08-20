@@ -11,7 +11,7 @@ export class OrderService {
   public endDate: string;
   public searchTerm: string;
   public todaysCount: number;
-  public order: number=10;
+  public order: number;
   public selectedStore: Store;
 
   constructor() { 

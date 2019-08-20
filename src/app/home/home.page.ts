@@ -63,6 +63,10 @@ export class HomePage {
         }
       );
     }
+    else{
+      this.searchStatus=false;
+    }
+    
   }
   setCurrentStore(store: Store) {
     this.searchStatus = false;

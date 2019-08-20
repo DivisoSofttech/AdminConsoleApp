@@ -22,9 +22,10 @@ class AggregateQueryResourceService extends __BaseService {
   static readonly findStoreBySearchTermUsingGETPath = '/api/query/findStore/{searchTerm}';
   static readonly getAllDeductionValueTypesUsingGETPath = '/api/query/offers/get-all-deduction-value-types';
   static readonly getAllOffersUsingGETPath = '/api/query/offers/get-all-offers';
+  static readonly findOrderByDatebetweenUsingGETPath = '/api/query/order/{from}/{to}';
   static readonly findOrderByDatebetweenAndStoreIdUsingGETPath = '/api/query/order/{from}/{to}/{storeId}';
   static readonly findOrderCountByDateAndStatusNameUsingGETPath = '/api/query/orderby-date-status-name/{statusName}/{date}';
-  static readonly findOrderCountByStatusNameUsingGETPath = '/api/query/orderby-satatus/{statusName}';
+  static readonly findOrderCountByStatusNameUsingGETPath = '/api/query/orderby-status/{statusName}';
 
   constructor(
     config: __Configuration,
@@ -195,6 +196,53 @@ class AggregateQueryResourceService extends __BaseService {
   }
 
   /**
+   * @param params The `AggregateQueryResourceService.FindOrderByDatebetweenUsingGETParams` containing the following parameters:
+   *
+   * - `to`: to
+   *
+   * - `from`: from
+   *
+   * @return OK
+   */
+  findOrderByDatebetweenUsingGETResponse(params: AggregateQueryResourceService.FindOrderByDatebetweenUsingGETParams): __Observable<__StrictHttpResponse<PageOfOrder>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+
+
+    let req = new HttpRequest<any>(
+      'GET',
+      this.rootUrl + `/api/query/order/${params.from}/${params.to}`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<PageOfOrder>;
+      })
+    );
+  }
+  /**
+   * @param params The `AggregateQueryResourceService.FindOrderByDatebetweenUsingGETParams` containing the following parameters:
+   *
+   * - `to`: to
+   *
+   * - `from`: from
+   *
+   * @return OK
+   */
+  findOrderByDatebetweenUsingGET(params: AggregateQueryResourceService.FindOrderByDatebetweenUsingGETParams): __Observable<PageOfOrder> {
+    return this.findOrderByDatebetweenUsingGETResponse(params).pipe(
+      __map(_r => _r.body as PageOfOrder)
+    );
+  }
+
+  /**
    * @param params The `AggregateQueryResourceService.FindOrderByDatebetweenAndStoreIdUsingGETParams` containing the following parameters:
    *
    * - `to`: to
@@ -304,7 +352,7 @@ class AggregateQueryResourceService extends __BaseService {
 
     let req = new HttpRequest<any>(
       'GET',
-      this.rootUrl + `/api/query/orderby-satatus/${statusName}`,
+      this.rootUrl + `/api/query/orderby-status/${statusName}`,
       __body,
       {
         headers: __headers,
@@ -398,6 +446,22 @@ module AggregateQueryResourceService {
      * Page number of the requested page
      */
     page?: number;
+  }
+
+  /**
+   * Parameters for findOrderByDatebetweenUsingGET
+   */
+  export interface FindOrderByDatebetweenUsingGETParams {
+
+    /**
+     * to
+     */
+    to: string;
+
+    /**
+     * from
+     */
+    from: string;
   }
 
   /**

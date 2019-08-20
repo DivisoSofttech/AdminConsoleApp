@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-searchbar mode="ios" placeholder="search stores" #event (ionCancel)="isNotSearching()" (ionClear)="isNotSearching()" (ionFocus)="isSearching()" (ionChange)="loadResults()" [(ngModel)]="orderService.searchTerm"></ion-searchbar>
+    <ion-searchbar mode="ios" cancel-button-icon='md-arrow-back' cancel-button-text='Cancel' placeholder="search stores" #event (ionCancel)="isNotSearching()" (ionClear)="isNotSearching()" (ionFocus)="isSearching()" (ionChange)="loadResults()" [(ngModel)]="orderService.searchTerm"></ion-searchbar>
   </ion-toolbar>
 </ion-header>
 
