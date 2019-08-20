@@ -65,6 +65,8 @@ export class HomePage {
     }
   }
   setCurrentStore(store: Store) {
+    this.searchStatus = false;
+    console.log("selected store",store);
     this.orderService.selectedStore = store;
     this.queryService.findOrderByDatebetweenAndStoreIdUsingGET(
       {
@@ -78,5 +80,8 @@ export class HomePage {
       error=>{
         console.log("something went wrong",error);
       })
+  }
+  clearStore() {
+    this.orderService.selectedStore=null;
   }
 }

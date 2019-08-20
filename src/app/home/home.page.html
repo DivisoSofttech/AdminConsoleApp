@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-searchbar mode="ios" placeholder="search stores" #event  (ionBlur)="isNotSearching()" (ionCancel)="isNotSearching()" (ionClear)="isNotSearching()" (ionFocus)="isSearching()" (ionChange)="loadResults()" [(ngModel)]="orderService.searchTerm"></ion-searchbar>
+    <ion-searchbar mode="ios" placeholder="search stores" #event (ionCancel)="isNotSearching()" (ionClear)="isNotSearching()" (ionFocus)="isSearching()" (ionChange)="loadResults()" [(ngModel)]="orderService.searchTerm"></ion-searchbar>
   </ion-toolbar>
 </ion-header>
 
@@ -85,6 +85,13 @@
           <h6>Total Orders</h6>
           <h1 *ngIf="orderService.order<0">N/A</h1>
           <h1 *ngIf="orderService.order>=0">{{orderService.order}}</h1>
+          <ion-chip *ngIf="orderService.selectedStore">
+              <ion-avatar>
+                <img [src]="'data:image/png;base64,'+orderService.selectedStore.image">
+              </ion-avatar>
+              <ion-label>{{orderService.selectedStore.name}}</ion-label>
+              <ion-icon name="close" (click)="clearStore()"></ion-icon>
+            </ion-chip>
         </div>
       </ion-col>
     </ion-row>
@@ -114,4 +121,9 @@
       {{store.name}}
     </ion-item>
   </ion-list>
+  <div class="loader" *ngIf="!stores && searchStatus">
+    <ion-spinner>
+
+    </ion-spinner>
+  </div>
 </ion-content>
