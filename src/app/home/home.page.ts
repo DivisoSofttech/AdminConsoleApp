@@ -30,6 +30,7 @@ export class HomePage {
         console.log("something went wrong", error);
       }
     );
+    this.loadOrdersWithDates();
   }
   async presentPopover(ev: any) {
     const popover = await this.popoverController.create({
@@ -83,9 +84,41 @@ export class HomePage {
       },
       error=>{
         console.log("something went wrong",error);
-      })
+      });
   }
+
   clearStore() {
     this.orderService.selectedStore=null;
+  }
+
+  loadOrdersWithDates() {
+    if(this.orderService.selectedStore){
+    this.queryService.findOrderByDatebetweenAndStoreIdUsingGET(
+      {
+        to: this.orderService.endDate,
+        storeId:this.orderService.selectedStore.regNo,
+        from:this.orderService.startDate
+      }).subscribe(response=>{
+          console.log(response);
+          this.orderService.order=response.content.length;
+      },
+      error=>{
+        console.log("something went wrong",error);
+      });
+    }
+    else {
+      this.queryService.findOrderByDatebetweenUsingGET(
+        {
+          to: this.orderService.endDate,
+          from:this.orderService.startDate
+        }).subscribe(response=>{
+            console.log(response);
+            this.orderService.order=response.content.length;
+        },
+        error=>{
+          console.log("something went wrong",error);
+        });
+    }
+
   }
 }
