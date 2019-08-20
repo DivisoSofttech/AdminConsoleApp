@@ -3,9 +3,7 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>
-      Home
-    </ion-title>
+    <ion-searchbar mode="ios" placeholder="search stores" #event  (ionBlur)="isNotSearching()" (ionCancel)="isNotSearching()" (ionClear)="isNotSearching()" (ionFocus)="isSearching()" (ionChange)="loadResults()" [(ngModel)]="orderService.searchTerm"></ion-searchbar>
   </ion-toolbar>
 </ion-header>
 
@@ -61,29 +59,20 @@
 
     </ion-row>
   </ion-grid> -->
-  <ion-grid>
+  <ion-grid *ngIf="!searchStatus">
     <ion-row align-items-center class="white-background">
       <ion-col size-sm="8" size="8" class="date">
         <ion-item>
           <ion-label>from</ion-label>
-          <ion-datetime displayFormat="MMMM YYYY DD" value="2012-12-15T13:47:20.789"></ion-datetime>
+          <ion-datetime displayFormat="DD MMMM YYYY" [value]="orderService.startDate"></ion-datetime>
         </ion-item>
         <ion-item>
           <ion-label>to</ion-label>
-          <ion-datetime displayFormat="MMMM YYYY DD" value="2012-12-15T13:47:20.789"></ion-datetime>
+          <ion-datetime displayFormat="DD MMMM YYYY" [value]="orderService.endDate"></ion-datetime>
         </ion-item>
       </ion-col>
 
       <ion-col size-sm="4" size="4" class="date">
-        <ion-item>
-          <ion-label>Store</ion-label>
-          <ion-select value="brown" okText="Okay" cancelText="Dismiss">
-            <ion-select-option value="brown">Brown</ion-select-option>
-            <ion-select-option value="blonde">Blonde</ion-select-option>
-            <ion-select-option value="black">Black</ion-select-option>
-            <ion-select-option value="red">Red</ion-select-option>
-          </ion-select>
-        </ion-item>
         <ion-button expand="full" fill="clear">
             Apply
         </ion-button>
@@ -94,7 +83,8 @@
       <ion-col size-sm="10" offset-sm="1" size="6" offset="3">
         <div class="white-background">
           <h6>Total Orders</h6>
-          <h1>345</h1>
+          <h1 *ngIf="orderService.order<0">N/A</h1>
+          <h1 *ngIf="orderService.order>=0">{{orderService.order}}</h1>
         </div>
       </ion-col>
     </ion-row>
@@ -102,16 +92,26 @@
       <ion-col size-sm="4" offset-sm="1" size="5" offset="1">
         <div class="white-background white-background-small side-border">
           <h6>Today</h6>
-          <h5>345</h5>
+          <h5 *ngIf="orderService.todaysCount<0">N/A</h5>
+          <h5 *ngIf="orderService.todaysCount>=0">{{orderService.todaysCount}}</h5>
         </div>
       </ion-col>
       <ion-col size-sm="4" size="5">
         <div class="white-background white-background-small">
           <h6>This week</h6>
-          <h5>345</h5>
+          <h5>N/A</h5>
         </div>
       </ion-col>
     </ion-row>
     
   </ion-grid>
+  <!-- <app-search-result *ngIf="searchStatus"></app-search-result> -->
+  <ion-list *ngIf="searchStatus">
+    <ion-item *ngFor="let store of stores" class="store" (click)="setCurrentStore(store)">
+        <ion-thumbnail slot="start">
+            <img [src]="'data:image/png;base64,'+store.image">
+          </ion-thumbnail>
+      {{store.name}}
+    </ion-item>
+  </ion-list>
 </ion-content>

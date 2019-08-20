@@ -31,7 +31,7 @@ export class LoginPage implements OnInit {
       }
     }).catch((err: HttpErrorResponse) => {
       console.log("error",err);
-      this.presentToast(err.error);
+      this.presentToast(err.error.error_description);
     });
   }
 

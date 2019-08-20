@@ -4,8 +4,8 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <ion-card>
+<ion-content padding margin>
+  <ion-card padding-vertical margin-vertical>
     <ion-card-header>
     </ion-card-header>
     <ion-card-content>
@@ -27,7 +27,7 @@
 
       </ion-item>
 
-      <ion-button expand="block" (click)="signup()" color="danger" *ngIf="agreement===true" >Signup</ion-button>
+      <ion-button expand="block" (click)="signup()" color="primary" *ngIf="agreement===true" >Signup</ion-button>
       <ion-button expand="block"  *ngIf="agreement===false" color="light" disable="true">Signup</ion-button>
       </ion-card-content>
       </ion-card>
