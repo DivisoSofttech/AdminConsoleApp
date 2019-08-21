@@ -49,6 +49,8 @@ ion-item {
 .side-border {
   border-right: 0.5px solid #8d8f9c;
   border-radius: 0px;
+  padding-right: 5%;
+  margin-right: 5%;
 }
 .white-background-small h6 {
   margin-bottom: 2px; 
@@ -56,14 +58,15 @@ ion-item {
 .white-background-small h5 {
   margin-top: 2px; 
 }
-ion-searchbar {
-  --color: white;
-  --placeholder-color: rgb(18, 18, 19);
-}
 .store {
   --background: white;
 }
 .loader{
   text-align: center;
   line-height: 400px;
+}
+
+.duration {
+  animation-duration: 200ms;
+  animation-delay: 0s;
 }

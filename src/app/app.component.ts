@@ -1,3 +1,5 @@
+import { Util } from './services/util';
+import { KeycloakService } from './services/security/keycloak.service';
 import { AuthGuardConfig } from './configs/auth.guard.config';
 import { Component } from '@angular/core';
 
@@ -39,7 +41,8 @@ export class AppComponent {
     private platform: Platform,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
-    private oauthService: OAuthService
+    private keycloakService: KeycloakService,
+    private util: Util
   ) {
     this.initializeApp();
   }
@@ -49,5 +52,10 @@ export class AppComponent {
       this.statusBar.backgroundColorByHexString('#73c2c9');
       this.splashScreen.hide();
     });
+  }
+
+  logout() {
+    this.keycloakService.logout();
+    this.util.createToast('You\'ve been logged out');
   }
 }

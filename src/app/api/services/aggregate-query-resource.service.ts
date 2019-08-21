@@ -20,6 +20,7 @@ import { PageOfOrder } from '../models/page-of-order';
 })
 class AggregateQueryResourceService extends __BaseService {
   static readonly findStoreBySearchTermUsingGETPath = '/api/query/findStore/{searchTerm}';
+  static readonly getOrderCountByDateAndStatusNameUsingGETPath = '/api/query/getorderby-date-status-name/{statusName}/{date}';
   static readonly getAllDeductionValueTypesUsingGETPath = '/api/query/offers/get-all-deduction-value-types';
   static readonly getAllOffersUsingGETPath = '/api/query/offers/get-all-offers';
   static readonly findOrderByDatebetweenUsingGETPath = '/api/query/order/{from}/{to}';
@@ -88,6 +89,53 @@ class AggregateQueryResourceService extends __BaseService {
   findStoreBySearchTermUsingGET(params: AggregateQueryResourceService.FindStoreBySearchTermUsingGETParams): __Observable<PageOfStore> {
     return this.findStoreBySearchTermUsingGETResponse(params).pipe(
       __map(_r => _r.body as PageOfStore)
+    );
+  }
+
+  /**
+   * @param params The `AggregateQueryResourceService.GetOrderCountByDateAndStatusNameUsingGETParams` containing the following parameters:
+   *
+   * - `statusName`: statusName
+   *
+   * - `date`: date
+   *
+   * @return OK
+   */
+  getOrderCountByDateAndStatusNameUsingGETResponse(params: AggregateQueryResourceService.GetOrderCountByDateAndStatusNameUsingGETParams): __Observable<__StrictHttpResponse<number>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+
+
+    let req = new HttpRequest<any>(
+      'GET',
+      this.rootUrl + `/api/query/getorderby-date-status-name/${params.statusName}/${params.date}`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'text'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return (_r as HttpResponse<any>).clone({ body: parseFloat((_r as HttpResponse<any>).body as string) }) as __StrictHttpResponse<number>
+      })
+    );
+  }
+  /**
+   * @param params The `AggregateQueryResourceService.GetOrderCountByDateAndStatusNameUsingGETParams` containing the following parameters:
+   *
+   * - `statusName`: statusName
+   *
+   * - `date`: date
+   *
+   * @return OK
+   */
+  getOrderCountByDateAndStatusNameUsingGET(params: AggregateQueryResourceService.GetOrderCountByDateAndStatusNameUsingGETParams): __Observable<number> {
+    return this.getOrderCountByDateAndStatusNameUsingGETResponse(params).pipe(
+      __map(_r => _r.body as number)
     );
   }
 
@@ -404,6 +452,22 @@ module AggregateQueryResourceService {
      * Page number of the requested page
      */
     page?: number;
+  }
+
+  /**
+   * Parameters for getOrderCountByDateAndStatusNameUsingGET
+   */
+  export interface GetOrderCountByDateAndStatusNameUsingGETParams {
+
+    /**
+     * statusName
+     */
+    statusName: string;
+
+    /**
+     * date
+     */
+    date: string;
   }
 
   /**
