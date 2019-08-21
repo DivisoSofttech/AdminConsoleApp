@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PopoverController } from '@ionic/angular';
-import { OrderService } from 'src/app/providers/order.service';
+import { OrderService } from 'src/app/services/order.service';
 import { AggregateQueryResourceService } from 'src/app/api/services';
 
 @Component({
@@ -10,7 +10,7 @@ import { AggregateQueryResourceService } from 'src/app/api/services';
 })
 export class SearchResultComponent implements OnInit {
 
-  stores:string[];
+  stores: string[];
 
   constructor(private orderService: OrderService, private queryService: AggregateQueryResourceService) {
    }
@@ -19,15 +19,12 @@ export class SearchResultComponent implements OnInit {
   }
   loadResults() {
     this.queryService.findStoreBySearchTermUsingGET({searchTerm: this.orderService.searchTerm}).subscribe(
-      response=> {
+      response => {
         console.log(response);
       },
-      error=>{
-        console.log("something went wrong",error);
+      error => {
+        console.log('something went wrong', error);
       }
-    )
-  }
-  ngOnChanges() {
-    console.log("ng onchage");
+    );
   }
 }

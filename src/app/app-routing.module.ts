@@ -1,6 +1,6 @@
+import { AuthGuardService } from './services/security/auth-guard.service';
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
-import { AuthGuard } from './security/auth.guard';
 
 const routes: Routes = [
   {
@@ -10,16 +10,14 @@ const routes: Routes = [
   },
   {
     path: 'home',
-    loadChildren: () => import('./home/home.module').then(m => m.HomePageModule),
-    canActivate: [AuthGuard]
+    loadChildren: () => import('./pages/home/home.module').then(m => m.HomePageModule),
+    canActivate: [AuthGuardService]
   },
-  { path: 'users', loadChildren: './users/users.module#UsersPageModule', canActivate: [AuthGuard] },
-  { path: 'offers', loadChildren: './offers/offers.module#OffersPageModule', canActivate: [AuthGuard] },
-  { path: 'reports', loadChildren: './reports/reports.module#ReportsPageModule', canActivate: [AuthGuard] },
-  { path: 'new-offer', loadChildren: './new-offer/new-offer.module#NewOfferPageModule', canActivate: [AuthGuard] },
-  { path: 'landing', loadChildren: './landing/landing.module#LandingPageModule' },
-  { path: 'login', loadChildren: './login/login.module#LoginPageModule' },
-  { path: 'signup', loadChildren: './signup/signup.module#SignupPageModule' }
+  { path: 'users', loadChildren: './pages/users/users.module#UsersPageModule', canActivate: [AuthGuardService] },
+  { path: 'offers', loadChildren: './pages/offers/offers.module#OffersPageModule', canActivate: [AuthGuardService] },
+  { path: 'reports', loadChildren: './pages/reports/reports.module#ReportsPageModule', canActivate: [AuthGuardService] },
+  { path: 'new-offer', loadChildren: './pages/new-offer/new-offer.module#NewOfferPageModule', canActivate: [AuthGuardService] },
+  { path: 'login', loadChildren: './pages/login-signup/login-signup.module#LoginSignupPageModule' },
 ];
 
 @NgModule({

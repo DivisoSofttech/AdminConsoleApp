@@ -1,3 +1,7 @@
+import { Util } from './services/util';
+import { ConfigsModule } from './configs/configs.module';
+import { KeycloakAdminConfig } from './configs/keycloak.admin.config';
+import { AuthInterceptor } from './services/security/auth-interceptor';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
@@ -10,7 +14,7 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { OAuthModule} from 'angular-oauth2-oidc';
 import { HttpClientModule, HttpClient,  HTTP_INTERCEPTORS } from '@angular/common/http';
-import { AuthInterceptor } from './security/auth-interceptor.service';
+import { IonicStorageModule } from '@ionic/storage';
 
 @NgModule({
   declarations: [AppComponent],
@@ -20,11 +24,17 @@ import { AuthInterceptor } from './security/auth-interceptor.service';
     IonicModule.forRoot(),
     AppRoutingModule,
     HttpClientModule,
+    ConfigsModule,
+    IonicStorageModule.forRoot({
+      name: '__mydb',
+      driverOrder: ['indexeddb', 'sqlite', 'websql']
+    }),
     OAuthModule.forRoot()
   ],
   providers: [
     StatusBar,
     SplashScreen,
+    Util,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     HttpClient,
     {
