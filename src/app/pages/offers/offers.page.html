@@ -1,5 +1,8 @@
 <ion-header>
   <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="home"></ion-back-button>
+    </ion-buttons>
     <ion-title>offers</ion-title>
   </ion-toolbar>
 </ion-header>
@@ -19,8 +22,8 @@
       {{offer.description}}
     </ion-card-content>
   </ion-card>
-<div class="load-data" *ngIf="!offers">
-  <ion-spinner></ion-spinner>
-</div>
-  
+  <div class="load-data" *ngIf="!offers">
+    <ion-spinner></ion-spinner>
+  </div>
+
 </ion-content>

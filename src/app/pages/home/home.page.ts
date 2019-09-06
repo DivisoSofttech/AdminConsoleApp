@@ -28,7 +28,7 @@ export class HomePage implements OnInit {
     this.queryService
       .getOrderCountByDateAndStatusNameUsingGET({
         statusName: 'completed',
-        date: this.orderService.endDate.slice(0, 22) + 'Z'
+        date: this.orderService.endDate.split("+")[0]+"Z"
       })
       .subscribe(
         response => {
@@ -41,7 +41,7 @@ export class HomePage implements OnInit {
       );
     this.queryService.findOrderCountByDateAndStatusNameUsingGET({
         statusName: 'payment-processed',
-        date: this.orderService.endDate.slice(0, 22) + 'Z'
+        date: this.orderService.endDate.split("+")[0]+"Z"
       }).subscribe(
         res => {
           this.orderService.todaysCount = res;
@@ -100,14 +100,14 @@ export class HomePage implements OnInit {
     this.searchStatus = false;
     this.queryService
       .findOrderByDatebetweenAndStoreIdUsingGET({
-        to: this.orderService.endDate.slice(0, 22) + 'Z',
+        to: this.orderService.endDate.split("+")[0]+"Z",
         storeId: this.orderService.selectedStore.regNo,
-        from: this.orderService.startDate
+        from: this.orderService.startDate.split("+")[0]+"Z"
       })
       .subscribe(
         response => {
           console.log(response);
-          this.orderService.order = response.content.length;
+          this.orderService.order = response.totalElements;
         },
         error => {
           console.log('something went wrong', error);
@@ -117,35 +117,38 @@ export class HomePage implements OnInit {
 
   clearStore() {
     this.orderService.selectedStore = null;
+    this.loadOrdersWithDates();
   }
 
   loadOrdersWithDates() {
     if (this.orderService.selectedStore) {
+      console.log("checking date", this.orderService.startDate, this.orderService.endDate);
       this.queryService
         .findOrderByDatebetweenAndStoreIdUsingGET({
-          to: this.orderService.endDate.slice(0, 22) + 'Z',
+          to: this.orderService.endDate.split("+")[0]+"Z",
           storeId: this.orderService.selectedStore.regNo,
-          from: this.orderService.startDate.slice(0, 22) + 'Z'
+          from: this.orderService.startDate.split("+")[0]+"Z"
         })
         .subscribe(
           response => {
             console.log(response);
-            this.orderService.order = response.content.length;
+            this.orderService.order = response.totalElements;
           },
           error => {
             console.log('something went wrong', error);
           }
         );
     } else {
+      console.log("checking date", this.orderService.startDate, this.orderService.endDate);
       this.queryService
         .findOrderByDatebetweenUsingGET({
-          to: this.orderService.endDate.slice(0, 22) + 'Z',
-          from: this.orderService.startDate.slice(0, 22) + 'Z'
+          to: this.orderService.endDate.split("+")[0]+"Z",
+          from: this.orderService.startDate.split("+")[0]+"Z"
         })
         .subscribe(
           response => {
             console.log(response);
-            this.orderService.order = response.content.length;
+            this.orderService.order = response.totalElements;
           },
           error => {
             console.log('something went wrong', error);

@@ -7,7 +7,7 @@ import { Store } from '../api/models';
 })
 export class OrderService {
 
-  public startDate = '2019-01-01T12:00:00.000Z';
+  public startDate = '2019-01-01T12:00:00.000+00:00';
   public endDate: string;
   public searchTerm: string;
   public todaysCount: number;
@@ -15,7 +15,8 @@ export class OrderService {
   public selectedStore: Store;
 
   constructor() {
-    this.endDate = new Date().toISOString();
+    this.endDate = (new Date().toISOString()).split("Z")[0]+"+00:00";
     console.log('new date and end date', this.endDate);
+    this.todaysCount= -1;
   }
 }
