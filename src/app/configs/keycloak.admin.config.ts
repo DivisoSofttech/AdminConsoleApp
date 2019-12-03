@@ -25,7 +25,7 @@ export class KeycloakAdminConfig {
         password: 'admin999',
         grantType: 'password',
         clientId: 'admin-cli',
-        clientSecret: '7f8a027d-36dd-48fa-b09b-b26762029aa1'
+        clientSecret: 'd4f03412-cdad-45b0-9ccc-beddd8399ac5'
       });
     }
 }

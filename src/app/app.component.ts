@@ -34,6 +34,11 @@ export class AppComponent {
       title: 'Users',
       url: '/users',
       icon: 'people'
+    },
+    {
+      title: 'Banners',
+      url: '/banners',
+      icon: 'albums'
     }
   ];
 
