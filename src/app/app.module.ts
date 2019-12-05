@@ -15,6 +15,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { OAuthModule} from 'angular-oauth2-oidc';
 import { HttpClientModule, HttpClient,  HTTP_INTERCEPTORS } from '@angular/common/http';
 import { IonicStorageModule } from '@ionic/storage';
+import { Camera } from '@ionic-native/camera/ngx';
 
 @NgModule({
   declarations: [AppComponent],
@@ -42,7 +43,8 @@ import { IonicStorageModule } from '@ionic/storage';
       useClass: AuthInterceptor,
       multi: true
 
-    }
+    },
+    Camera
   ],
   bootstrap: [AppComponent]
 })

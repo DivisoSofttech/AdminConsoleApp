@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ImageService } from 'src/app/services/image.service';
 
 @Component({
   selector: 'app-create-banner',
@@ -7,9 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CreateBannerPage implements OnInit {
 
-  constructor() { }
+  constructor(public imageService: ImageService) { }
 
   ngOnInit() {
+  }
+
+  public createNewBanner(): void {
+    console.log("creates new banner");
   }
 
 }
