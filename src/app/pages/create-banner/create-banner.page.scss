@@ -14,3 +14,12 @@ ion-content {
 .submit {
     --inner-padding-top: 20px;
 }
+ion-col {
+    text-align: center;
+}
+ion-col.close{
+    line-height: 100px;
+}
+.close-button {
+    font-size: 30px;
+}
