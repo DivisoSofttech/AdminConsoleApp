@@ -39,6 +39,7 @@ export class CreateBannerPage implements OnInit {
     .subscribe(response=>{
       console.log("banner successfully saved",this.banner);
       this.presentToast();
+      this.orderService.selectedStore=null;
     }, err=>{
       console.error("error while saving banner",err);
       

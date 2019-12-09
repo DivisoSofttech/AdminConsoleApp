@@ -39,7 +39,7 @@
         </ion-row>
         <ion-item lines="none">
           <ion-text>Banner image</ion-text>
-          <input type="file" id="selectedFile" #selectedFile hidden />
+          <input type="file" id="selectedFile" #selectedFile hidden accept="image/*"/>
           <ion-button slot='end' (click)="this.imageService.uploadImage(selectedFile)">
             <ion-icon name="attach">
             </ion-icon>
