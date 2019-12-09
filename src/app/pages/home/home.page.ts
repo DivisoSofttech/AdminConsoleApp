@@ -25,6 +25,9 @@ export class HomePage implements OnInit {
     this.presentPopover(ev);
   }
   ngOnInit() {
+
+    this.orderService.selectedStore={};
+    
     this.queryService
       .getOrderCountByDateAndStatusNameUsingGET({
         statusName: 'completed',

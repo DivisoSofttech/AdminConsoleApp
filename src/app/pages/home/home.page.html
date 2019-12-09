@@ -96,7 +96,7 @@
         <h6>Total Orders</h6>
         <h1 *ngIf="orderService.order<0">N/A</h1>
         <h1 *ngIf="orderService.order>=0">{{orderService.order}}</h1>
-        <ion-chip *ngIf="orderService.selectedStore">
+        <ion-chip *ngIf="orderService.selectedStore.name">
           <ion-avatar>
             <img [src]="'data:image/png;base64,'+orderService.selectedStore.image">
           </ion-avatar>

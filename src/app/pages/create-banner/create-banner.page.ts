@@ -33,13 +33,12 @@ export class CreateBannerPage implements OnInit {
     console.log("creates new banner");
     this.banner.image = this.imageService.croppedImage.split(',')[1];
     this.banner.storeId = this.orderService.selectedStore.regNo;
-    this.banner.expiryDate = this.banner.expiryDate.split("+")[0] + "Z";
+    this.banner.expiryDate = this.banner.expiryDate;
     console.log("banner to be saved", this.banner);
     this.commandService.createBannerUsingPOST(this.banner)
     .subscribe(response=>{
       console.log("banner successfully saved",this.banner);
       this.presentToast();
-      this.orderService.selectedStore=null;
     }, err=>{
       console.error("error while saving banner",err);
       
@@ -118,5 +117,10 @@ export class CreateBannerPage implements OnInit {
       ]
     });
     toast.present();
+  }
+
+  selectStore(store:any) {
+    console.log("store selected from child",store);
+    
   }
 }

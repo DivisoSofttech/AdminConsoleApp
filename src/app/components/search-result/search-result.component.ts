@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { PopoverController, IonSearchbar, ModalController } from '@ionic/angular';
+import { IonSearchbar, ModalController } from '@ionic/angular';
 import { OrderService } from 'src/app/services/order.service';
 import { AggregateQueryResourceService } from 'src/app/api/services';
-import { Store, BannerDTO } from 'src/app/api/models';
+import { Store } from 'src/app/api/models';
 
 @Component({
   selector: 'app-search-result',
@@ -13,20 +13,21 @@ export class SearchResultComponent implements OnInit {
 
   stores: Store[];
   searchStatus: boolean;
+  selectedStore: Store;
 
   @ViewChild('searchBar', { static: false }) searchBar: IonSearchbar;
-  
+
   constructor(private orderService: OrderService, private queryService: AggregateQueryResourceService, private modalController: ModalController) {
-   }
+  }
 
   ngOnInit() {
 
   }
   ionViewDidEnter() {
-    this.searchBar.setFocus().then(data=>{
-      console.log("searchbar got focus",data);
-    },err=>{
-      console.error("error when focusing searchbar",err);
+    this.searchBar.setFocus().then(data => {
+      console.log("searchbar got focus", data);
+    }, err => {
+      console.error("error when focusing searchbar", err);
     });
   }
 
@@ -74,6 +75,6 @@ export class SearchResultComponent implements OnInit {
   }
 
   clearStore() {
-    this.orderService.selectedStore = null;
+    this.orderService.selectedStore = {};
   }
 }

@@ -51,7 +51,7 @@
         <ion-item lines="inset">
           <ion-label position="floating">Store</ion-label>
           <ion-input type="text" (ionFocus)="isSearching()"
-            [(ngModel)]="this.orderService.selectedStore.name"></ion-input>
+            [(ngModel)]="this.orderService.selectedStore.name" (onStoreSelected)="selectStore($event)"></ion-input>
         </ion-item>
         <ion-item lines="inset">
           <ion-label position="floating">Valid till</ion-label>
