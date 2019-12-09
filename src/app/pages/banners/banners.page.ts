@@ -10,6 +10,7 @@ export class BannersPage implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    
   }
 
 }

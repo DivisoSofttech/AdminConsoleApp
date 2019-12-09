@@ -12,7 +12,7 @@ export class OrderService {
   public searchTerm: string;
   public todaysCount: number;
   public order: number;
-  public selectedStore: Store;
+  public selectedStore: Store= {};
 
   constructor() {
     this.endDate = (new Date().toISOString()).split("Z")[0]+"+00:00";

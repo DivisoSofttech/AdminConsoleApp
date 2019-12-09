@@ -19,6 +19,6 @@ import { SearchResultComponent } from '../../components/search-result/search-res
       }
     ])
   ],
-  declarations: [HomePage, SearchResultComponent]
+  declarations: [HomePage]
 })
 export class HomePageModule {}

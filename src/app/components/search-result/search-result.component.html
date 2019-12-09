@@ -1,5 +1,23 @@
-<ion-list>
-  <ion-item *ngFor="let store of stores">
-    {{store}}
-  </ion-item>
-</ion-list>
+<ion-header>
+  <ion-toolbar>
+    <ion-searchbar #searchBar [(ngModel)]="this.orderService.searchTerm"
+      showCancelButton="focus" debounce="500" cancel-button-icon='md-arrow-back' cancel-button-text='Cancel'
+      placeholder="search stores" #event (ionCancel)="isNotSearching()" (ionClear)="isNotSearching()"
+      (ionChange)="loadResults()"></ion-searchbar>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-list>
+    <ion-item *ngFor="let store of stores" class="store" (click)="setCurrentStore(store)">
+      <ion-thumbnail slot="start">
+        <img [src]="'data:image/png;base64,'+store.image">
+      </ion-thumbnail>
+      {{store.name}}
+    </ion-item>
+  </ion-list>
+  <div class="loader" *ngIf="!stores && searchStatus">
+    <ion-spinner>
+
+    </ion-spinner>
+  </div>
+</ion-content>

@@ -3,6 +3,7 @@ export { ApprovalDetails } from './models/approval-details';
 export { AuthInfoVM } from './models/auth-info-vm';
 export { AuxilaryOrderLine } from './models/auxilary-order-line';
 export { Banner } from './models/banner';
+export { BannerDTO } from './models/banner-dto';
 export { DeductionValueTypeDTO } from './models/deduction-value-type-dto';
 export { DeliveryInfo } from './models/delivery-info';
 export { Offer } from './models/offer';

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CameraOptions, Camera } from '@ionic-native/camera/ngx'
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { ImageCroppedEvent } from 'ngx-image-cropper';
 
 @Injectable({
   providedIn: 'root'
@@ -9,12 +10,14 @@ export class ImageService {
 
   processing: boolean;
   public uploadedImage: any;
+  public croppedImage: any;
+  public isImageCropped: boolean;
 
   readonly options: CameraOptions = {
     quality: 100,
     destinationType: this.camera.DestinationType.DATA_URL,
     encodingType: this.camera.EncodingType.JPEG,
-    mediaType: this.camera.MediaType.PICTURE
+    mediaType: this.camera.MediaType.PICTURE,
   }
 
   constructor(private camera: Camera) { }
@@ -33,6 +36,8 @@ export class ImageService {
   public uploadImage(selectedFile: any): void {
     console.log("uploading image",event);
     selectedFile.click();
+    this.isImageCropped= false;
+    this.croppedImage=null;
     var that = this;
     selectedFile.onchange = function () {
       var file = selectedFile.files[0];
@@ -58,6 +63,8 @@ export class ImageService {
   }
 
   imageLoaded(){
+    console.log("image is loaded");
+    
     this.processing = false;
   }
 
@@ -131,5 +138,17 @@ export class ImageService {
 
   public removeImage(): void {
     this.uploadedImage=null;
+    this.croppedImage=null;
+  }
+
+  public cropImage(event:ImageCroppedEvent) {
+    console.log("image cropped",event);
+    this.croppedImage=event.base64;
+  }
+
+  public finishCropping() {
+    this.isImageCropped=true;
+    console.log("image is cropped",this.isImageCropped);
+    
   }
 }

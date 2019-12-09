@@ -5,7 +5,7 @@ ion-grid {
     --ion-grid-padding: 10px;
 }
 ion-content {
-    --padding-top: 10%;
+    --padding-top: 2%;
 }
 .banner-image {
     width: 50%;
@@ -16,10 +16,41 @@ ion-content {
 }
 ion-col {
     text-align: center;
+    vertical-align: middle;
 }
-ion-col.close{
-    line-height: 100px;
-}
-.close-button {
+
+.close ion-icon {
     font-size: 30px;
+}
+.cropped-image {
+    width: auto;
+    max-width: 100%;
+    margin-top: 15%;
+    height: auto;
+    max-height: 100%;
+    margin: 0 auto;
+    display: block;
+    position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+}
+ion-col.black-bg {
+    background-color: black;
+}
+ion-col.blue-bg {
+    background-color: black;
+    --ion-grid-column-padding: 0px;
+}
+ion-col {
+    align-self: stretch;
+}
+ion-split-pane {
+    --border: 0px solid #fff !important;
+}
+image-cropper {
+    margin: 0px;
+    margin-top: 4px;
+    padding: 0px;
+    height: 100%;
 }

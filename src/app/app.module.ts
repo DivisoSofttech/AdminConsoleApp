@@ -16,6 +16,7 @@ import { OAuthModule} from 'angular-oauth2-oidc';
 import { HttpClientModule, HttpClient,  HTTP_INTERCEPTORS } from '@angular/common/http';
 import { IonicStorageModule } from '@ionic/storage';
 import { Camera } from '@ionic-native/camera/ngx';
+import { SearchResultComponent } from './components/search-result/search-result.component';
 
 @NgModule({
   declarations: [AppComponent],
