@@ -10,7 +10,7 @@
 <ion-content>
   <ion-grid>
     <ion-row>
-      <ion-col size='auto' size-sm='12' size-md='6' size-lg='4' *ngFor="let banner of banners">
+      <ion-col size-sm='12' size-md='6' size-lg='4' *ngFor="let banner of banners">
         <ion-card>
           <img
             [src]="banner.imageLink" />
@@ -19,9 +19,9 @@
           </ion-card-header>
           <ion-item>
             <ion-card-header>
-              <ion-card-title *ngIf="banner.storeId"></ion-card-title>
+              <ion-card-title *ngIf="banner.storeId">{{banner.storeId}}</ion-card-title>
             </ion-card-header>
-            <ion-badge color='primary' slot='end'>396&nbsp;&euro;</ion-badge>
+            <ion-badge color='primary' slot='end'>{{banner.cost}}&nbsp;&euro;</ion-badge>
           </ion-item>
         </ion-card>
 
