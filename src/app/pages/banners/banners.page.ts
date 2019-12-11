@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { AggregateQueryResourceService } from 'src/app/api/services';
+import { BannerDTO } from 'src/app/api/models';
 
 @Component({
   selector: 'app-banners',
@@ -7,10 +9,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BannersPage implements OnInit {
 
-  constructor() { }
+  banners: BannerDTO[];
+
+  constructor(private queryService: AggregateQueryResourceService) { }
+
 
   ngOnInit() {
-    
+    this.queryService.getAllBannersUsingGET({})
+      .subscribe(response=>{
+        console.log("banners: ",response);
+        this.banners=response;
+      })
   }
-
 }

@@ -9,7 +9,7 @@ import { PopoverController, ModalController, ToastController, NavController } fr
 @Component({
   selector: 'app-create-banner',
   templateUrl: './create-banner.page.html',
-  styleUrls: ['./create-banner.page.scss'],
+  styleUrls: ['./create-banner.page.scss']
 })
 export class CreateBannerPage implements OnInit {
 
@@ -120,7 +120,6 @@ export class CreateBannerPage implements OnInit {
   }
 
   selectStore(store:any) {
-    console.log("store selected from child",store);
-    
+    console.log("store selected from child",store);    
   }
 }

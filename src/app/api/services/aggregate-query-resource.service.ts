@@ -7,6 +7,7 @@ import { StrictHttpResponse as __StrictHttpResponse } from '../strict-http-respo
 import { Observable as __Observable } from 'rxjs';
 import { map as __map, filter as __filter } from 'rxjs/operators';
 
+import { Banner } from '../models/banner';
 import { PageOfStore } from '../models/page-of-store';
 import { DeductionValueTypeDTO } from '../models/deduction-value-type-dto';
 import { OfferDTO } from '../models/offer-dto';
@@ -19,6 +20,7 @@ import { PageOfOrder } from '../models/page-of-order';
   providedIn: 'root',
 })
 class AggregateQueryResourceService extends __BaseService {
+  static readonly getAllBannersUsingGETPath = '/api/query/banners/get-all-banners';
   static readonly findStoreBySearchTermUsingGETPath = '/api/query/findStore/{searchTerm}';
   static readonly getOrderCountByDateAndStatusNameUsingGETPath = '/api/query/getorderby-date-status-name/{statusName}/{date}';
   static readonly getAllDeductionValueTypesUsingGETPath = '/api/query/offers/get-all-deduction-value-types';
@@ -33,6 +35,58 @@ class AggregateQueryResourceService extends __BaseService {
     http: HttpClient
   ) {
     super(config, http);
+  }
+
+  /**
+   * @param params The `AggregateQueryResourceService.GetAllBannersUsingGETParams` containing the following parameters:
+   *
+   * - `sort`: Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+   *
+   * - `size`: Size of a page
+   *
+   * - `page`: Page number of the requested page
+   *
+   * @return OK
+   */
+  getAllBannersUsingGETResponse(params: AggregateQueryResourceService.GetAllBannersUsingGETParams): __Observable<__StrictHttpResponse<Array<Banner>>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+    (params.sort || []).forEach(val => {if (val != null) __params = __params.append('sort', val.toString())});
+    if (params.size != null) __params = __params.set('size', params.size.toString());
+    if (params.page != null) __params = __params.set('page', params.page.toString());
+    let req = new HttpRequest<any>(
+      'GET',
+      this.rootUrl + `/api/query/banners/get-all-banners`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<Array<Banner>>;
+      })
+    );
+  }
+  /**
+   * @param params The `AggregateQueryResourceService.GetAllBannersUsingGETParams` containing the following parameters:
+   *
+   * - `sort`: Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+   *
+   * - `size`: Size of a page
+   *
+   * - `page`: Page number of the requested page
+   *
+   * @return OK
+   */
+  getAllBannersUsingGET(params: AggregateQueryResourceService.GetAllBannersUsingGETParams): __Observable<Array<Banner>> {
+    return this.getAllBannersUsingGETResponse(params).pipe(
+      __map(_r => _r.body as Array<Banner>)
+    );
   }
 
   /**
@@ -427,6 +481,27 @@ class AggregateQueryResourceService extends __BaseService {
 }
 
 module AggregateQueryResourceService {
+
+  /**
+   * Parameters for getAllBannersUsingGET
+   */
+  export interface GetAllBannersUsingGETParams {
+
+    /**
+     * Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+     */
+    sort?: Array<string>;
+
+    /**
+     * Size of a page
+     */
+    size?: number;
+
+    /**
+     * Page number of the requested page
+     */
+    page?: number;
+  }
 
   /**
    * Parameters for findStoreBySearchTermUsingGET
