@@ -39,6 +39,11 @@ export class AppComponent {
       title: 'Banners',
       url: '/banners',
       icon: 'albums'
+    },
+    {
+      title: 'Cancellation',
+      url: '/cancellation',
+      icon: 'close'
     }
   ];
 
