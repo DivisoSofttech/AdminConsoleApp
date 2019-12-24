@@ -1,3 +1,4 @@
+import { QueryResourceService } from 'src/app/api/services';
 import { Util } from './../../services/util';
 import { KeycloakService } from './../../services/security/keycloak.service';
 import { IonSlides } from '@ionic/angular';
@@ -20,6 +21,7 @@ export class LoginSignupPage implements OnInit {
   constructor(
     private keycloakService: KeycloakService,
     private util: Util,
+    private queryResourceService:QueryResourceService
   ) {}
 
   ngOnInit() {

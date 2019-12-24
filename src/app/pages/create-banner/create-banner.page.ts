@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ImageService } from 'src/app/services/image.service';
 import { OrderService } from 'src/app/services/order.service';
 import { Store, BannerDTO } from 'src/app/api/models';
-import { AggregateQueryResourceService, AggregateCommandResourceService } from 'src/app/api/services';
+import { QueryResourceService, CommandResourceService } from 'src/app/api/services';
 import { SearchResultComponent } from 'src/app/components/search-result/search-result.component';
 import { PopoverController, ModalController, ToastController, NavController } from '@ionic/angular';
 
@@ -19,30 +19,30 @@ export class CreateBannerPage implements OnInit {
   banner: BannerDTO = {};
 
   constructor(public imageService: ImageService,
-    public orderService: OrderService,
-    private queryService: AggregateQueryResourceService,
-    private modalController: ModalController,
-    private toastController: ToastController,
-    private commandService: AggregateCommandResourceService,
-    private navController: NavController) { }
+              public orderService: OrderService,
+              private queryService: QueryResourceService,
+              private modalController: ModalController,
+              private toastController: ToastController,
+              private commandService: CommandResourceService,
+              private navController: NavController) { }
 
   ngOnInit() {
   }
 
   public createNewBanner(): void {
-    console.log("creates new banner");
+    console.log('creates new banner');
     this.banner.image = this.imageService.croppedImage.split(',')[1];
     this.banner.storeId = this.orderService.selectedStore.regNo;
     this.banner.expiryDate = this.banner.expiryDate;
-    console.log("banner to be saved", this.banner);
+    console.log('banner to be saved', this.banner);
     this.commandService.createBannerUsingPOST(this.banner)
-    .subscribe(response=>{
-      console.log("banner successfully saved",this.banner);
+    .subscribe(response => {
+      console.log('banner successfully saved', this.banner);
       this.presentToast();
-    }, err=>{
-      console.error("error while saving banner",err);
-      
-    })
+    }, err => {
+      console.error('error while saving banner', err);
+
+    });
   }
 
   isNotSearching() {
@@ -50,8 +50,9 @@ export class CreateBannerPage implements OnInit {
     console.log('isNotSearching', this.searchStatus);
     this.orderService.searchTerm = null;
     this.stores = null;
-    if (this.modal)
+    if (this.modal) {
       this.modal.dismiss();
+    }
   }
 
   isSearching() {
@@ -73,14 +74,14 @@ export class CreateBannerPage implements OnInit {
     ) {
       this.queryService
         .findStoreBySearchTermUsingGET({
-          searchTerm: this.orderService.searchTerm
+          name: this.orderService.searchTerm
         })
         .subscribe(
           response => {
             console.log(this.orderService.searchTerm, response.content);
             this.stores = response.content;
             if (response) {
-              console.log("response size: ", response.size);
+              console.log('response size: ', response.size);
 
               this.presentModal();
             }
@@ -119,7 +120,7 @@ export class CreateBannerPage implements OnInit {
     toast.present();
   }
 
-  selectStore(store:any) {
-    console.log("store selected from child",store);    
+  selectStore(store: any) {
+    console.log('store selected from child', store);
   }
 }

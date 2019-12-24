@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AggregateQueryResourceService, AggregateCommandResourceService } from '../../api/services';
+import { QueryResourceService, CommandResourceService } from '../../api/services';
 import { DeductionValueTypeDTO, OfferModel } from '../../api/models';
 import { ToastController, NavController } from '@ionic/angular';
 
@@ -14,8 +14,8 @@ export class NewOfferPage implements OnInit {
   message: string;
   offerModel: OfferModel = {};
 
-  constructor(private queryResourceService: AggregateQueryResourceService,
-              private commandResourceService: AggregateCommandResourceService,
+  constructor(private queryResourceService: QueryResourceService,
+              private commandResourceService:CommandResourceService,
               private toastController: ToastController,
               private navController: NavController) { }
 

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AggregateQueryResourceService } from '../../api/services';
+import { QueryResourceService } from '../../api/services';
 import { OfferDTO } from '../../api/models';
 
 @Component({
@@ -10,7 +10,7 @@ import { OfferDTO } from '../../api/models';
 export class OffersPage implements OnInit {
 
   offers: OfferDTO[];
-  constructor(private queryService: AggregateQueryResourceService) { }
+  constructor(private queryService: QueryResourceService) { }
 
   ngOnInit() {
     this.queryService.getAllOffersUsingGET({}).subscribe(

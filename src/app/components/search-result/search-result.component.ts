@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { IonSearchbar, ModalController } from '@ionic/angular';
 import { OrderService } from 'src/app/services/order.service';
-import { AggregateQueryResourceService } from 'src/app/api/services';
+import { QueryResourceService } from 'src/app/api/services';
 import { Store } from 'src/app/api/models';
 
 @Component({
@@ -17,7 +17,7 @@ export class SearchResultComponent implements OnInit {
 
   @ViewChild('searchBar', { static: false }) searchBar: IonSearchbar;
 
-  constructor(private orderService: OrderService, private queryService: AggregateQueryResourceService, private modalController: ModalController) {
+  constructor(private orderService: OrderService, private queryService: QueryResourceService, private modalController: ModalController) {
   }
 
   ngOnInit() {
@@ -52,7 +52,7 @@ export class SearchResultComponent implements OnInit {
     ) {
       this.queryService
         .findStoreBySearchTermUsingGET({
-          searchTerm: this.orderService.searchTerm
+          name: this.orderService.searchTerm
         })
         .subscribe(
           response => {
@@ -75,6 +75,6 @@ export class SearchResultComponent implements OnInit {
   }
 
   clearStore() {
-    this.orderService.selectedStore = {};
+    this.orderService.selectedStore = {imageLink:'',storeUniqueId:''};
   }
 }
