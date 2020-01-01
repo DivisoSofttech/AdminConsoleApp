@@ -17,11 +17,13 @@ import { HttpClientModule, HttpClient,  HTTP_INTERCEPTORS } from '@angular/commo
 import { IonicStorageModule } from '@ionic/storage';
 import { Camera } from '@ionic-native/camera/ngx';
 import { SearchResultComponent } from './components/search-result/search-result.component';
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
   imports: [
+    NgxDatatableModule,
     BrowserModule,
     IonicModule.forRoot(),
     AppRoutingModule,
