@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { PopoverController } from '@ionic/angular';
 
 @Component({
   selector: 'app-oder-search-popover',
@@ -7,8 +8,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class OderSearchPopoverComponent implements OnInit {
 
-  constructor() { }
+  orderID: string;
+
+  constructor (public viewCtrl: PopoverController) { }
 
   ngOnInit() {}
+
+  dismiss(item) {
+    console.log("order ",this.orderID);
+    let data = this.orderID;
+    this.viewCtrl.dismiss(data);
+  }
 
 }

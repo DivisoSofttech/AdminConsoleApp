@@ -59,6 +59,7 @@ export class LoginSignupPage implements OnInit {
           // this.createStore(res.preferred_username);
           this.login();
           loader.dismiss();
+          console.log('account created');
         },
         err => {
           loader.dismiss();

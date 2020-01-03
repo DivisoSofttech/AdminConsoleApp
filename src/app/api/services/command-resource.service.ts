@@ -10,7 +10,7 @@ import { map as __map, filter as __filter } from 'rxjs/operators';
 import { BannerDTO } from '../models/banner-dto';
 import { CancellationRequestDTO } from '../models/cancellation-request-dto';
 import { CancelledOrderLineDTO } from '../models/cancelled-order-line-dto';
-import { RefoundDetailsDTO } from '../models/refound-details-dto';
+import { RefundDetailsDTO } from '../models/refund-details-dto';
 import { DeductionValueTypeDTO } from '../models/deduction-value-type-dto';
 import { NotificationDTO } from '../models/notification-dto';
 import { OrderModel } from '../models/order-model';
@@ -379,7 +379,7 @@ class CommandResourceService extends __BaseService {
    *
    * @return OK
    */
-  createRefundUsingPOSTResponse(params: CommandResourceService.CreateRefundUsingPOSTParams): __Observable<__StrictHttpResponse<RefoundDetailsDTO>> {
+  createRefundUsingPOSTResponse(params: CommandResourceService.CreateRefundUsingPOSTParams): __Observable<__StrictHttpResponse<RefundDetailsDTO>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
@@ -399,7 +399,7 @@ class CommandResourceService extends __BaseService {
     return this.http.request<any>(req).pipe(
       __filter(_r => _r instanceof HttpResponse),
       __map((_r) => {
-        return _r as __StrictHttpResponse<RefoundDetailsDTO>;
+        return _r as __StrictHttpResponse<RefundDetailsDTO>;
       })
     );
   }
@@ -414,9 +414,9 @@ class CommandResourceService extends __BaseService {
    *
    * @return OK
    */
-  createRefundUsingPOST(params: CommandResourceService.CreateRefundUsingPOSTParams): __Observable<RefoundDetailsDTO> {
+  createRefundUsingPOST(params: CommandResourceService.CreateRefundUsingPOSTParams): __Observable<RefundDetailsDTO> {
     return this.createRefundUsingPOSTResponse(params).pipe(
-      __map(_r => _r.body as RefoundDetailsDTO)
+      __map(_r => _r.body as RefundDetailsDTO)
     );
   }
 
@@ -638,7 +638,7 @@ class CommandResourceService extends __BaseService {
    * @param refundDetailsDTO refundDetailsDTO
    * @return OK
    */
-  updateRefundDetailsUsingPUTResponse(refundDetailsDTO: RefoundDetailsDTO): __Observable<__StrictHttpResponse<RefoundDetailsDTO>> {
+  updateRefundDetailsUsingPUTResponse(refundDetailsDTO: RefundDetailsDTO): __Observable<__StrictHttpResponse<RefundDetailsDTO>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
@@ -656,7 +656,7 @@ class CommandResourceService extends __BaseService {
     return this.http.request<any>(req).pipe(
       __filter(_r => _r instanceof HttpResponse),
       __map((_r) => {
-        return _r as __StrictHttpResponse<RefoundDetailsDTO>;
+        return _r as __StrictHttpResponse<RefundDetailsDTO>;
       })
     );
   }
@@ -664,9 +664,9 @@ class CommandResourceService extends __BaseService {
    * @param refundDetailsDTO refundDetailsDTO
    * @return OK
    */
-  updateRefundDetailsUsingPUT(refundDetailsDTO: RefoundDetailsDTO): __Observable<RefoundDetailsDTO> {
+  updateRefundDetailsUsingPUT(refundDetailsDTO: RefundDetailsDTO): __Observable<RefundDetailsDTO> {
     return this.updateRefundDetailsUsingPUTResponse(refundDetailsDTO).pipe(
-      __map(_r => _r.body as RefoundDetailsDTO)
+      __map(_r => _r.body as RefundDetailsDTO)
     );
   }
 
@@ -707,17 +707,17 @@ class CommandResourceService extends __BaseService {
   /**
    * @param params The `CommandResourceService.CreateRefundDetailsUsingPOSTParams` containing the following parameters:
    *
-   * - `refoundDetailsDTO`: refoundDetailsDTO
+   * - `refundDetailsDTO`: refundDetailsDTO
    *
    * - `orderId`: orderId
    *
    * @return OK
    */
-  createRefundDetailsUsingPOSTResponse(params: CommandResourceService.CreateRefundDetailsUsingPOSTParams): __Observable<__StrictHttpResponse<RefoundDetailsDTO>> {
+  createRefundDetailsUsingPOSTResponse(params: CommandResourceService.CreateRefundDetailsUsingPOSTParams): __Observable<__StrictHttpResponse<RefundDetailsDTO>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
-    __body = params.refoundDetailsDTO;
+    __body = params.refundDetailsDTO;
 
     let req = new HttpRequest<any>(
       'POST',
@@ -732,22 +732,22 @@ class CommandResourceService extends __BaseService {
     return this.http.request<any>(req).pipe(
       __filter(_r => _r instanceof HttpResponse),
       __map((_r) => {
-        return _r as __StrictHttpResponse<RefoundDetailsDTO>;
+        return _r as __StrictHttpResponse<RefundDetailsDTO>;
       })
     );
   }
   /**
    * @param params The `CommandResourceService.CreateRefundDetailsUsingPOSTParams` containing the following parameters:
    *
-   * - `refoundDetailsDTO`: refoundDetailsDTO
+   * - `refundDetailsDTO`: refundDetailsDTO
    *
    * - `orderId`: orderId
    *
    * @return OK
    */
-  createRefundDetailsUsingPOST(params: CommandResourceService.CreateRefundDetailsUsingPOSTParams): __Observable<RefoundDetailsDTO> {
+  createRefundDetailsUsingPOST(params: CommandResourceService.CreateRefundDetailsUsingPOSTParams): __Observable<RefundDetailsDTO> {
     return this.createRefundDetailsUsingPOSTResponse(params).pipe(
-      __map(_r => _r.body as RefoundDetailsDTO)
+      __map(_r => _r.body as RefundDetailsDTO)
     );
   }
 }
@@ -762,7 +762,7 @@ module CommandResourceService {
     /**
      * refundDetailsDTO
      */
-    refundDetailsDTO: RefoundDetailsDTO;
+    refundDetailsDTO: RefundDetailsDTO;
 
     /**
      * paymentId
@@ -781,9 +781,9 @@ module CommandResourceService {
   export interface CreateRefundDetailsUsingPOSTParams {
 
     /**
-     * refoundDetailsDTO
+     * refundDetailsDTO
      */
-    refoundDetailsDTO: RefoundDetailsDTO;
+    refundDetailsDTO: RefundDetailsDTO;
 
     /**
      * orderId

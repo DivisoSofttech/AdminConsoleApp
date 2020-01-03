@@ -11,8 +11,12 @@ import { BannerDTO } from '../models/banner-dto';
 import { CancellationRequestDTO } from '../models/cancellation-request-dto';
 import { CancelledOrderLineDTO } from '../models/cancelled-order-line-dto';
 import { NotificationDTO } from '../models/notification-dto';
-import { RefoundDetailsDTO } from '../models/refound-details-dto';
+import { RefundDetailsDTO } from '../models/refund-details-dto';
+import { AuxItem } from '../models/aux-item';
+import { OfferLine } from '../models/offer-line';
 import { PageOfOrderMaster } from '../models/page-of-order-master';
+import { Order } from '../models/order';
+import { OrderLine } from '../models/order-line';
 import { PageOfStore } from '../models/page-of-store';
 import { DeductionValueTypeDTO } from '../models/deduction-value-type-dto';
 import { OfferDTO } from '../models/offer-dto';
@@ -38,23 +42,26 @@ class QueryResourceService extends __BaseService {
   static readonly getCancellationRequestUsingGETPath = '/api/query/cancellation-requests/{id}';
   static readonly getAllCancelledOrderLinesUsingGETPath = '/api/query/cancelled-order-lines';
   static readonly getCancelledOrderLineUsingGETPath = '/api/query/cancelled-order-lines/{id}';
+  static readonly findAuxItemsByIdUsingGETPath = '/api/query/findAuxItemsLinesById/{id}';
+  static readonly findOfferLinesByOrderNumberUsingGETPath = '/api/query/findOfferLinesByOrderNumber/{orderId}';
   static readonly findOrderByDatebetweenAndStoreIdUsingGETPath = '/api/query/findOrderByDatebetweenAndStoreId/{from}/{storeId}/{to}';
+  static readonly findOrderByOrderIdUsingGETPath = '/api/query/findOrderByOrderId/{orderId}';
   static readonly findOrderCountByDateAndStatusNameUsingGETPath = '/api/query/findOrderCountByDateAndStatusName/{date}/{statusName}';
   static readonly findOrderCountByStatusNameUsingGETPath = '/api/query/findOrderCountByStatusName/{statusName}';
+  static readonly findOrderLinesByOrderNumberUsingGETPath = '/api/query/findOrderLinesByOrderNumber/{orderId}';
   static readonly findOrderMasterByExpectedDeliveryBetweenUsingGETPath = '/api/query/findOrderMasterByExpectedDeliveryBetween/{from}/{to}';
   static readonly findOrderMasterCountByExpectedDeliveryBetweenUsingGETPath = '/api/query/findOrderMasterCountByExpectedDeliveryBetween/{from}/{to}';
+  static readonly findOrdersByOrderIdUsingGETPath = '/api/query/findOrdersByOrderId/{orderId}';
   static readonly findStoreBySearchTermUsingGETPath = '/api/query/findStore/{name}';
   static readonly getAllNotificationsUsingGETPath = '/api/query/notifications';
   static readonly getNotificationUsingGETPath = '/api/query/notifications/{id}';
   static readonly getAllDeductionValueTypesUsingGETPath = '/api/query/offers/get-all-deduction-value-types';
   static readonly getAllOffersUsingGETPath = '/api/query/offers/get-all-offers';
   static readonly getOfferByIdUsingGETPath = '/api/query/offers/get-offer-by-id/{id}';
-  static readonly getReportAsPdfUsingGETPath = '/api/query/pdf/{orderNumber}';
   static readonly getAllRefundDetailsUsingGETPath = '/api/query/refund-details';
   static readonly getRefundDetailsUsingGETPath = '/api/query/refund-details/{id}';
-  static readonly createReportSummaryUsingGETPath = '/api/query/report/{date}/{storeId}';
   static readonly getReportSummaryAsPdfUsingGETPath = '/api/query/reportSummary/{date}/{storeId}';
-  static readonly createReportSummaryUsingGET1Path = '/api/query/reportview/{expectedDelivery}/{storeName}';
+  static readonly createReportSummaryUsingGETPath = '/api/query/reportview/{expectedDelivery}/{storeName}';
   static readonly getSaleReportAsPdfUsingGETPath = '/api/query/salereport/{storeidpcode}';
   static readonly getTasksUsingGETPath = '/api/query/tasks';
 
@@ -306,7 +313,7 @@ class QueryResourceService extends __BaseService {
    *
    * @return OK
    */
-  searchRefundDetailsUsingGETResponse(params: QueryResourceService.SearchRefundDetailsUsingGETParams): __Observable<__StrictHttpResponse<Array<RefoundDetailsDTO>>> {
+  searchRefundDetailsUsingGETResponse(params: QueryResourceService.SearchRefundDetailsUsingGETParams): __Observable<__StrictHttpResponse<Array<RefundDetailsDTO>>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
@@ -327,7 +334,7 @@ class QueryResourceService extends __BaseService {
     return this.http.request<any>(req).pipe(
       __filter(_r => _r instanceof HttpResponse),
       __map((_r) => {
-        return _r as __StrictHttpResponse<Array<RefoundDetailsDTO>>;
+        return _r as __StrictHttpResponse<Array<RefundDetailsDTO>>;
       })
     );
   }
@@ -344,9 +351,9 @@ class QueryResourceService extends __BaseService {
    *
    * @return OK
    */
-  searchRefundDetailsUsingGET(params: QueryResourceService.SearchRefundDetailsUsingGETParams): __Observable<Array<RefoundDetailsDTO>> {
+  searchRefundDetailsUsingGET(params: QueryResourceService.SearchRefundDetailsUsingGETParams): __Observable<Array<RefundDetailsDTO>> {
     return this.searchRefundDetailsUsingGETResponse(params).pipe(
-      __map(_r => _r.body as Array<RefoundDetailsDTO>)
+      __map(_r => _r.body as Array<RefundDetailsDTO>)
     );
   }
 
@@ -651,6 +658,78 @@ class QueryResourceService extends __BaseService {
   }
 
   /**
+   * @param id id
+   * @return OK
+   */
+  findAuxItemsByIdUsingGETResponse(id: number): __Observable<__StrictHttpResponse<Array<AuxItem>>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+
+    let req = new HttpRequest<any>(
+      'GET',
+      this.rootUrl + `/api/query/findAuxItemsLinesById/${id}`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<Array<AuxItem>>;
+      })
+    );
+  }
+  /**
+   * @param id id
+   * @return OK
+   */
+  findAuxItemsByIdUsingGET(id: number): __Observable<Array<AuxItem>> {
+    return this.findAuxItemsByIdUsingGETResponse(id).pipe(
+      __map(_r => _r.body as Array<AuxItem>)
+    );
+  }
+
+  /**
+   * @param orderId orderId
+   * @return OK
+   */
+  findOfferLinesByOrderNumberUsingGETResponse(orderId: string): __Observable<__StrictHttpResponse<Array<OfferLine>>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+
+    let req = new HttpRequest<any>(
+      'GET',
+      this.rootUrl + `/api/query/findOfferLinesByOrderNumber/${orderId}`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<Array<OfferLine>>;
+      })
+    );
+  }
+  /**
+   * @param orderId orderId
+   * @return OK
+   */
+  findOfferLinesByOrderNumberUsingGET(orderId: string): __Observable<Array<OfferLine>> {
+    return this.findOfferLinesByOrderNumberUsingGETResponse(orderId).pipe(
+      __map(_r => _r.body as Array<OfferLine>)
+    );
+  }
+
+  /**
    * @param params The `QueryResourceService.FindOrderByDatebetweenAndStoreIdUsingGETParams` containing the following parameters:
    *
    * - `to`: to
@@ -714,6 +793,42 @@ class QueryResourceService extends __BaseService {
   findOrderByDatebetweenAndStoreIdUsingGET(params: QueryResourceService.FindOrderByDatebetweenAndStoreIdUsingGETParams): __Observable<PageOfOrderMaster> {
     return this.findOrderByDatebetweenAndStoreIdUsingGETResponse(params).pipe(
       __map(_r => _r.body as PageOfOrderMaster)
+    );
+  }
+
+  /**
+   * @param orderId orderId
+   * @return OK
+   */
+  findOrderByOrderIdUsingGETResponse(orderId: string): __Observable<__StrictHttpResponse<Order>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+
+    let req = new HttpRequest<any>(
+      'GET',
+      this.rootUrl + `/api/query/findOrderByOrderId/${orderId}`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<Order>;
+      })
+    );
+  }
+  /**
+   * @param orderId orderId
+   * @return OK
+   */
+  findOrderByOrderIdUsingGET(orderId: string): __Observable<Order> {
+    return this.findOrderByOrderIdUsingGETResponse(orderId).pipe(
+      __map(_r => _r.body as Order)
     );
   }
 
@@ -797,6 +912,42 @@ class QueryResourceService extends __BaseService {
   findOrderCountByStatusNameUsingGET(statusName: string): __Observable<number> {
     return this.findOrderCountByStatusNameUsingGETResponse(statusName).pipe(
       __map(_r => _r.body as number)
+    );
+  }
+
+  /**
+   * @param orderId orderId
+   * @return OK
+   */
+  findOrderLinesByOrderNumberUsingGETResponse(orderId: string): __Observable<__StrictHttpResponse<Array<OrderLine>>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+
+    let req = new HttpRequest<any>(
+      'GET',
+      this.rootUrl + `/api/query/findOrderLinesByOrderNumber/${orderId}`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<Array<OrderLine>>;
+      })
+    );
+  }
+  /**
+   * @param orderId orderId
+   * @return OK
+   */
+  findOrderLinesByOrderNumberUsingGET(orderId: string): __Observable<Array<OrderLine>> {
+    return this.findOrderLinesByOrderNumberUsingGETResponse(orderId).pipe(
+      __map(_r => _r.body as Array<OrderLine>)
     );
   }
 
@@ -906,6 +1057,42 @@ class QueryResourceService extends __BaseService {
   findOrderMasterCountByExpectedDeliveryBetweenUsingGET(params: QueryResourceService.FindOrderMasterCountByExpectedDeliveryBetweenUsingGETParams): __Observable<number> {
     return this.findOrderMasterCountByExpectedDeliveryBetweenUsingGETResponse(params).pipe(
       __map(_r => _r.body as number)
+    );
+  }
+
+  /**
+   * @param orderId orderId
+   * @return OK
+   */
+  findOrdersByOrderIdUsingGETResponse(orderId: string): __Observable<__StrictHttpResponse<Array<Order>>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+
+    let req = new HttpRequest<any>(
+      'GET',
+      this.rootUrl + `/api/query/findOrdersByOrderId/${orderId}`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<Array<Order>>;
+      })
+    );
+  }
+  /**
+   * @param orderId orderId
+   * @return OK
+   */
+  findOrdersByOrderIdUsingGET(orderId: string): __Observable<Array<Order>> {
+    return this.findOrdersByOrderIdUsingGETResponse(orderId).pipe(
+      __map(_r => _r.body as Array<Order>)
     );
   }
 
@@ -1195,42 +1382,6 @@ class QueryResourceService extends __BaseService {
   }
 
   /**
-   * @param orderNumber orderNumber
-   * @return OK
-   */
-  getReportAsPdfUsingGETResponse(orderNumber: string): __Observable<__StrictHttpResponse<string>> {
-    let __params = this.newParams();
-    let __headers = new HttpHeaders();
-    let __body: any = null;
-
-    let req = new HttpRequest<any>(
-      'GET',
-      this.rootUrl + `/api/query/pdf/${orderNumber}`,
-      __body,
-      {
-        headers: __headers,
-        params: __params,
-        responseType: 'text'
-      });
-
-    return this.http.request<any>(req).pipe(
-      __filter(_r => _r instanceof HttpResponse),
-      __map((_r) => {
-        return _r as __StrictHttpResponse<string>;
-      })
-    );
-  }
-  /**
-   * @param orderNumber orderNumber
-   * @return OK
-   */
-  getReportAsPdfUsingGET(orderNumber: string): __Observable<string> {
-    return this.getReportAsPdfUsingGETResponse(orderNumber).pipe(
-      __map(_r => _r.body as string)
-    );
-  }
-
-  /**
    * @param params The `QueryResourceService.GetAllRefundDetailsUsingGETParams` containing the following parameters:
    *
    * - `sort`: Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
@@ -1241,7 +1392,7 @@ class QueryResourceService extends __BaseService {
    *
    * @return OK
    */
-  getAllRefundDetailsUsingGETResponse(params: QueryResourceService.GetAllRefundDetailsUsingGETParams): __Observable<__StrictHttpResponse<Array<RefoundDetailsDTO>>> {
+  getAllRefundDetailsUsingGETResponse(params: QueryResourceService.GetAllRefundDetailsUsingGETParams): __Observable<__StrictHttpResponse<Array<RefundDetailsDTO>>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
@@ -1261,7 +1412,7 @@ class QueryResourceService extends __BaseService {
     return this.http.request<any>(req).pipe(
       __filter(_r => _r instanceof HttpResponse),
       __map((_r) => {
-        return _r as __StrictHttpResponse<Array<RefoundDetailsDTO>>;
+        return _r as __StrictHttpResponse<Array<RefundDetailsDTO>>;
       })
     );
   }
@@ -1276,9 +1427,9 @@ class QueryResourceService extends __BaseService {
    *
    * @return OK
    */
-  getAllRefundDetailsUsingGET(params: QueryResourceService.GetAllRefundDetailsUsingGETParams): __Observable<Array<RefoundDetailsDTO>> {
+  getAllRefundDetailsUsingGET(params: QueryResourceService.GetAllRefundDetailsUsingGETParams): __Observable<Array<RefundDetailsDTO>> {
     return this.getAllRefundDetailsUsingGETResponse(params).pipe(
-      __map(_r => _r.body as Array<RefoundDetailsDTO>)
+      __map(_r => _r.body as Array<RefundDetailsDTO>)
     );
   }
 
@@ -1286,7 +1437,7 @@ class QueryResourceService extends __BaseService {
    * @param id id
    * @return OK
    */
-  getRefundDetailsUsingGETResponse(id: number): __Observable<__StrictHttpResponse<RefoundDetailsDTO>> {
+  getRefundDetailsUsingGETResponse(id: number): __Observable<__StrictHttpResponse<RefundDetailsDTO>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
@@ -1304,7 +1455,7 @@ class QueryResourceService extends __BaseService {
     return this.http.request<any>(req).pipe(
       __filter(_r => _r instanceof HttpResponse),
       __map((_r) => {
-        return _r as __StrictHttpResponse<RefoundDetailsDTO>;
+        return _r as __StrictHttpResponse<RefundDetailsDTO>;
       })
     );
   }
@@ -1312,56 +1463,9 @@ class QueryResourceService extends __BaseService {
    * @param id id
    * @return OK
    */
-  getRefundDetailsUsingGET(id: number): __Observable<RefoundDetailsDTO> {
+  getRefundDetailsUsingGET(id: number): __Observable<RefundDetailsDTO> {
     return this.getRefundDetailsUsingGETResponse(id).pipe(
-      __map(_r => _r.body as RefoundDetailsDTO)
-    );
-  }
-
-  /**
-   * @param params The `QueryResourceService.CreateReportSummaryUsingGETParams` containing the following parameters:
-   *
-   * - `storeId`: storeId
-   *
-   * - `date`: date
-   *
-   * @return OK
-   */
-  createReportSummaryUsingGETResponse(params: QueryResourceService.CreateReportSummaryUsingGETParams): __Observable<__StrictHttpResponse<ReportSummary>> {
-    let __params = this.newParams();
-    let __headers = new HttpHeaders();
-    let __body: any = null;
-
-
-    let req = new HttpRequest<any>(
-      'GET',
-      this.rootUrl + `/api/query/report/${params.date}/${params.storeId}`,
-      __body,
-      {
-        headers: __headers,
-        params: __params,
-        responseType: 'json'
-      });
-
-    return this.http.request<any>(req).pipe(
-      __filter(_r => _r instanceof HttpResponse),
-      __map((_r) => {
-        return _r as __StrictHttpResponse<ReportSummary>;
-      })
-    );
-  }
-  /**
-   * @param params The `QueryResourceService.CreateReportSummaryUsingGETParams` containing the following parameters:
-   *
-   * - `storeId`: storeId
-   *
-   * - `date`: date
-   *
-   * @return OK
-   */
-  createReportSummaryUsingGET(params: QueryResourceService.CreateReportSummaryUsingGETParams): __Observable<ReportSummary> {
-    return this.createReportSummaryUsingGETResponse(params).pipe(
-      __map(_r => _r.body as ReportSummary)
+      __map(_r => _r.body as RefundDetailsDTO)
     );
   }
 
@@ -1413,7 +1517,7 @@ class QueryResourceService extends __BaseService {
   }
 
   /**
-   * @param params The `QueryResourceService.CreateReportSummaryUsingGET1Params` containing the following parameters:
+   * @param params The `QueryResourceService.CreateReportSummaryUsingGETParams` containing the following parameters:
    *
    * - `storeName`: storeName
    *
@@ -1421,7 +1525,7 @@ class QueryResourceService extends __BaseService {
    *
    * @return OK
    */
-  createReportSummaryUsingGET1Response(params: QueryResourceService.CreateReportSummaryUsingGET1Params): __Observable<__StrictHttpResponse<ReportSummary>> {
+  createReportSummaryUsingGETResponse(params: QueryResourceService.CreateReportSummaryUsingGETParams): __Observable<__StrictHttpResponse<ReportSummary>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
@@ -1445,7 +1549,7 @@ class QueryResourceService extends __BaseService {
     );
   }
   /**
-   * @param params The `QueryResourceService.CreateReportSummaryUsingGET1Params` containing the following parameters:
+   * @param params The `QueryResourceService.CreateReportSummaryUsingGETParams` containing the following parameters:
    *
    * - `storeName`: storeName
    *
@@ -1453,8 +1557,8 @@ class QueryResourceService extends __BaseService {
    *
    * @return OK
    */
-  createReportSummaryUsingGET1(params: QueryResourceService.CreateReportSummaryUsingGET1Params): __Observable<ReportSummary> {
-    return this.createReportSummaryUsingGET1Response(params).pipe(
+  createReportSummaryUsingGET(params: QueryResourceService.CreateReportSummaryUsingGETParams): __Observable<ReportSummary> {
+    return this.createReportSummaryUsingGETResponse(params).pipe(
       __map(_r => _r.body as ReportSummary)
     );
   }
@@ -2153,22 +2257,6 @@ module QueryResourceService {
   }
 
   /**
-   * Parameters for createReportSummaryUsingGET
-   */
-  export interface CreateReportSummaryUsingGETParams {
-
-    /**
-     * storeId
-     */
-    storeId: string;
-
-    /**
-     * date
-     */
-    date: string;
-  }
-
-  /**
    * Parameters for getReportSummaryAsPdfUsingGET
    */
   export interface GetReportSummaryAsPdfUsingGETParams {
@@ -2185,9 +2273,9 @@ module QueryResourceService {
   }
 
   /**
-   * Parameters for createReportSummaryUsingGET1
+   * Parameters for createReportSummaryUsingGET
    */
-  export interface CreateReportSummaryUsingGET1Params {
+  export interface CreateReportSummaryUsingGETParams {
 
     /**
      * storeName

@@ -1,5 +1,5 @@
 /* tslint:disable */
-export interface RefoundDetailsDTO {
+export interface RefundDetailsDTO {
   id?: number;
   refundId?: string;
   status?: string;

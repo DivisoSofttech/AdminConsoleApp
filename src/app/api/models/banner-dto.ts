@@ -1,8 +1,4 @@
 /* tslint:disable */
-
-/**
- * Task Banner. @author Neeraja.M.
- */
 export interface BannerDTO {
   cost?: number;
   expiryDate?: string;

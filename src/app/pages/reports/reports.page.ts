@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ColumnMode } from '@swimlane/ngx-datatable';
 
 @Component({
   selector: 'app-reports',
@@ -7,19 +8,33 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ReportsPage implements OnInit {
 
-  constructor() { }
 
   ngOnInit() {
   }
+  // tslint:disable-next-line: member-ordering
   rows = [
-    { name: 'Austin', gender: 'Male', company: 'Swimlane' },
-    { name: 'Dany', gender: 'Male', company: 'KFC' },
-    { name: 'Molly', gender: 'Female', company: 'Burger King' },
+    { order: '123', date: 'jgiuhiuhih', totel_due: '12' },
+    { order: '234', date: '23-23-23', totel_due: 'KFC' },
+    { order_no: '211', date: '34-23-45', totel_due: 'Burger King' },
   ];
   columns = [
-    { prop: 'name' },
-    { name: 'Gender' },
-    { name: 'Company' }
+    { name: 'Order no' },
+    { name: 'Date' },
+    { name: 'totel_due' },
+    { name: 'Customer id' },
+    { name: 'Payment status' }
   ];
+
+  rawEvent: any;
+  contextmenuRow: any;
+  contextmenuColumn: any;
+
+  ColumnMode = ColumnMode;
+
+  constructor() {
+    
+  }
+
+  
 
 }

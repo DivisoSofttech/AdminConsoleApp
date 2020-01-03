@@ -1,0 +1,117 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Create Cancellation</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+ 
+<ion-item> 
+  <ion-chip>
+    <ion-icon name="shop"></ion-icon>
+  <ion-label>{{order.storeId}}</ion-label>
+  </ion-chip>
+</ion-item>
+
+<!-- order detail div start -->
+
+<div *ngIf="isOrderDetail" > 
+  <ion-card class="ion-no-padding">
+    <ion-card-header class="ion-no-padding">
+    <ion-item lines="full">
+      <ion-text slot="start">{{order.date |date}}</ion-text>
+
+      <ion-text slot="end">{{order.date |date:'shortTime'}}</ion-text>
+    </ion-item>
+      
+    </ion-card-header>
+    <ion-card-content class="ion-no-padding">
+        <ion-item lines="none">
+            <ion-text slot="start" >
+                <b>Total</b>
+            </ion-text>
+            <ion-text slot="start" slot="end" class="ion-text-right">
+              <b>&#8364;{{order.grandTotal |  number: "1.1-2"}}</b>
+            </ion-text>
+          </ion-item>    
+    </ion-card-content>
+  </ion-card>
+
+      <ion-card>
+        <ion-card-header color="light">
+          <ion-card-title>
+          Items
+          </ion-card-title>
+        </ion-card-header>
+        <ion-card-content class="ion-no-padding pd-10">
+          <ion-item *ngFor="let orderLine of orderLines" lines="none">
+            <app-order-product-card  [orderLine]="orderLine" ></app-order-product-card>
+          </ion-item>
+        </ion-card-content>
+      </ion-card>
+
+    </div>
+    <!-- order detail div end -->
+
+    <!-- refund detail div start -->
+    <div *ngIf="!isOrderDetail"  >
+  <ion-card class="ion-no-padding">
+    <ion-card-header class="ion-no-padding">
+    <ion-item lines="full">
+      <ion-text slot="start">{{order.date |date}}</ion-text>
+
+      <ion-text slot="end">{{order.date |date:'shortTime'}}</ion-text>
+    </ion-item>
+      <ion-item lines="none">
+        <ion-text slot="start" >
+            Total
+        </ion-text>
+        <ion-text slot="start" slot="end" class="ion-text-right">
+           {{ order.grandTotal |  number: "1.1-2"}}
+        </ion-text>
+      </ion-item>
+    </ion-card-header>
+    <ion-card-content class="ion-no-padding">
+        <ion-item lines="none">
+            <ion-text slot="start" >
+                <b>Total refund</b>
+            </ion-text>
+            <ion-text slot="start" slot="end" class="ion-text-right">
+              <b>&#8364;{{order.grandTotal |  number: "1.1-2"}}</b>
+            </ion-text>
+          </ion-item>    
+    </ion-card-content>
+  </ion-card>
+
+      <ion-card>
+        <ion-card-header color="light">
+          <ion-card-title>
+          Items
+          </ion-card-title>
+        </ion-card-header>
+      
+      </ion-card>
+      <div *ngFor="let orderLine of orderLines" lines="none">
+        <app-order-product-card  [orderLine]="orderLine" (changeEmiter)="updateCancellationOrderLines($event)" ></app-order-product-card>
+      </div>
+
+
+    </div>
+   <!-- refund detail div end -->
+
+
+</ion-content>
+
+<ion-footer>
+  <ion-segment color="terrain " (ionChange)="segmentChanged($event)">
+  
+   
+    <ion-segment-button layout="icon-bottom"  value="refund detail" checked>
+      <ion-label>Refund Detail</ion-label>
+    </ion-segment-button>
+
+    <ion-segment-button checked layout="icon-bottom"  value='order detail' >
+      <ion-label>Order Detail</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+</ion-footer>

@@ -2,8 +2,8 @@
   <ion-card-header><b>Enter oderId</b></ion-card-header>
 
   <ion-item>
-  <ion-input></ion-input>
+  <ion-input [(ngModel)]="orderID" ></ion-input>
 </ion-item>
-  <ion-button>submit</ion-button>
+  <ion-button (click)="dismiss()">submit</ion-button>
 
 </ion-card>

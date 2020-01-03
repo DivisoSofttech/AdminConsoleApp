@@ -9,7 +9,7 @@ export interface CancellationRequestDTO {
   paymentId?: string;
   phoneCode?: number;
   reference?: string;
-  refoundDetailsId?: number;
+  refundDetailsId?: number;
   status?: string;
   storeEmail?: string;
   storePhone?: number;
