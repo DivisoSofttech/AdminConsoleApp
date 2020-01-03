@@ -44,8 +44,10 @@ export class ImageService {
       var reader = new FileReader();
 
       reader.addEventListener("load", function () {
+	console.log("in event listener");
         that.processing = true;
         that.getOrientation(selectedFile.files[0], function (orientation) {
+	  console.log("orientation",orientation);
           if (orientation > 1) {
             that.resetOrientation(reader.result, orientation, function (resetBase64Image) {
               that.uploadedImage = resetBase64Image;
