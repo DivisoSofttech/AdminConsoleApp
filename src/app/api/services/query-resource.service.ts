@@ -13,6 +13,7 @@ import { CancelledOrderLineDTO } from '../models/cancelled-order-line-dto';
 import { NotificationDTO } from '../models/notification-dto';
 import { RefundDetailsDTO } from '../models/refund-details-dto';
 import { AuxItem } from '../models/aux-item';
+import { PageOfBanner } from '../models/page-of-banner';
 import { OfferLine } from '../models/offer-line';
 import { PageOfOrderMaster } from '../models/page-of-order-master';
 import { Order } from '../models/order';
@@ -20,6 +21,7 @@ import { OrderLine } from '../models/order-line';
 import { PageOfStore } from '../models/page-of-store';
 import { DeductionValueTypeDTO } from '../models/deduction-value-type-dto';
 import { OfferDTO } from '../models/offer-dto';
+import { PdfDTO } from '../models/pdf-dto';
 import { ReportSummary } from '../models/report-summary';
 import { DataResponse } from '../models/data-response';
 
@@ -43,6 +45,7 @@ class QueryResourceService extends __BaseService {
   static readonly getAllCancelledOrderLinesUsingGETPath = '/api/query/cancelled-order-lines';
   static readonly getCancelledOrderLineUsingGETPath = '/api/query/cancelled-order-lines/{id}';
   static readonly findAuxItemsByIdUsingGETPath = '/api/query/findAuxItemsLinesById/{id}';
+  static readonly findBannerByStoreIdUsingGETPath = '/api/query/findBannerByStoreId/{storeId}';
   static readonly findOfferLinesByOrderNumberUsingGETPath = '/api/query/findOfferLinesByOrderNumber/{orderId}';
   static readonly findOrderByDatebetweenAndStoreIdUsingGETPath = '/api/query/findOrderByDatebetweenAndStoreId/{from}/{storeId}/{to}';
   static readonly findOrderByOrderIdUsingGETPath = '/api/query/findOrderByOrderId/{orderId}';
@@ -58,6 +61,7 @@ class QueryResourceService extends __BaseService {
   static readonly getAllDeductionValueTypesUsingGETPath = '/api/query/offers/get-all-deduction-value-types';
   static readonly getAllOffersUsingGETPath = '/api/query/offers/get-all-offers';
   static readonly getOfferByIdUsingGETPath = '/api/query/offers/get-offer-by-id/{id}';
+  static readonly getOrderSummaryUsingGETPath = '/api/query/ordersummary/{date}/{storeId}';
   static readonly getAllRefundDetailsUsingGETPath = '/api/query/refund-details';
   static readonly getRefundDetailsUsingGETPath = '/api/query/refund-details/{id}';
   static readonly getReportSummaryAsPdfUsingGETPath = '/api/query/reportSummary/{date}/{storeId}';
@@ -690,6 +694,63 @@ class QueryResourceService extends __BaseService {
   findAuxItemsByIdUsingGET(id: number): __Observable<Array<AuxItem>> {
     return this.findAuxItemsByIdUsingGETResponse(id).pipe(
       __map(_r => _r.body as Array<AuxItem>)
+    );
+  }
+
+  /**
+   * @param params The `QueryResourceService.FindBannerByStoreIdUsingGETParams` containing the following parameters:
+   *
+   * - `storeId`: storeId
+   *
+   * - `sort`: Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+   *
+   * - `size`: Size of a page
+   *
+   * - `page`: Page number of the requested page
+   *
+   * @return OK
+   */
+  findBannerByStoreIdUsingGETResponse(params: QueryResourceService.FindBannerByStoreIdUsingGETParams): __Observable<__StrictHttpResponse<PageOfBanner>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+
+    (params.sort || []).forEach(val => {if (val != null) __params = __params.append('sort', val.toString())});
+    if (params.size != null) __params = __params.set('size', params.size.toString());
+    if (params.page != null) __params = __params.set('page', params.page.toString());
+    let req = new HttpRequest<any>(
+      'GET',
+      this.rootUrl + `/api/query/findBannerByStoreId/${params.storeId}`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<PageOfBanner>;
+      })
+    );
+  }
+  /**
+   * @param params The `QueryResourceService.FindBannerByStoreIdUsingGETParams` containing the following parameters:
+   *
+   * - `storeId`: storeId
+   *
+   * - `sort`: Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+   *
+   * - `size`: Size of a page
+   *
+   * - `page`: Page number of the requested page
+   *
+   * @return OK
+   */
+  findBannerByStoreIdUsingGET(params: QueryResourceService.FindBannerByStoreIdUsingGETParams): __Observable<PageOfBanner> {
+    return this.findBannerByStoreIdUsingGETResponse(params).pipe(
+      __map(_r => _r.body as PageOfBanner)
     );
   }
 
@@ -1382,6 +1443,53 @@ class QueryResourceService extends __BaseService {
   }
 
   /**
+   * @param params The `QueryResourceService.GetOrderSummaryUsingGETParams` containing the following parameters:
+   *
+   * - `storeId`: storeId
+   *
+   * - `date`: date
+   *
+   * @return OK
+   */
+  getOrderSummaryUsingGETResponse(params: QueryResourceService.GetOrderSummaryUsingGETParams): __Observable<__StrictHttpResponse<PdfDTO>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+
+
+    let req = new HttpRequest<any>(
+      'GET',
+      this.rootUrl + `/api/query/ordersummary/${params.date}/${params.storeId}`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<PdfDTO>;
+      })
+    );
+  }
+  /**
+   * @param params The `QueryResourceService.GetOrderSummaryUsingGETParams` containing the following parameters:
+   *
+   * - `storeId`: storeId
+   *
+   * - `date`: date
+   *
+   * @return OK
+   */
+  getOrderSummaryUsingGET(params: QueryResourceService.GetOrderSummaryUsingGETParams): __Observable<PdfDTO> {
+    return this.getOrderSummaryUsingGETResponse(params).pipe(
+      __map(_r => _r.body as PdfDTO)
+    );
+  }
+
+  /**
    * @param params The `QueryResourceService.GetAllRefundDetailsUsingGETParams` containing the following parameters:
    *
    * - `sort`: Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
@@ -2048,6 +2156,32 @@ module QueryResourceService {
   }
 
   /**
+   * Parameters for findBannerByStoreIdUsingGET
+   */
+  export interface FindBannerByStoreIdUsingGETParams {
+
+    /**
+     * storeId
+     */
+    storeId: string;
+
+    /**
+     * Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+     */
+    sort?: Array<string>;
+
+    /**
+     * Size of a page
+     */
+    size?: number;
+
+    /**
+     * Page number of the requested page
+     */
+    page?: number;
+  }
+
+  /**
    * Parameters for findOrderByDatebetweenAndStoreIdUsingGET
    */
   export interface FindOrderByDatebetweenAndStoreIdUsingGETParams {
@@ -2233,6 +2367,22 @@ module QueryResourceService {
      * Page number of the requested page
      */
     page?: number;
+  }
+
+  /**
+   * Parameters for getOrderSummaryUsingGET
+   */
+  export interface GetOrderSummaryUsingGETParams {
+
+    /**
+     * storeId
+     */
+    storeId: string;
+
+    /**
+     * date
+     */
+    date: string;
   }
 
   /**

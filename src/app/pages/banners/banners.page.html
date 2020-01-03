@@ -11,23 +11,24 @@
   <ion-grid>
     <ion-row>
       <ion-col size-sm='12' size-md='6' size-lg='4' *ngFor="let banner of banners">
-        <ion-card>
+        <ion-card >
+          <ion-button (click)="deleteBanner(banner)" class="btn" fill="none"><ion-icon color="danger" slot="icon-only" name="trash"></ion-icon></ion-button>
           <img
             [src]="banner.imageLink" />
           <ion-card-header>
-            <ion-card-subtitle *ngIf="banner.expiryDate">{{'Valid up to '+banner.expiryDate}}</ion-card-subtitle>
+            <ion-text *ngIf="banner.expiryDate">Valid up to {{banner.expiryDate | date: 'dd/MM/yyyy'}}</ion-text>
           </ion-card-header>
           <ion-item>
             <ion-card-header>
               <ion-card-title *ngIf="banner.storeId">{{banner.storeId}}</ion-card-title>
             </ion-card-header>
-            <ion-badge color='primary' slot='end'>{{banner.cost}}&nbsp;&euro;</ion-badge>
+            <ion-badge class="size" *ngIf="banner.cost" color='primary' slot='end'>&euro;&nbsp;{{banner.cost}}</ion-badge>
           </ion-item>
         </ion-card>
 
       </ion-col>
 <!--       <ion-col size='auto' size-sm='12' size-md='6' size-lg='4'>
-        <ion-card>
+        <ion-card>function
           <img
             src="https://images.unsplash.com/photo-1575323145063-e22dd6d1e6f7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80" />
           <ion-card-header>
