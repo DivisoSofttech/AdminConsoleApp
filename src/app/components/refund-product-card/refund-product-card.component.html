@@ -1,0 +1,27 @@
+<ion-card>
+  <ion-card-header>
+<ion-item color="primary" >
+  <ion-label text-start class="wrap">
+     <h2>{{orderLine.item}}</h2>
+     <h3>
+        &#8364;{{(orderLine.total | number: "1.1-2")}}              
+    </h3>
+  </ion-label>
+  <ion-grid slot="end" class="borderFull">
+    <ion-row>
+      <ion-col text-center (click)="decreaseProductCount()">
+        <ion-icon name="remove"></ion-icon>
+      </ion-col>
+      <ion-col text-center>
+        <ion-text>
+          {{orderLine.quantity}}
+        </ion-text>
+      </ion-col>
+      <ion-col text-center (click)="increaseProductCount()">
+          <ion-icon name="add" ></ion-icon>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-item>
+</ion-card-header>
+</ion-card>

@@ -15,7 +15,7 @@
 
 <!-- order detail div start -->
 
-<div *ngIf="isOrderDetail" > 
+<!-- <div *ngIf="isOrderDetail" > 
   <ion-card class="ion-no-padding">
     <ion-card-header class="ion-no-padding">
     <ion-item lines="full">
@@ -43,18 +43,21 @@
           Items
           </ion-card-title>
         </ion-card-header>
-        <ion-card-content class="ion-no-padding pd-10">
-          <ion-item *ngFor="let orderLine of orderLines" lines="none">
-            <app-order-product-card  [orderLine]="orderLine" ></app-order-product-card>
-          </ion-item>
-        </ion-card-content>
+        
+         
+       
       </ion-card>
+      <div *ngFor="let orderLine of orderLines" lines="none">
+        <app-order-product-card  [orderLine]="orderLine" ></app-order-product-card>
+      </div>
 
-    </div>
+    </div> -->
+
+
     <!-- order detail div end -->
 
     <!-- refund detail div start -->
-    <div *ngIf="!isOrderDetail"  >
+    <div   >
   <ion-card class="ion-no-padding">
     <ion-card-header class="ion-no-padding">
     <ion-item lines="full">
@@ -77,7 +80,7 @@
                 <b>Total refund</b>
             </ion-text>
             <ion-text slot="start" slot="end" class="ion-text-right">
-              <b>&#8364;{{order.grandTotal |  number: "1.1-2"}}</b>
+              <b>&#8364;{{cancellationRequestDTO.amount |  number: "1.1-2"}}</b>
             </ion-text>
           </ion-item>    
     </ion-card-content>
@@ -91,8 +94,8 @@
         </ion-card-header>
       
       </ion-card>
-      <div *ngFor="let orderLine of orderLines" lines="none">
-        <app-order-product-card  [orderLine]="orderLine" (changeEmiter)="updateCancellationOrderLines($event)" ></app-order-product-card>
+      <div *ngFor="let orderLine of cancelledOrderLines" lines="none">
+        <app-refund-product-card  [orderLine]="orderLine" (changeEmiter)="updateCancellationOrderLines($event)" ></app-refund-product-card>
       </div>
 
 
@@ -102,7 +105,7 @@
 
 </ion-content>
 
-<ion-footer>
+<!-- <ion-footer>
   <ion-segment color="terrain " (ionChange)="segmentChanged($event)">
   
    
@@ -114,4 +117,9 @@
       <ion-label>Order Detail</ion-label>
     </ion-segment-button>
   </ion-segment>
+</ion-footer> -->
+
+<ion-footer>
+  <ion-button expand="full">Create Refund</ion-button>
+ 
 </ion-footer>
