@@ -43,7 +43,7 @@ export class ImageService {
       var file = selectedFile.files[0];
       var reader = new FileReader();
 
-      reader.addEventListener("load", function () {
+      reader.onload = function () {
 	console.log("in event listener");
         that.processing = true;
         that.getOrientation(selectedFile.files[0], function (orientation) {
@@ -56,7 +56,7 @@ export class ImageService {
             that.uploadedImage = reader.result;
           }
         });
-      }, false);
+      };
 
       if (file) {
         reader.readAsDataURL(file);
