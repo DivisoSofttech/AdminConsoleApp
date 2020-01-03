@@ -1,3 +1,4 @@
+import { RefundProductCardComponent } from './refund-product-card/refund-product-card.component';
 import { CancellationRequestComponent } from './cancellation-request/cancellation-request.component';
 import { OderSearchPopoverComponent } from './oder-search-popover/oder-search-popover.component';
 import { NgModule } from '@angular/core';
@@ -11,12 +12,12 @@ import { OrderProductCardComponent } from './order-product-card/order-product-ca
 
 
 @NgModule({
-  declarations: [SearchResultComponent,OderSearchPopoverComponent,CancellationRequestComponent,OrderViewComponent,OrderProductCardComponent],
+  declarations: [SearchResultComponent,OderSearchPopoverComponent,RefundProductCardComponent,CancellationRequestComponent,OrderViewComponent,OrderProductCardComponent],
   imports: [
     CommonModule,
     IonicModule,
     FormsModule
   ],
-  exports: [SearchResultComponent,OderSearchPopoverComponent,CancellationRequestComponent,OrderViewComponent,OrderProductCardComponent]
+  exports: [SearchResultComponent,OderSearchPopoverComponent,RefundProductCardComponent,CancellationRequestComponent,OrderViewComponent,OrderProductCardComponent]
 })
 export class ComponentsModule { }

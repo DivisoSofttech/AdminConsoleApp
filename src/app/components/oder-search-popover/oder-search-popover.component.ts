@@ -8,7 +8,7 @@ import { PopoverController } from '@ionic/angular';
 })
 export class OderSearchPopoverComponent implements OnInit {
 
-  orderID: string;
+  orderID: string='FEXP-';
 
   constructor (public viewCtrl: PopoverController) { }
 

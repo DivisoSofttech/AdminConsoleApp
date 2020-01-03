@@ -12,15 +12,19 @@ export class OrderProductCardComponent implements OnInit {
 
    maxQuantity: number;
 
+   pricePerUnit:number;
+
   @Input() orderLine: OrderLine = {};
   aux: AuxItem[] = [];
-  @Output() changeEmiter=new EventEmitter();
+ 
 
 
   ngOnInit() {
     this.maxQuantity = this.orderLine.quantity;
-    console.log('max quantiti ',this.maxQuantity);
-    this.orderLine.quantity = 0;
+    console.log('initial orderline ', this.orderLine);
+    this.pricePerUnit=this.orderLine.total/this.orderLine.quantity;
+    
+   
 
     this.getAuxItems();
   }
@@ -28,7 +32,7 @@ export class OrderProductCardComponent implements OnInit {
 
 constructor(private query: QueryResourceService) { }
 
-getAuxItems(){
+getAuxItems() {
     console.log(this.orderLine.id);
     this.query.findAuxItemsByIdUsingGET(this.orderLine.id).subscribe(aux => {
       this.aux = aux;
@@ -38,21 +42,6 @@ getAuxItems(){
 
 getOfferLineItems() {
 
-  }
-decreaseProductCount() {
-    if (this.orderLine.quantity > 0) {this.orderLine.quantity++;
-                                      this.orderLine.total= this.orderLine.pricePerUnit*this.orderLine.quantity;
-                                      this.changeEmiter.emit(this.orderLine);
-    }
-
-  }
-
-increaseProductCount() {
-    if (this.orderLine.quantity < this.maxQuantity) {this.orderLine.quantity--;
-                                                     this.orderLine.total= this.orderLine.pricePerUnit*this.orderLine.quantity;
-                                                     this.changeEmiter.emit(this.orderLine);
-
-    }
   }
 
 }
