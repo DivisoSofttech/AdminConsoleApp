@@ -1,3 +1,4 @@
+import { Auxilary } from './../../customModels/auxilary';
 import { CancellationRequestDTO } from './../../api/models/cancellation-request-dto';
 import { CancelledOrderLineDTO } from './../../api/models/cancelled-order-line-dto';
 import { Component, OnInit, Input } from '@angular/core';
@@ -22,8 +23,8 @@ export class CreateCancellationPage implements OnInit {
   order: Order = {};
 
   products = [];
-  auxilaries = [];
   comboLineItems = [];
+  auxilaries: Auxilary[] = [];
 
 
 // orderLines = [];
@@ -34,7 +35,7 @@ export class CreateCancellationPage implements OnInit {
 
   aux: AuxItem[] = [];
 
-  //isOrderDetail = true;
+  // isOrderDetail = true;
 
   ngOnInit() {
     console.log('id is ');
@@ -68,12 +69,12 @@ export class CreateCancellationPage implements OnInit {
     findOrderLines() {
 
     this.query.findOrderLinesByOrderNumberUsingGET(this.order.orderId).subscribe(orderLines => {
-      //this.orderLines = orderLines;
-      console.log('cancelled res >>>>>>',orderLines);
+      // this.orderLines = orderLines;
+      console.log('cancelled res >>>>>>', orderLines);
       this.cancelledOrderLines = orderLines;
       console.log('cancelled orderlines>>>>>>');
-      this.cancelledOrderLines.forEach(re=>{
-        console.log('cancelled orderline=====',re);
+      this.cancelledOrderLines.forEach(re => {
+        console.log('cancelled orderline=====', re);
       });
     });
 
@@ -92,14 +93,9 @@ export class CreateCancellationPage implements OnInit {
   updateCancellationOrderLines(orderLine: OrderLine) {
 
     console.log('updated order line ', orderLine);
-    this.cancellationRequestDTO.amount = 0;
     console.log('canceledOrderLines ', this.cancelledOrderLines);
     this.cancelledOrderLines.forEach(res => {
-     // console.log('res ', res);
-      this.cancellationRequestDTO.amount += res.total;
-      //console.log('res totel  ', res.total);
 
-    //  console.log('refund Ammount ', this.cancellationRequestDTO.amount);
       if (res.id === orderLine.id) {
 
       res = orderLine.total;
@@ -107,7 +103,43 @@ export class CreateCancellationPage implements OnInit {
     }
 
     });
+    this.calculateRefund();
 
+
+
+  }
+
+  updateAuxLines(auxilary: Auxilary) {
+
+  // console.log('kdjnkdfjfndfn');
+   if (!(this.auxilaries.includes(auxilary))) {
+    this.auxilaries.push(auxilary);
+    //console.log('new aux added ',auxilary);
+
+   }
+   this.calculateRefund();
+
+  }
+  calculateRefund() {
+
+    this.cancellationRequestDTO.amount = 0;
+    this.cancelledOrderLines.forEach(res => {
+       // console.log('res ', res);
+      // console.log('res totel  ', res.total);
+
+    //  console.log('refund Ammount ', this.cancellationRequestDTO.amount);
+      this.cancellationRequestDTO.amount += res.total;
+    });
+    this.auxilaries.forEach(res => {
+        console.log('res ', res);
+        console.log('res totel  ', res.auxItem.total);
+
+    //  console.log('refund Ammount ', this.cancellationRequestDTO.amount);
+        this.cancellationRequestDTO.amount += res.auxItem.total;
+    }
+
+    );
+    //console.log('refund Ammount ', this.cancellationRequestDTO.amount);
 
   }
 

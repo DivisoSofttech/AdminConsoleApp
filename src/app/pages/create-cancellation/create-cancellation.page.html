@@ -95,7 +95,7 @@
       
       </ion-card>
       <div *ngFor="let orderLine of cancelledOrderLines" lines="none">
-        <app-refund-product-card  [orderLine]="orderLine" (changeEmiter)="updateCancellationOrderLines($event)" ></app-refund-product-card>
+        <app-refund-product-card  [orderLine]="orderLine" (changeEmiter)="updateCancellationOrderLines($event)"  (auxChangeEmiter)="updateAuxLines($event)" ></app-refund-product-card>
       </div>
 
 
