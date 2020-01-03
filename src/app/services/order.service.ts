@@ -11,8 +11,9 @@ export class OrderService {
   public endDate: string;
   public searchTerm: string;
   public todaysCount: number;
+  public thisMonthCount:number;
   public order: number;
-  public selectedStore: Store= {};
+  public selectedStore: Store= {storeUniqueId:'',imageLink:''};
 
   constructor() {
     this.endDate = (new Date().toISOString()).split("Z")[0]+"+00:00";

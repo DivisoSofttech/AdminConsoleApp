@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { OrderService } from '../../services/order.service';
 import { PopoverController, IonSearchbar } from '@ionic/angular';
 import { SearchResultComponent } from '../../components/search-result/search-result.component';
-import { AggregateQueryResourceService } from '../../api/services';
+import { QueryResourceService } from '../../api/services';
 import { Store } from '../../api/models';
 
 @Component({
@@ -11,27 +11,33 @@ import { Store } from '../../api/models';
   styleUrls: ['home.page.scss']
 })
 export class HomePage implements OnInit {
+  noFilter =true;
   searchStatus = false;
   stores: Store[];
+  pageNumber: number;
   @ViewChild('searchBar', { static: false }) searchBar: IonSearchbar;
 
   constructor(
     public orderService: OrderService,
     private popoverController: PopoverController,
-    private queryService: AggregateQueryResourceService
+    private queryService: QueryResourceService
   ) {}
 
   listResults(ev: any) {
     this.presentPopover(ev);
   }
+
+  test(ev){
+    console.log(" test ",ev.detail.value);
+  }
+
   ngOnInit() {
 
-    this.orderService.selectedStore={};
-    
+    this.orderService.selectedStore = {imageLink: '', storeUniqueId: ''};
     this.queryService
-      .getOrderCountByDateAndStatusNameUsingGET({
+      .findOrderCountByDateAndStatusNameUsingGET({
         statusName: 'completed',
-        date: this.orderService.endDate.split("+")[0]+"Z"
+        date: this.orderService.endDate.split('T')[0] 
       })
       .subscribe(
         response => {
@@ -39,18 +45,22 @@ export class HomePage implements OnInit {
           this.orderService.todaysCount = response;
         },
         error => {
-          console.log('something went wrong', error);
+          console.log('something went wrong', error, this.orderService.endDate.split('T')[0]);
         }
       );
     this.queryService.findOrderCountByDateAndStatusNameUsingGET({
         statusName: 'payment-processed',
-        date: this.orderService.endDate.split("+")[0]+"Z"
+        date: this.orderService.endDate.split('T')[0]
       }).subscribe(
         res => {
-          this.orderService.todaysCount = res;
+          this.orderService.todaysCount += res;
+        },err=>{
+          console.log("error ",err);
         }
       );
     this.loadOrdersWithDates();
+
+
   }
   async presentPopover(ev: any) {
     const popover = await this.popoverController.create({
@@ -81,7 +91,7 @@ export class HomePage implements OnInit {
     ) {
       this.queryService
         .findStoreBySearchTermUsingGET({
-          searchTerm: this.orderService.searchTerm
+         name : this.orderService.searchTerm
         })
         .subscribe(
           response => {
@@ -103,9 +113,9 @@ export class HomePage implements OnInit {
     this.searchStatus = false;
     this.queryService
       .findOrderByDatebetweenAndStoreIdUsingGET({
-        to: this.orderService.endDate.split("+")[0]+"Z",
+        to: this.orderService.endDate.split('T')[0],
         storeId: this.orderService.selectedStore.regNo,
-        from: this.orderService.startDate.split("+")[0]+"Z"
+        from: this.orderService.startDate.split('T')[0], page: this.pageNumber
       })
       .subscribe(
         response => {
@@ -119,34 +129,20 @@ export class HomePage implements OnInit {
   }
 
   clearStore() {
-    this.orderService.selectedStore = null;
+    this.orderService.selectedStore =  {storeUniqueId:'',imageLink:''};
     this.loadOrdersWithDates();
   }
 
   loadOrdersWithDates() {
-    if (this.orderService.selectedStore) {
-      console.log("checking date", this.orderService.startDate, this.orderService.endDate);
+    console.log("if ",this.orderService.selectedStore);
+    if (this.orderService.selectedStore.storeUniqueId!='') {
+      // tslint:disable-next-line:max-line-length
+      console.log('checking date and store regno', this.orderService.startDate, this.orderService.endDate, this.orderService.selectedStore.regNo);
       this.queryService
         .findOrderByDatebetweenAndStoreIdUsingGET({
-          to: this.orderService.endDate.split("+")[0]+"Z",
+          to: this.orderService.endDate.split('T')[0],
           storeId: this.orderService.selectedStore.regNo,
-          from: this.orderService.startDate.split("+")[0]+"Z"
-        })
-        .subscribe(
-          response => {
-            console.log(response);
-            this.orderService.order = response.totalElements;
-          },
-          error => {
-            console.log('something went wrong', error);
-          }
-        );
-    } else {
-      console.log("checking date", this.orderService.startDate, this.orderService.endDate);
-      this.queryService
-        .findOrderByDatebetweenUsingGET({
-          to: this.orderService.endDate.split("+")[0]+"Z",
-          from: this.orderService.startDate.split("+")[0]+"Z"
+          from: this.orderService.startDate.split('T')[0], page: this.pageNumber
         })
         .subscribe(
           response => {
@@ -158,5 +154,25 @@ export class HomePage implements OnInit {
           }
         );
     }
+    else{
+
+      this.queryService
+        .findOrderMasterCountByExpectedDeliveryBetweenUsingGET({
+          to: this.orderService.endDate.split('T')[0],
+          from: this.orderService.startDate.split('T')[0]
+        })
+        .subscribe(
+          response => {
+            console.log("got data betweens dates");
+            console.log(response);
+            this.orderService.order = response;
+          },
+          error => {
+            console.log('something went wrong', error);
+          }
+        );
+
+    }
+
   }
 }

@@ -19,7 +19,8 @@ const routes: Routes = [
   { path: 'new-offer', loadChildren: './pages/new-offer/new-offer.module#NewOfferPageModule', canActivate: [AuthGuardService] },
   { path: 'login', loadChildren: './pages/login-signup/login-signup.module#LoginSignupPageModule' },
   { path: 'banners', loadChildren: './pages/banners/banners.module#BannersPageModule' },
-  { path: 'create-banner', loadChildren: './pages/create-banner/create-banner.module#CreateBannerPageModule' },
+  { path: 'create-banner', loadChildren: './pages/create-banner/create-banner.module#CreateBannerPageModule' },  { path: 'cancellation', loadChildren: './pages/cancellation/cancellation.module#CancellationPageModule' },
+
 ];
 
 @NgModule({

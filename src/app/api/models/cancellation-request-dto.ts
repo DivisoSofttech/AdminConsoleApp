@@ -1,12 +1,12 @@
 /* tslint:disable */
 export interface CancellationRequestDTO {
-  paymentId?: string;
   amount?: number;
+  customerEmail?: string;
   customerPhone?: number;
   date?: string;
   id?: number;
   orderId?: string;
-  customerEmail?: string;
+  paymentId?: string;
   phoneCode?: number;
   reference?: string;
   refoundDetailsId?: number;

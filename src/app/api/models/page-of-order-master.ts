@@ -1,8 +1,8 @@
 /* tslint:disable */
-import { Order } from './order';
+import { OrderMaster } from './order-master';
 import { Sort } from './sort';
-export interface PageOfOrder {
-  content?: Array<Order>;
+export interface PageOfOrderMaster {
+  content?: Array<OrderMaster>;
   first?: boolean;
   last?: boolean;
   number?: number;

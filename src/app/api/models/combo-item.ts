@@ -1,10 +1,8 @@
 /* tslint:disable */
 import { OrderLine } from './order-line';
-export interface AuxilaryOrderLine {
+export interface ComboItem {
+  comboItem?: string;
   id?: number;
   orderLine?: OrderLine;
-  pricePerUnit?: number;
-  productId?: number;
   quantity?: number;
-  total?: number;
 }

@@ -1,12 +1,13 @@
 /* tslint:disable */
-import { Order } from './order';
-import { AuxilaryOrderLine } from './auxilary-order-line';
+import { AuxItem } from './aux-item';
+import { ComboItem } from './combo-item';
+import { OrderMaster } from './order-master';
 export interface OrderLine {
+  auxItems?: Array<AuxItem>;
+  comboItems?: Array<ComboItem>;
   id?: number;
-  order?: Order;
-  pricePerUnit?: number;
-  productId?: number;
+  item?: string;
+  orderMaster?: OrderMaster;
   quantity?: number;
-  requiedAuxilaries?: Array<AuxilaryOrderLine>;
   total?: number;
 }

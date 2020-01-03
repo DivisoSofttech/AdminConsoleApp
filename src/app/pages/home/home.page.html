@@ -18,6 +18,11 @@
 
 <ion-content>
 
+<!-- 
+
+  <ion-searchbar  *ngIf="!noFilter" placeholder=" Enter store name " debounce="500" (ionChange)="test($event)"></ion-searchbar > -->
+
+
   <!--   <ion-grid>
           <ion-row>
       
@@ -135,3 +140,10 @@
     </ion-spinner>
   </div>
 </ion-content>
+<!-- <ion-footer>
+  <ion-item lines="full">
+    <ion-text slot="start">All stores</ion-text>
+    <ion-checkbox checked="true" slot="end" [(ngModel)]="noFilter" ></ion-checkbox> 
+    
+    </ion-item>
+</ion-footer> -->
