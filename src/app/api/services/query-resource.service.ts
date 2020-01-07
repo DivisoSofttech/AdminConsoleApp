@@ -21,9 +21,9 @@ import { PageOfOrderMaster } from '../models/page-of-order-master';
 import { Order } from '../models/order';
 import { OrderLine } from '../models/order-line';
 import { PageOfStore } from '../models/page-of-store';
-import { PdfDTO } from '../models/pdf-dto';
 import { DeductionValueTypeDTO } from '../models/deduction-value-type-dto';
 import { OfferDTO } from '../models/offer-dto';
+import { PdfDTO } from '../models/pdf-dto';
 import { ReportSummary } from '../models/report-summary';
 import { DataResponse } from '../models/data-response';
 
@@ -70,6 +70,7 @@ class QueryResourceService extends __BaseService {
   static readonly getAllDeductionValueTypesUsingGETPath = '/api/query/offers/get-all-deduction-value-types';
   static readonly getAllOffersUsingGETPath = '/api/query/offers/get-all-offers';
   static readonly getOfferByIdUsingGETPath = '/api/query/offers/get-offer-by-id/{id}';
+  static readonly getOrderSummaryUsingGETPath = '/api/query/ordersummary/{date}/{storeId}';
   static readonly getAllRefundDetailsUsingGETPath = '/api/query/refund-details';
   static readonly getRefundDetailsUsingGETPath = '/api/query/refund-details/{id}';
   static readonly getReportSummaryAsPdfUsingGETPath = '/api/query/reportSummary/{date}/{storeId}';
@@ -815,6 +816,7 @@ class QueryResourceService extends __BaseService {
   }
 
   /**
+<<<<<<< HEAD
    * @param params The `QueryResourceService.FindCancellationRequestByStatusUsingGETParams` containing the following parameters:
    *
    * - `statusName`: statusName
@@ -908,6 +910,8 @@ class QueryResourceService extends __BaseService {
   }
 
   /**
+=======
+>>>>>>> 29afdc10bdf49f511e670a3b7f5740c27b36630d
    * @param orderId orderId
    * @return OK
    */
@@ -1794,6 +1798,53 @@ class QueryResourceService extends __BaseService {
   }
 
   /**
+   * @param params The `QueryResourceService.GetOrderSummaryUsingGETParams` containing the following parameters:
+   *
+   * - `storeId`: storeId
+   *
+   * - `date`: date
+   *
+   * @return OK
+   */
+  getOrderSummaryUsingGETResponse(params: QueryResourceService.GetOrderSummaryUsingGETParams): __Observable<__StrictHttpResponse<PdfDTO>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+
+
+    let req = new HttpRequest<any>(
+      'GET',
+      this.rootUrl + `/api/query/ordersummary/${params.date}/${params.storeId}`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<PdfDTO>;
+      })
+    );
+  }
+  /**
+   * @param params The `QueryResourceService.GetOrderSummaryUsingGETParams` containing the following parameters:
+   *
+   * - `storeId`: storeId
+   *
+   * - `date`: date
+   *
+   * @return OK
+   */
+  getOrderSummaryUsingGET(params: QueryResourceService.GetOrderSummaryUsingGETParams): __Observable<PdfDTO> {
+    return this.getOrderSummaryUsingGETResponse(params).pipe(
+      __map(_r => _r.body as PdfDTO)
+    );
+  }
+
+  /**
    * @param params The `QueryResourceService.GetAllRefundDetailsUsingGETParams` containing the following parameters:
    *
    * - `sort`: Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
@@ -2460,6 +2511,7 @@ module QueryResourceService {
   }
 
   /**
+<<<<<<< HEAD
    * Parameters for findAllCancellationRequestsUsingGET
    */
   export interface FindAllCancellationRequestsUsingGETParams {
@@ -2481,6 +2533,8 @@ module QueryResourceService {
   }
 
   /**
+=======
+>>>>>>> 29afdc10bdf49f511e670a3b7f5740c27b36630d
    * Parameters for findBannerByStoreIdUsingGET
    */
   export interface FindBannerByStoreIdUsingGETParams {
@@ -2507,6 +2561,7 @@ module QueryResourceService {
   }
 
   /**
+<<<<<<< HEAD
    * Parameters for findCancellationRequestByStatusUsingGET
    */
   export interface FindCancellationRequestByStatusUsingGETParams {
@@ -2533,6 +2588,8 @@ module QueryResourceService {
   }
 
   /**
+=======
+>>>>>>> 29afdc10bdf49f511e670a3b7f5740c27b36630d
    * Parameters for findOrderByDatebetweenAndStoreIdUsingGET
    */
   export interface FindOrderByDatebetweenAndStoreIdUsingGETParams {
@@ -2792,6 +2849,22 @@ module QueryResourceService {
      * Page number of the requested page
      */
     page?: number;
+  }
+
+  /**
+   * Parameters for getOrderSummaryUsingGET
+   */
+  export interface GetOrderSummaryUsingGETParams {
+
+    /**
+     * storeId
+     */
+    storeId: string;
+
+    /**
+     * date
+     */
+    date: string;
   }
 
   /**
