@@ -1,9 +1,11 @@
 /* tslint:disable */
 import { Store } from './store';
 export interface Banner {
-  file?: string;
-  fileContentType?: string;
+  cost?: number;
+  expiryDate?: string;
   id?: number;
   imageLink?: string;
+  startDate?: string;
   store?: Store;
+  storeId?: string;
 }

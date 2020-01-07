@@ -15,8 +15,8 @@ export interface OrderMaster {
   houseNoOrBuildingName?: string;
   id?: number;
   landmark?: string;
+  loyaltyPoint?: number;
   methodOfOrder?: string;
-  name?: string;
   notes?: string;
   offerLines?: Array<OfferLine>;
   orderAcceptedAt?: string;
@@ -40,4 +40,5 @@ export interface OrderMaster {
   storelocationName?: string;
   subTotal?: number;
   totalDue?: number;
+  zoneId?: string;
 }

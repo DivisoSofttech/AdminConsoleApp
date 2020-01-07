@@ -1,5 +1,5 @@
 /* tslint:disable */
-export interface CancelledOrderLineDTO {
+export interface CancelledAuxilaryOrderLineDTO {
   ammount?: number;
   cancellationRequestId?: number;
   id?: number;

@@ -13,11 +13,15 @@ import { CancelledOrderLineDTO } from '../models/cancelled-order-line-dto';
 import { NotificationDTO } from '../models/notification-dto';
 import { RefundDetailsDTO } from '../models/refund-details-dto';
 import { AuxItem } from '../models/aux-item';
+import { PageOfBanner } from '../models/page-of-banner';
+import { PageOfCancellationRequest } from '../models/page-of-cancellation-request';
+import { Customer } from '../models/customer';
 import { OfferLine } from '../models/offer-line';
 import { PageOfOrderMaster } from '../models/page-of-order-master';
 import { Order } from '../models/order';
 import { OrderLine } from '../models/order-line';
 import { PageOfStore } from '../models/page-of-store';
+import { PdfDTO } from '../models/pdf-dto';
 import { DeductionValueTypeDTO } from '../models/deduction-value-type-dto';
 import { OfferDTO } from '../models/offer-dto';
 import { ReportSummary } from '../models/report-summary';
@@ -42,7 +46,11 @@ class QueryResourceService extends __BaseService {
   static readonly getCancellationRequestUsingGETPath = '/api/query/cancellation-requests/{id}';
   static readonly getAllCancelledOrderLinesUsingGETPath = '/api/query/cancelled-order-lines';
   static readonly getCancelledOrderLineUsingGETPath = '/api/query/cancelled-order-lines/{id}';
+  static readonly findAllCancellationRequestsUsingGETPath = '/api/query/findAllCancellationRequests';
   static readonly findAuxItemsByIdUsingGETPath = '/api/query/findAuxItemsLinesById/{id}';
+  static readonly findBannerByStoreIdUsingGETPath = '/api/query/findBannerByStoreId/{storeId}';
+  static readonly findCancellationRequestByStatusUsingGETPath = '/api/query/findCancellationRequestByStatus/{statusName}';
+  static readonly findCustomerByIdpCodeUsingGETPath = '/api/query/findCustomerByIdpCode/{idpCode}';
   static readonly findOfferLinesByOrderNumberUsingGETPath = '/api/query/findOfferLinesByOrderNumber/{orderId}';
   static readonly findOrderByDatebetweenAndStoreIdUsingGETPath = '/api/query/findOrderByDatebetweenAndStoreId/{from}/{storeId}/{to}';
   static readonly findOrderByOrderIdUsingGETPath = '/api/query/findOrderByOrderId/{orderId}';
@@ -53,6 +61,10 @@ class QueryResourceService extends __BaseService {
   static readonly findOrderMasterCountByExpectedDeliveryBetweenUsingGETPath = '/api/query/findOrderMasterCountByExpectedDeliveryBetween/{from}/{to}';
   static readonly findOrdersByOrderIdUsingGETPath = '/api/query/findOrdersByOrderId/{orderId}';
   static readonly findStoreBySearchTermUsingGETPath = '/api/query/findStore/{name}';
+  static readonly getAllOrdersBetweenDatesUsingGETPath = '/api/query/getAllOrdersBetweenDates/{fromDate}/{toDate}';
+  static readonly getAllOrdersByMethodOfOrderUsingGETPath = '/api/query/getAllOrdersByMethodOfOrder/{date}/{methodOfOrder}/{storeId}';
+  static readonly getAllOrdersByPaymentStatusUsingGETPath = '/api/query/getAllOrdersByPaymentStatus/{date}/{paymentStatus}/{storeId}';
+  static readonly getOrderSummaryByDateAndStoreNameUsingGETPath = '/api/query/getOrderSummaryByDateAndStoreName/{date}/{storeId}';
   static readonly getAllNotificationsUsingGETPath = '/api/query/notifications';
   static readonly getNotificationUsingGETPath = '/api/query/notifications/{id}';
   static readonly getAllDeductionValueTypesUsingGETPath = '/api/query/offers/get-all-deduction-value-types';
@@ -658,6 +670,58 @@ class QueryResourceService extends __BaseService {
   }
 
   /**
+   * @param params The `QueryResourceService.FindAllCancellationRequestsUsingGETParams` containing the following parameters:
+   *
+   * - `sort`: Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+   *
+   * - `size`: Size of a page
+   *
+   * - `page`: Page number of the requested page
+   *
+   * @return OK
+   */
+  findAllCancellationRequestsUsingGETResponse(params: QueryResourceService.FindAllCancellationRequestsUsingGETParams): __Observable<__StrictHttpResponse<Array<CancellationRequestDTO>>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+    (params.sort || []).forEach(val => {if (val != null) __params = __params.append('sort', val.toString())});
+    if (params.size != null) __params = __params.set('size', params.size.toString());
+    if (params.page != null) __params = __params.set('page', params.page.toString());
+    let req = new HttpRequest<any>(
+      'GET',
+      this.rootUrl + `/api/query/findAllCancellationRequests`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<Array<CancellationRequestDTO>>;
+      })
+    );
+  }
+  /**
+   * @param params The `QueryResourceService.FindAllCancellationRequestsUsingGETParams` containing the following parameters:
+   *
+   * - `sort`: Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+   *
+   * - `size`: Size of a page
+   *
+   * - `page`: Page number of the requested page
+   *
+   * @return OK
+   */
+  findAllCancellationRequestsUsingGET(params: QueryResourceService.FindAllCancellationRequestsUsingGETParams): __Observable<Array<CancellationRequestDTO>> {
+    return this.findAllCancellationRequestsUsingGETResponse(params).pipe(
+      __map(_r => _r.body as Array<CancellationRequestDTO>)
+    );
+  }
+
+  /**
    * @param id id
    * @return OK
    */
@@ -690,6 +754,156 @@ class QueryResourceService extends __BaseService {
   findAuxItemsByIdUsingGET(id: number): __Observable<Array<AuxItem>> {
     return this.findAuxItemsByIdUsingGETResponse(id).pipe(
       __map(_r => _r.body as Array<AuxItem>)
+    );
+  }
+
+  /**
+   * @param params The `QueryResourceService.FindBannerByStoreIdUsingGETParams` containing the following parameters:
+   *
+   * - `storeId`: storeId
+   *
+   * - `sort`: Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+   *
+   * - `size`: Size of a page
+   *
+   * - `page`: Page number of the requested page
+   *
+   * @return OK
+   */
+  findBannerByStoreIdUsingGETResponse(params: QueryResourceService.FindBannerByStoreIdUsingGETParams): __Observable<__StrictHttpResponse<PageOfBanner>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+
+    (params.sort || []).forEach(val => {if (val != null) __params = __params.append('sort', val.toString())});
+    if (params.size != null) __params = __params.set('size', params.size.toString());
+    if (params.page != null) __params = __params.set('page', params.page.toString());
+    let req = new HttpRequest<any>(
+      'GET',
+      this.rootUrl + `/api/query/findBannerByStoreId/${params.storeId}`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<PageOfBanner>;
+      })
+    );
+  }
+  /**
+   * @param params The `QueryResourceService.FindBannerByStoreIdUsingGETParams` containing the following parameters:
+   *
+   * - `storeId`: storeId
+   *
+   * - `sort`: Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+   *
+   * - `size`: Size of a page
+   *
+   * - `page`: Page number of the requested page
+   *
+   * @return OK
+   */
+  findBannerByStoreIdUsingGET(params: QueryResourceService.FindBannerByStoreIdUsingGETParams): __Observable<PageOfBanner> {
+    return this.findBannerByStoreIdUsingGETResponse(params).pipe(
+      __map(_r => _r.body as PageOfBanner)
+    );
+  }
+
+  /**
+   * @param params The `QueryResourceService.FindCancellationRequestByStatusUsingGETParams` containing the following parameters:
+   *
+   * - `statusName`: statusName
+   *
+   * - `sort`: Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+   *
+   * - `size`: Size of a page
+   *
+   * - `page`: Page number of the requested page
+   *
+   * @return OK
+   */
+  findCancellationRequestByStatusUsingGETResponse(params: QueryResourceService.FindCancellationRequestByStatusUsingGETParams): __Observable<__StrictHttpResponse<PageOfCancellationRequest>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+
+    (params.sort || []).forEach(val => {if (val != null) __params = __params.append('sort', val.toString())});
+    if (params.size != null) __params = __params.set('size', params.size.toString());
+    if (params.page != null) __params = __params.set('page', params.page.toString());
+    let req = new HttpRequest<any>(
+      'GET',
+      this.rootUrl + `/api/query/findCancellationRequestByStatus/${params.statusName}`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<PageOfCancellationRequest>;
+      })
+    );
+  }
+  /**
+   * @param params The `QueryResourceService.FindCancellationRequestByStatusUsingGETParams` containing the following parameters:
+   *
+   * - `statusName`: statusName
+   *
+   * - `sort`: Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+   *
+   * - `size`: Size of a page
+   *
+   * - `page`: Page number of the requested page
+   *
+   * @return OK
+   */
+  findCancellationRequestByStatusUsingGET(params: QueryResourceService.FindCancellationRequestByStatusUsingGETParams): __Observable<PageOfCancellationRequest> {
+    return this.findCancellationRequestByStatusUsingGETResponse(params).pipe(
+      __map(_r => _r.body as PageOfCancellationRequest)
+    );
+  }
+
+  /**
+   * @param idpCode idpCode
+   * @return OK
+   */
+  findCustomerByIdpCodeUsingGETResponse(idpCode: string): __Observable<__StrictHttpResponse<Customer>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+
+    let req = new HttpRequest<any>(
+      'GET',
+      this.rootUrl + `/api/query/findCustomerByIdpCode/${idpCode}`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<Customer>;
+      })
+    );
+  }
+  /**
+   * @param idpCode idpCode
+   * @return OK
+   */
+  findCustomerByIdpCodeUsingGET(idpCode: string): __Observable<Customer> {
+    return this.findCustomerByIdpCodeUsingGETResponse(idpCode).pipe(
+      __map(_r => _r.body as Customer)
     );
   }
 
@@ -1150,6 +1364,204 @@ class QueryResourceService extends __BaseService {
   findStoreBySearchTermUsingGET(params: QueryResourceService.FindStoreBySearchTermUsingGETParams): __Observable<PageOfStore> {
     return this.findStoreBySearchTermUsingGETResponse(params).pipe(
       __map(_r => _r.body as PageOfStore)
+    );
+  }
+
+  /**
+   * @param params The `QueryResourceService.GetAllOrdersBetweenDatesUsingGETParams` containing the following parameters:
+   *
+   * - `toDate`: toDate
+   *
+   * - `fromDate`: fromDate
+   *
+   * @return OK
+   */
+  getAllOrdersBetweenDatesUsingGETResponse(params: QueryResourceService.GetAllOrdersBetweenDatesUsingGETParams): __Observable<__StrictHttpResponse<PdfDTO>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+
+
+    let req = new HttpRequest<any>(
+      'GET',
+      this.rootUrl + `/api/query/getAllOrdersBetweenDates/${params.fromDate}/${params.toDate}`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<PdfDTO>;
+      })
+    );
+  }
+  /**
+   * @param params The `QueryResourceService.GetAllOrdersBetweenDatesUsingGETParams` containing the following parameters:
+   *
+   * - `toDate`: toDate
+   *
+   * - `fromDate`: fromDate
+   *
+   * @return OK
+   */
+  getAllOrdersBetweenDatesUsingGET(params: QueryResourceService.GetAllOrdersBetweenDatesUsingGETParams): __Observable<PdfDTO> {
+    return this.getAllOrdersBetweenDatesUsingGETResponse(params).pipe(
+      __map(_r => _r.body as PdfDTO)
+    );
+  }
+
+  /**
+   * @param params The `QueryResourceService.GetAllOrdersByMethodOfOrderUsingGETParams` containing the following parameters:
+   *
+   * - `storeId`: storeId
+   *
+   * - `methodOfOrder`: methodOfOrder
+   *
+   * - `date`: date
+   *
+   * @return OK
+   */
+  getAllOrdersByMethodOfOrderUsingGETResponse(params: QueryResourceService.GetAllOrdersByMethodOfOrderUsingGETParams): __Observable<__StrictHttpResponse<PdfDTO>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+
+
+
+    let req = new HttpRequest<any>(
+      'GET',
+      this.rootUrl + `/api/query/getAllOrdersByMethodOfOrder/${params.date}/${params.methodOfOrder}/${params.storeId}`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<PdfDTO>;
+      })
+    );
+  }
+  /**
+   * @param params The `QueryResourceService.GetAllOrdersByMethodOfOrderUsingGETParams` containing the following parameters:
+   *
+   * - `storeId`: storeId
+   *
+   * - `methodOfOrder`: methodOfOrder
+   *
+   * - `date`: date
+   *
+   * @return OK
+   */
+  getAllOrdersByMethodOfOrderUsingGET(params: QueryResourceService.GetAllOrdersByMethodOfOrderUsingGETParams): __Observable<PdfDTO> {
+    return this.getAllOrdersByMethodOfOrderUsingGETResponse(params).pipe(
+      __map(_r => _r.body as PdfDTO)
+    );
+  }
+
+  /**
+   * @param params The `QueryResourceService.GetAllOrdersByPaymentStatusUsingGETParams` containing the following parameters:
+   *
+   * - `storeId`: storeId
+   *
+   * - `paymentStatus`: paymentStatus
+   *
+   * - `date`: date
+   *
+   * @return OK
+   */
+  getAllOrdersByPaymentStatusUsingGETResponse(params: QueryResourceService.GetAllOrdersByPaymentStatusUsingGETParams): __Observable<__StrictHttpResponse<PdfDTO>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+
+
+
+    let req = new HttpRequest<any>(
+      'GET',
+      this.rootUrl + `/api/query/getAllOrdersByPaymentStatus/${params.date}/${params.paymentStatus}/${params.storeId}`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<PdfDTO>;
+      })
+    );
+  }
+  /**
+   * @param params The `QueryResourceService.GetAllOrdersByPaymentStatusUsingGETParams` containing the following parameters:
+   *
+   * - `storeId`: storeId
+   *
+   * - `paymentStatus`: paymentStatus
+   *
+   * - `date`: date
+   *
+   * @return OK
+   */
+  getAllOrdersByPaymentStatusUsingGET(params: QueryResourceService.GetAllOrdersByPaymentStatusUsingGETParams): __Observable<PdfDTO> {
+    return this.getAllOrdersByPaymentStatusUsingGETResponse(params).pipe(
+      __map(_r => _r.body as PdfDTO)
+    );
+  }
+
+  /**
+   * @param params The `QueryResourceService.GetOrderSummaryByDateAndStoreNameUsingGETParams` containing the following parameters:
+   *
+   * - `storeId`: storeId
+   *
+   * - `date`: date
+   *
+   * @return OK
+   */
+  getOrderSummaryByDateAndStoreNameUsingGETResponse(params: QueryResourceService.GetOrderSummaryByDateAndStoreNameUsingGETParams): __Observable<__StrictHttpResponse<PdfDTO>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+
+
+    let req = new HttpRequest<any>(
+      'GET',
+      this.rootUrl + `/api/query/getOrderSummaryByDateAndStoreName/${params.date}/${params.storeId}`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<PdfDTO>;
+      })
+    );
+  }
+  /**
+   * @param params The `QueryResourceService.GetOrderSummaryByDateAndStoreNameUsingGETParams` containing the following parameters:
+   *
+   * - `storeId`: storeId
+   *
+   * - `date`: date
+   *
+   * @return OK
+   */
+  getOrderSummaryByDateAndStoreNameUsingGET(params: QueryResourceService.GetOrderSummaryByDateAndStoreNameUsingGETParams): __Observable<PdfDTO> {
+    return this.getOrderSummaryByDateAndStoreNameUsingGETResponse(params).pipe(
+      __map(_r => _r.body as PdfDTO)
     );
   }
 
@@ -2048,6 +2460,79 @@ module QueryResourceService {
   }
 
   /**
+   * Parameters for findAllCancellationRequestsUsingGET
+   */
+  export interface FindAllCancellationRequestsUsingGETParams {
+
+    /**
+     * Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+     */
+    sort?: Array<string>;
+
+    /**
+     * Size of a page
+     */
+    size?: number;
+
+    /**
+     * Page number of the requested page
+     */
+    page?: number;
+  }
+
+  /**
+   * Parameters for findBannerByStoreIdUsingGET
+   */
+  export interface FindBannerByStoreIdUsingGETParams {
+
+    /**
+     * storeId
+     */
+    storeId: string;
+
+    /**
+     * Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+     */
+    sort?: Array<string>;
+
+    /**
+     * Size of a page
+     */
+    size?: number;
+
+    /**
+     * Page number of the requested page
+     */
+    page?: number;
+  }
+
+  /**
+   * Parameters for findCancellationRequestByStatusUsingGET
+   */
+  export interface FindCancellationRequestByStatusUsingGETParams {
+
+    /**
+     * statusName
+     */
+    statusName: string;
+
+    /**
+     * Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+     */
+    sort?: Array<string>;
+
+    /**
+     * Size of a page
+     */
+    size?: number;
+
+    /**
+     * Page number of the requested page
+     */
+    page?: number;
+  }
+
+  /**
    * Parameters for findOrderByDatebetweenAndStoreIdUsingGET
    */
   export interface FindOrderByDatebetweenAndStoreIdUsingGETParams {
@@ -2170,6 +2655,80 @@ module QueryResourceService {
      * Page number of the requested page
      */
     page?: number;
+  }
+
+  /**
+   * Parameters for getAllOrdersBetweenDatesUsingGET
+   */
+  export interface GetAllOrdersBetweenDatesUsingGETParams {
+
+    /**
+     * toDate
+     */
+    toDate: string;
+
+    /**
+     * fromDate
+     */
+    fromDate: string;
+  }
+
+  /**
+   * Parameters for getAllOrdersByMethodOfOrderUsingGET
+   */
+  export interface GetAllOrdersByMethodOfOrderUsingGETParams {
+
+    /**
+     * storeId
+     */
+    storeId: string;
+
+    /**
+     * methodOfOrder
+     */
+    methodOfOrder: string;
+
+    /**
+     * date
+     */
+    date: string;
+  }
+
+  /**
+   * Parameters for getAllOrdersByPaymentStatusUsingGET
+   */
+  export interface GetAllOrdersByPaymentStatusUsingGETParams {
+
+    /**
+     * storeId
+     */
+    storeId: string;
+
+    /**
+     * paymentStatus
+     */
+    paymentStatus: string;
+
+    /**
+     * date
+     */
+    date: string;
+  }
+
+  /**
+   * Parameters for getOrderSummaryByDateAndStoreNameUsingGET
+   */
+  export interface GetOrderSummaryByDateAndStoreNameUsingGETParams {
+
+    /**
+     * storeId
+     */
+    storeId: string;
+
+    /**
+     * date
+     */
+    date: string;
   }
 
   /**

@@ -1,6 +1,10 @@
 <ion-header>
+  
   <ion-toolbar>
-    <ion-title>Create Cancellation</ion-title>
+   
+   
+    
+    <ion-buttons><ion-title>Create Cancellation</ion-title><ion-back-button></ion-back-button></ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -92,9 +96,9 @@
           Items
           </ion-card-title>
         </ion-card-header>
-      
+    
       </ion-card>
-      <div *ngFor="let orderLine of cancelledOrderLines" lines="none">
+      <div *ngFor="let orderLine of orderLines" lines="none">
         <app-refund-product-card  [orderLine]="orderLine" (changeEmiter)="updateCancellationOrderLines($event)"  (auxChangeEmiter)="updateAuxLines($event)" ></app-refund-product-card>
       </div>
 
@@ -120,6 +124,6 @@
 </ion-footer> -->
 
 <ion-footer>
-  <ion-button expand="full">Create Refund</ion-button>
+  <ion-button expand="full" (click)="createCancellation()">Create Refund</ion-button>
  
 </ion-footer>

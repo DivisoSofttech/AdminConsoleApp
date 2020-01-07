@@ -3,6 +3,7 @@
 <ion-content>
     
   <ion-header>
+   
     <ion-toolbar>
         <ion-buttons  slot="start">
             <ion-menu-button></ion-menu-button>
@@ -20,17 +21,23 @@
             <ion-label>Completed</ion-label>
           </ion-segment-button>
         </ion-segment>
+  <div *ngIf="!isCompleted">
+        <div *ngFor="let cancellation of cancellationRequestService.cancellationRequestDTOs" > 
+          <app-cancellation-request [cancellation]="cancellation"  >
   
+          </app-cancellation-request>
+        </div>
   
-  <app-cancellation-request>
+      </div>
+
+      <div *ngIf="isCompleted">
+        <div *ngFor="let cancellation of cancellationRequestService.completedRequestDTOs"  > 
+          <app-cancellation-request [cancellation]="cancellation">
   
-  </app-cancellation-request>
-  <app-cancellation-request>
-    
-    </app-cancellation-request>
-    <app-cancellation-request>
-    
-      </app-cancellation-request>
+          </app-cancellation-request>
+        </div>
+  
+      </div>
   
   
   
