@@ -11,7 +11,7 @@ import { url } from 'inspector';
 })
 export class CancellationPage implements OnInit {
 
-  constructor(private popoverController: PopoverController,private router:Router) { }
+  constructor(private popoverController: PopoverController, private router: Router) { }
 
   ngOnInit() {
   }
@@ -22,19 +22,19 @@ export class CancellationPage implements OnInit {
     const popover = await this.popoverController.create({
       component: OderSearchPopoverComponent,
       translucent: true,
-      keyboardClose:false
+      keyboardClose: false
     });
-    
+
     await popover.present();
 
 
-    popover.onDidDismiss().then(res=>{
-      console.log("dissmissed ",res.data);
-      if(res.data!=null){
-      this.router.navigate(['/','create-cancellation',res.data]);
+    popover.onDidDismiss().then(res => {
+      console.log('dissmissed ', res.data);
+      if (res.data != null) {
+      this.router.navigate(['/', 'create-cancellation', res.data]);
       }
     });
-   
+
 
   }
 

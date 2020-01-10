@@ -1,6 +1,9 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>reports</ion-title>
+  <ion-toolbar color="primary">
+    <ion-buttons>
+      <ion-menu-button></ion-menu-button>
+    <ion-title>Reports</ion-title>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -15,7 +18,7 @@
       </ion-col>
 
       <ion-col no-padding size="2" class="ion-padding-top">
-        <ion-button expand="full" fill="clear" (click)="loadOrdersWithDates()">
+        <ion-button expand="full" fill="clear" >
           APPLY
         </ion-button>
       </ion-col>
@@ -47,4 +50,9 @@
     <ngx-datatable-column name="State" [width]="300" ></ngx-datatable-column>
   </ngx-datatable>
   </div>
+
+  <!--Refresh -->
+  <ion-refresher slot="fixed" (ionRefresh)="refresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
 </ion-content>

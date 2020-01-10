@@ -1,3 +1,6 @@
+import { ImageSelectorComponent } from './../../components/image-selector/image-selector.component';
+import { Banner } from './../../api/models/banner';
+import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { ImageService } from 'src/app/services/image.service';
 import { OrderService } from 'src/app/services/order.service';
@@ -16,7 +19,9 @@ export class CreateBannerPage implements OnInit {
   searchStatus: boolean;
   stores: Store[];
   modal: HTMLIonModalElement;
+  imageContentType;
   banner: BannerDTO = {};
+
 
   constructor(public imageService: ImageService,
               public orderService: OrderService,
@@ -24,9 +29,16 @@ export class CreateBannerPage implements OnInit {
               private modalController: ModalController,
               private toastController: ToastController,
               private commandService: CommandResourceService,
-              private navController: NavController) { }
+              private navController: NavController,
+              private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
+    const id = Number(this.activatedRoute.snapshot.paramMap.get('id'));
+    console.log(id);
+    this.queryService.getBannerUsingGET(id).subscribe(ban => {
+      console.log(ban);
+      this.banner = ban;
+    });
   }
 
   public createNewBanner(): void {
@@ -65,6 +77,23 @@ export class CreateBannerPage implements OnInit {
     if (!this.modal) {
       this.presentModal();
     }
+  }
+
+  async selectImage() {
+
+    const modal = await this.modalController.create({
+      component: ImageSelectorComponent,
+      cssClass: 'half-height'
+    });
+
+    modal.onDidDismiss()
+      .then(data => {
+        this.banner.image = data.data.image.substring(data.data.image.indexOf(',') + 1);
+        this.imageContentType = data.data.image.slice(data.data.image.indexOf(':') + 1, data.data.image.indexOf(';'));
+
+      });
+
+    return await modal.present();
   }
 
   loadResults() {

@@ -1,7 +1,9 @@
+import { Util } from './../../services/util';
+import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { BannerDTO } from 'src/app/api/models';
 import { QueryResourceService, CommandResourceService } from 'src/app/api/services';
-import { AlertController } from '@ionic/angular';
+import { AlertController, ActionSheetController, ModalController } from '@ionic/angular';
 
 @Component({
   selector: 'app-banners',
@@ -12,20 +14,30 @@ export class BannersPage implements OnInit {
 
   banners: BannerDTO[];
   pageNumber = 0;
+  refreshEvent;
 
   constructor(
     private queryService: QueryResourceService,
     private alertController: AlertController,
-    private command: CommandResourceService
+    private command: CommandResourceService,
+    private actionSheetController: ActionSheetController,
+    private modalController: ModalController,
+    private router: Router,
+    private util: Util
   ) { }
 
 
   ngOnInit() {
-    this.queryService.getAllBannersUsingGET({page: this.pageNumber})
+    this.util.createLoader().then(loader => {
+      loader.present();
+      this.queryService.getAllBannersUsingGET({page: this.pageNumber})
       .subscribe(response => {
         console.log('banners: ', response);
         this.banners = response;
+        loader.dismiss();
+        this.refreshEvent.event.complete();
       });
+    });
   }
 
   async deleteBanner(banner) {
@@ -51,5 +63,44 @@ export class BannersPage implements OnInit {
     });
 
     await alert.present();
+  }
+
+  async editDeleteActionSheet(banner) {
+    const actionSheet = await this.actionSheetController.create({
+      buttons: [
+      {
+        text: 'Delete',
+        icon: 'trash',
+        handler: () => {
+          this.deleteBanner(banner);
+        }
+      }, {
+        text: 'Edit',
+        icon: 'create',
+        handler: () => {
+          this.router.navigate(['/', 'create-banner', banner.id]);
+        }
+      }, {
+        text: 'Cancel',
+        icon: 'close',
+        role: 'cancel',
+        handler: () => {
+          console.log('Cancel clicked');
+        }
+      }]
+    });
+    await actionSheet.present();
+  }
+
+  // async openEditBannerModal() {
+  //   const modal = this.modalController.create({
+  //   });
+  //   await (await modal).presen
+  // }
+
+  refresh(event) {
+    this.refreshEvent = event;
+    this.banners = [];
+    this.ngOnInit();
   }
 }

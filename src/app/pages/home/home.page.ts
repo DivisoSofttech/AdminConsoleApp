@@ -1,3 +1,4 @@
+import { Util } from './../../services/util';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { OrderService } from '../../services/order.service';
 import { PopoverController, IonSearchbar } from '@ionic/angular';
@@ -11,33 +12,39 @@ import { Store } from '../../api/models';
   styleUrls: ['home.page.scss']
 })
 export class HomePage implements OnInit {
-  noFilter =true;
+  noFilter = true;
   searchStatus = false;
   stores: Store[];
   pageNumber: number;
+  isRefreshed = false;
+  refreshEvent;
+  loader: HTMLIonLoadingElement;
   @ViewChild('searchBar', { static: false }) searchBar: IonSearchbar;
 
   constructor(
     public orderService: OrderService,
     private popoverController: PopoverController,
-    private queryService: QueryResourceService
+    private queryService: QueryResourceService,
+    private util: Util
   ) {}
 
   listResults(ev: any) {
     this.presentPopover(ev);
   }
 
-  test(ev){
-    console.log(" test ",ev.detail.value);
+  test(ev) {
+    console.log(' test ', ev.detail.value);
   }
 
   ngOnInit() {
-
-    this.orderService.selectedStore = {imageLink: '', storeUniqueId: ''};
-    this.queryService
+    this.util.createLoader().then(loader => {
+      this.loader = loader;
+      loader.present();
+      this.orderService.selectedStore = {imageLink: '', storeUniqueId: ''};
+      this.queryService
       .findOrderCountByDateAndStatusNameUsingGET({
         statusName: 'completed',
-        date: this.orderService.endDate.split('T')[0] 
+        date: this.orderService.endDate.split('T')[0]
       })
       .subscribe(
         response => {
@@ -45,22 +52,29 @@ export class HomePage implements OnInit {
           this.orderService.todaysCount = response;
         },
         error => {
+          if (this.isRefreshed) {
+            this.refreshEvent.target.complete();
+          }
+          this.loader.dismiss();
           console.log('something went wrong', error, this.orderService.endDate.split('T')[0]);
         }
       );
-    this.queryService.findOrderCountByDateAndStatusNameUsingGET({
+      this.queryService.findOrderCountByDateAndStatusNameUsingGET({
         statusName: 'payment-processed',
         date: this.orderService.endDate.split('T')[0]
       }).subscribe(
         res => {
           this.orderService.todaysCount += res;
-        },err=>{
-          console.log("error ",err);
+        }, err => {
+          if (this.isRefreshed) {
+            this.refreshEvent.target.complete();
+          }
+          this.loader.dismiss();
+          console.log('error ', err);
         }
       );
-    this.loadOrdersWithDates();
-
-
+      this.loadOrdersWithDates();
+    });
   }
   async presentPopover(ev: any) {
     const popover = await this.popoverController.create({
@@ -129,13 +143,13 @@ export class HomePage implements OnInit {
   }
 
   clearStore() {
-    this.orderService.selectedStore =  {storeUniqueId:'',imageLink:''};
+    this.orderService.selectedStore =  {storeUniqueId: '', imageLink: ''};
     this.loadOrdersWithDates();
   }
 
   loadOrdersWithDates() {
-    console.log("if ",this.orderService.selectedStore);
-    if (this.orderService.selectedStore.storeUniqueId!='') {
+    console.log('if ', this.orderService.selectedStore);
+    if (this.orderService.selectedStore.storeUniqueId != '') {
       // tslint:disable-next-line:max-line-length
       console.log('checking date and store regno', this.orderService.startDate, this.orderService.endDate, this.orderService.selectedStore.regNo);
       this.queryService
@@ -146,15 +160,22 @@ export class HomePage implements OnInit {
         })
         .subscribe(
           response => {
+            if (this.isRefreshed) {
+              this.refreshEvent.target.complete();
+            }
+            this.loader.dismiss();
             console.log(response);
             this.orderService.order = response.totalElements;
           },
           error => {
+            if (this.isRefreshed) {
+              this.refreshEvent.target.complete();
+            }
             console.log('something went wrong', error);
+            this.loader.dismiss();
           }
         );
-    }
-    else{
+    } else {
 
       this.queryService
         .findOrderMasterCountByExpectedDeliveryBetweenUsingGET({
@@ -163,16 +184,29 @@ export class HomePage implements OnInit {
         })
         .subscribe(
           response => {
-            console.log("got data betweens dates");
+            if (this.isRefreshed) {
+              this.refreshEvent.target.complete();
+            }
+            this.loader.dismiss();
+            console.log('got data betweens dates');
             console.log(response);
             this.orderService.order = response;
           },
           error => {
+            if (this.isRefreshed) {
+              this.refreshEvent.target.complete();
+            }
             console.log('something went wrong', error);
+            this.loader.dismiss();
           }
         );
 
     }
 
+  }
+  refresh(event) {
+    this.isRefreshed = true;
+    this.refreshEvent = event;
+    this.ngOnInit();
   }
 }

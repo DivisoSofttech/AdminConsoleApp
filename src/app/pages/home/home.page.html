@@ -99,11 +99,11 @@
     <ion-row justify-content-center>
       <ion-col text-center size="6">
         <h6>Total Orders</h6>
-        <h1 *ngIf="orderService.order<0">N/A</h1>
+        <!-- <h1 *ngIf="orderService.order < 0">N/A</h1> -->
         <h1 *ngIf="orderService.order>=0">{{orderService.order}}</h1>
         <ion-chip *ngIf="orderService.selectedStore.name">
           <ion-avatar>
-            <img [src]="'data:image/png;base64,'+orderService.selectedStore.image">
+            <img [src]=orderService.selectedStore.imageLink>
           </ion-avatar>
           <ion-label>{{orderService.selectedStore.name}}</ion-label>
           <ion-icon name="close" (click)="clearStore()"></ion-icon>
@@ -114,8 +114,8 @@
       <ion-col no-padding class="side-border">
         <div float-right>
           <h6>Today</h6>
-          <h5>{{(orderService.todaysCount < 0) ? 'NA' :  orderService.todaysCount}}</h5><!-- 
-          <h5 float-right *ngIf="orderService.todaysCount>=0">{{orderService.todaysCount}}</h5> -->
+          <h5>{{(orderService.todaysCount < 0) ? 'NA' :  orderService.todaysCount}}</h5>
+          <!-- <h5 float-right *ngIf="orderService.todaysCount>=0">{{orderService.todaysCount}}</h5> -->
         </div>
       </ion-col>
       <ion-col no-padding>
@@ -129,7 +129,7 @@
   <ion-list *ngIf="searchStatus">
     <ion-item *ngFor="let store of stores" class="store" (click)="setCurrentStore(store)">
       <ion-thumbnail slot="start">
-        <img [src]="'data:image/png;base64,'+store.image">
+        <img [src]=store.imageLink>
       </ion-thumbnail>
       {{store.name}}
     </ion-item>
@@ -139,6 +139,10 @@
 
     </ion-spinner>
   </div>
+  <!--Refresh -->
+  <ion-refresher slot="fixed" (ionRefresh)="refresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
 </ion-content>
 <!-- <ion-footer>
   <ion-item lines="full">

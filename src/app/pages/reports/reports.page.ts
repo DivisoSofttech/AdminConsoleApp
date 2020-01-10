@@ -8,8 +8,8 @@ import { ColumnMode } from '@swimlane/ngx-datatable';
 })
 export class ReportsPage implements OnInit {
 
+  constructor() {
 
-  ngOnInit() {
   }
   // tslint:disable-next-line: member-ordering
   rows = [
@@ -31,10 +31,13 @@ export class ReportsPage implements OnInit {
 
   ColumnMode = ColumnMode;
 
-  constructor() {
-    
+
+  ngOnInit() {
+
   }
 
-  
+  refresh(event) {
+    event.target.complete();
+  }
 
 }

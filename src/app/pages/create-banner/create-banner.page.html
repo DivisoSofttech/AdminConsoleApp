@@ -21,9 +21,12 @@
             </ion-item>
           </ion-col>
         </ion-row>
-        <ion-row *ngIf="this.imageService.uploadedImage && !this.imageService.isImageCropped">
+        <ion-row>
+          <img *ngIf="banner.image != null" [src] = "'data:' + imageContentType + ';base64,' + banner.image"/>
+          <img *ngIf="banner.image == null && banner.imageLink" [src]=banner.imageLink/>
+        </ion-row>
+        <!-- <ion-row *ngIf="this.imageService.uploadedImage && !this.imageService.isImageCropped">
           <ion-col size-sm="4" offset-sm="1" size-md="4" offset-md="1" size-lg="4" offset-lg="1" class="blue-bg">
-            <!-- <img *ngIf="this.imageService.uploadedImage" [src]="this.imageService.uploadedImage"/> -->
             <image-cropper [imageBase64]="this.imageService.uploadedImage" [maintainAspectRatio]="true"
               [aspectRatio]="2 / 1" [resizeToWidth]="400" format="jpeg"
               (imageCropped)="this.imageService.cropImage($event)"></image-cropper>
@@ -36,11 +39,11 @@
           <ion-col size-sm="10" offset-sm="1" size-md="8" offset-md="2" size-lg="6" offset-lg="3">
             <ion-img [src]="this.imageService.croppedImage"></ion-img>
           </ion-col>
-        </ion-row>
+        </ion-row> -->
         <ion-item lines="none">
           <ion-text>Banner image</ion-text>
           <input type="file" id="selectedFile" #selectedFile hidden accept="image/*"/>
-          <ion-button slot='end' (click)="this.imageService.uploadImage(selectedFile)">
+          <ion-button slot='end' (click)="selectImage()">
             <ion-icon name="attach">
             </ion-icon>
           </ion-button>
