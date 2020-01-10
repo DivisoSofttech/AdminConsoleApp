@@ -816,7 +816,6 @@ class QueryResourceService extends __BaseService {
   }
 
   /**
-<<<<<<< HEAD
    * @param params The `QueryResourceService.FindCancellationRequestByStatusUsingGETParams` containing the following parameters:
    *
    * - `statusName`: statusName
@@ -910,8 +909,6 @@ class QueryResourceService extends __BaseService {
   }
 
   /**
-=======
->>>>>>> 29afdc10bdf49f511e670a3b7f5740c27b36630d
    * @param orderId orderId
    * @return OK
    */

@@ -15,4 +15,5 @@ export interface Order {
   paymentRef?: string;
   status?: Status;
   storeId?: string;
+  paymentMode?:string;
 }

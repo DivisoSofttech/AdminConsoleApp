@@ -1,6 +1,6 @@
 import { CancellationRequestService } from './../../services/cancellation-request.service';
 import { url } from 'inspector';
-import { NavController } from '@ionic/angular';
+import { NavController, ToastController } from '@ionic/angular';
 import { Auxilary } from './../../customModels/auxilary';
 import { CancellationRequestDTO } from './../../api/models/cancellation-request-dto';
 import { Component, OnInit, Input } from '@angular/core';
@@ -23,7 +23,7 @@ export class CreateCancellationPage implements OnInit {
               private commandResource: CommandResourceService,
               private util: Util,
               private navCtrl: NavController,
-              private cancellationRequestService:CancellationRequestService) { }
+              private cancellationRequestService: CancellationRequestService) { }
   orderId: string;
 
 
@@ -34,7 +34,7 @@ export class CreateCancellationPage implements OnInit {
   auxilaries: Auxilary[] = [];
 
 
-// orderLines = [];
+
 
  orderLines = [];
   cancelledOrderLines: CancelledOrderLineDTO[] = [];
@@ -43,19 +43,23 @@ export class CreateCancellationPage implements OnInit {
 
   aux: AuxItem[] = [];
 
-  // isOrderDetail = true;
+
 
   ngOnInit() {
     console.log('id is ');
     this.orderId = this.activeRoute.snapshot.paramMap.get('id');
     console.log('id is ', this.orderId);
-    // this.getAuxItems();
+
 
     this.query.findOrderByOrderIdUsingGET(this.orderId).subscribe(res => {
 
       this.order = res;
       console.log('order is ', this.order);
+      if (this.order.paymentMode !== 'COD') {
+      
       this.findOrderLines();
+
+      } 
 
     }, err => {
       console.log('>>>>>>>>>>>>>>>>>>>', err);
@@ -64,16 +68,8 @@ export class CreateCancellationPage implements OnInit {
 
   }
 
-  // getAuxItems() {
-  //   console.log(this.orderLine.id);
-  //   this.query.findAuxItemsByIdUsingGET(this.orderLine.id).subscribe(aux => {
-  //     this.aux = aux;
-  //     console.log(aux);
-  //   });
-  // }
 
-  getOfferLineItems() {
-  }
+
 
 
     findOrderLines() {
@@ -171,7 +167,7 @@ export class CreateCancellationPage implements OnInit {
          loader.dismiss();
 
          this.route.navigateByUrl('/cancellation');
-        
+
        });
     },
     err => {

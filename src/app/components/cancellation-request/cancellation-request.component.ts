@@ -18,7 +18,7 @@ export class CancellationRequestComponent implements OnInit {
 
   constructor(private commandResource: CommandResourceService,
               public cancellationRequestService: CancellationRequestService,
-              private util:Util) {
+              private util: Util) {
 
    }
 
@@ -26,18 +26,17 @@ export class CancellationRequestComponent implements OnInit {
   }
 
   refund() {
-    this.util.createLoader().then(loader=>{
+    this.util.createLoader().then(loader => {
       loader.present();
-    this.refundDto.status = 'started';
-
-    this.commandResource.createRefundDetailsUsingPOST({orderId: this.cancellation.orderId, refundDetailsDTO: this.refundDto}).subscribe(
+      this.refundDto.status = 'started';
+      this.commandResource.createRefundUsingPOST({paymentId: this.cancellation.paymentId, orderId: this.cancellation.orderId, refundDetailsDTO: this.refundDto}).subscribe(
 res => {
   console.log('created refund detials ', res);
-  this.cancellation.status='accepted';
+  this.cancellation.status = 'accepted';
   this.cancellationRequestService.completedRequestDTOs.push(this.cancellation);
   // console.log(' element completed ', this.cancellation);
-   this.cancellationRequestService.cancellationRequestDTOs.splice(this.cancellationRequestService.cancellationRequestDTOs.indexOf(this.cancellation), 1 );
-   loader.dismiss();
+  this.cancellationRequestService.cancellationRequestDTOs.splice(this.cancellationRequestService.cancellationRequestDTOs.indexOf(this.cancellation), 1 );
+  loader.dismiss();
 }, err => {
   loader.dismiss();
   console.log('error crating refund detials ', err);

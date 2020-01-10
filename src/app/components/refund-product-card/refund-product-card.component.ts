@@ -22,8 +22,7 @@ export class RefundProductCardComponent implements OnInit {
    this.maxQuantity = this.orderLine.quantity;
    console.log('initial orderline for refund ', this.orderLine);
    this.pricePerUnit = this.orderLine.total / this.orderLine.quantity;
-   this.orderLine.quantity = 0;
-   this.orderLine.total = 0;
+   
 
 
    this.getAuxItems();

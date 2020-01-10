@@ -8,11 +8,21 @@ import { ColumnMode } from '@swimlane/ngx-datatable';
 })
 export class ReportsPage implements OnInit {
   isReport:Boolean=true;
+  reportType:string='orders'
 
   ngOnInit() {
   }
   // tslint:disable-next-line: member-ordering
   rows = [
+    { orderNo: '123', date: 'jgiuhiuhih', totelDue: '12' },
+    { orderNo: '234', date: '23-23-23', totelDue: 'KFC' },
+    { orderNo: '211', date: '34-23-45', totelDue: 'Burger King' },
+    { orderNo: '123', date: 'jgiuhiuhih', totelDue: '12' },
+    { orderNo: '234', date: '23-23-23', totelDue: 'KFC' },
+    { orderNo: '211', date: '34-23-45', totelDue: 'Burger King' },
+    { orderNo: '123', date: 'jgiuhiuhih', totelDue: '12' },
+    { orderNo: '234', date: '23-23-23', totelDue: 'KFC' },
+    { orderNo: '211', date: '34-23-45', totelDue: 'Burger King' },
     { orderNo: '123', date: 'jgiuhiuhih', totelDue: '12' },
     { orderNo: '234', date: '23-23-23', totelDue: 'KFC' },
     { orderNo: '211', date: '34-23-45', totelDue: 'Burger King' },
@@ -37,7 +47,7 @@ export class ReportsPage implements OnInit {
 
 changeDiv(isReport:Boolean){
   this.isReport=isReport;
-
+ console.log('report type is ',this.reportType);
 }  
 
 }

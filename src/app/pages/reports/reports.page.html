@@ -1,53 +1,107 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>reports</ion-title>
+    <ion-title><ion-back-button></ion-back-button>Reports</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+ 
   <!-- ////////////////////////////////////////////////////filter div start////////////////////////////////////////////// -->
 
+ 
+
+
+
+
   <div *ngIf="!isReport" >
-  <ion-grid no-padding no-margin>
-    <ion-row justify-content-center class="white-background">
-      <ion-col size="5" class="date">
-        <ion-item>
-          <ion-label position="floating">From</ion-label>
-          <ion-datetime displayFormat="DD-MMM-YYYY" ></ion-datetime>
-        </ion-item>
-      </ion-col>
+    <ion-card>
+      <ion-item>
+        <ion-label>Report type</ion-label>
+        <ion-select placeholder=" optional"  [(ngModel)]="reportType">
+          <ion-select-option value="orders summery">Orders Summery</ion-select-option>
+          <ion-select-option value="orders">Orders</ion-select-option>
+        </ion-select>
+      </ion-item>
+    </ion-card>
+    <ion-card>
+    <ion-grid no-padding no-margin>
 
-      <ion-col no-padding size="2" class="ion-padding-top">
-        <ion-button expand="full" fill="clear" (click)="loadOrdersWithDates()">
-          APPLY
-        </ion-button>
-      </ion-col>
+          <ion-item lines="full"  class="date">
+            <ion-label position="floating">From</ion-label>
+            <ion-datetime displayFormat="DD-MMM-YYYY" ></ion-datetime>
+          </ion-item>
+     
+  
+        
+  
+      
+          <ion-item lines="full" class="date">
+            <ion-label position="floating">To</ion-label>
+            <ion-datetime displayFormat="DD-MMM-YYYY" ></ion-datetime>
+          </ion-item>
+  
+   
+    </ion-grid>
+  
+    <ion-item>
+    <ion-input placeholder="Enter shop id for shop based orders">
 
-      <ion-col size="5" class="date">
-        <ion-item>
-          <ion-label position="floating">To</ion-label>
-          <ion-datetime displayFormat="DD-MMM-YYYY" ></ion-datetime>
-        </ion-item>
-      </ion-col>
-
-    </ion-row>    
-  </ion-grid>
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed" >
-    <ion-fab-button  (click)="changeDiv(true)">
-      <ion-icon name="analytics"></ion-icon>
-    </ion-fab-button>
-  </ion-fab>
+    </ion-input>
+    </ion-item>
+  </ion-card>
+  <div *ngIf="reportType==='orders'">
+    <ion-card>
+    <ion-item>
+      <ion-label>Payment type</ion-label>
+      <ion-select placeholder=" optional">
+        <ion-select-option value="f">Order by card</ion-select-option>
+        <ion-select-option value="m">Order by cash</ion-select-option>
+      </ion-select>
+    </ion-item>
+  </ion-card>
+    <ion-card>
+    <ion-item>
+      <ion-label>Delivery type</ion-label>
+      <ion-select placeholder=" optional">
+        <ion-select-option value="f">Collection</ion-select-option>
+        <ion-select-option value="m">Home Delivery</ion-select-option>
+      </ion-select>
+    </ion-item>
+  </ion-card>
 </div>
+  
+</div>
+
 
 <!-- ////////////////////////////////////////////////////filter div end/////////////////////////////////////////////// -->
 <!-- ////////////////////////////////////////////////////table div start////////////////////////////////////////////// -->
 
 <div *ngIf="isReport" >
-  <ion-fab vertical="bottom" horizontal="start" >
-    <ion-fab-list side="end">
-      <ion-fab-button><ion-icon name="bus"></ion-icon></ion-fab-button>
-    </ion-fab-list>
-  </ion-fab>
+  <div *ngIf="reportType==='orders'">
+  
+  <ion-card>
+    <ngx-datatable
+    
+    class="material"
+    [rows]="rows"
+    columnMode="force"
+    [headerHeight]="50"
+    [footerHeight]="50"
+    [rowHeight]="50"
+    [scrollbarV]="false"
+    [limit]="10"
+    [scrollbarH]="true"
+    [rows]="rows">
+    <ngx-datatable-column name="Order no" [width]="100" >order no</ngx-datatable-column>
+    <ngx-datatable-column name="Totel due" [width]="100"></ngx-datatable-column>
+    <ngx-datatable-column name="Customer Id" [width]="150"></ngx-datatable-column>
+    <ngx-datatable-column name="Date" [width]="100" ></ngx-datatable-column>
+    <ngx-datatable-column name="Payment Status" [width]="300" ></ngx-datatable-column>
+  </ngx-datatable>
+</ion-card>
+</div>
+<div *ngIf="reportType!=='orders'">
+  
   <ion-card>
     <ngx-datatable
     class="material"
@@ -56,25 +110,26 @@
     [headerHeight]="50"
     [footerHeight]="0"
     [rowHeight]="50"
-    [scrollbarV]="true"
-    [scrollbarH]="true"
-  >
-    <ngx-datatable-column name="Order no" [width]="100" >order no</ngx-datatable-column>
+    [limit]="10"
+    [rows]="rows">
+    <ngx-datatable-column name="Order no" [width]="100" ></ngx-datatable-column>
     <ngx-datatable-column name="Totel due" [width]="100"></ngx-datatable-column>
     <ngx-datatable-column name="Customer Id" [width]="150"></ngx-datatable-column>
-    <ngx-datatable-column name="Date" [width]="100" ></ngx-datatable-column>
-    <ngx-datatable-column name="Payment Status" [width]="300" ></ngx-datatable-column>
-  </ngx-datatable>
-</ion-card>
+   </ngx-datatable>
+  </ion-card>
+  </div>
 
-<ion-fab vertical="bottom" horizontal="end" slot="fixed">
-  <ion-fab-button (click)="changeDiv(false)">
-    <ion-icon name="funnel"></ion-icon>
-  </ion-fab-button>
-</ion-fab>
 </div>
 <!-- ////////////////////////////////////////////////////filter div end////////////////////////////////////////////// -->
 
 
 
 </ion-content>
+<ion-footer  >
+<ion-button *ngIf="!isReport" expand="full" (click)="changeDiv(true)"> Apply Filter</ion-button>
+<ion-fab vertical="bottom" horizontal="end" *ngIf="isReport">
+  <ion-fab-button (click)="changeDiv(false)">
+    <ion-icon name="funnel"></ion-icon>
+  </ion-fab-button>
+</ion-fab>
+</ion-footer>
