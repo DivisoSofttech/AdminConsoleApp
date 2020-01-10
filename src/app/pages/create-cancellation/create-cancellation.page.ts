@@ -54,10 +54,12 @@ export class CreateCancellationPage implements OnInit {
     this.query.findOrderByOrderIdUsingGET(this.orderId).subscribe(res => {
 
       this.order = res;
+      
       console.log('order is ', this.order);
       if (this.order.paymentMode !== 'COD') {
       
       this.findOrderLines();
+    
 
       } 
 
@@ -83,6 +85,7 @@ export class CreateCancellationPage implements OnInit {
       this.orderLines.forEach(re => {
         console.log('cancelled orderline=====', re);
       });
+      this.calculateRefund();
     });
 
 

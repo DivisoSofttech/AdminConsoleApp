@@ -3,4 +3,5 @@ export interface RefundDetailsDTO {
   id?: number;
   refundId?: string;
   status?: string;
+  amount?: number
 }

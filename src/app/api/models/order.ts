@@ -12,8 +12,8 @@ export interface Order {
   notes?: string;
   orderId?: string;
   orderLines?: Array<OrderLine>;
+  paymentMode?: string;
   paymentRef?: string;
   status?: Status;
   storeId?: string;
-  paymentMode?:string;
 }

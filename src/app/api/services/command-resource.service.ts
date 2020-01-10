@@ -44,7 +44,6 @@ class CommandResourceService extends __BaseService {
   static readonly createOfferUsingPOSTPath = '/api/command/offers/create-offer';
   static readonly updateRefundDetailsUsingPUTPath = '/api/command/refund-details';
   static readonly deleteRefundDetailsUsingDELETEPath = '/api/command/refund-details/{id}';
-  static readonly createRefundDetailsUsingPOSTPath = '/api/command/refund-details/{orderId}';
 
   constructor(
     config: __Configuration,
@@ -774,53 +773,6 @@ class CommandResourceService extends __BaseService {
       __map(_r => _r.body as null)
     );
   }
-
-  /**
-   * @param params The `CommandResourceService.CreateRefundDetailsUsingPOSTParams` containing the following parameters:
-   *
-   * - `refundDetailsDTO`: refundDetailsDTO
-   *
-   * - `orderId`: orderId
-   *
-   * @return OK
-   */
-  createRefundDetailsUsingPOSTResponse(params: CommandResourceService.CreateRefundDetailsUsingPOSTParams): __Observable<__StrictHttpResponse<RefundDetailsDTO>> {
-    let __params = this.newParams();
-    let __headers = new HttpHeaders();
-    let __body: any = null;
-    __body = params.refundDetailsDTO;
-
-    let req = new HttpRequest<any>(
-      'POST',
-      this.rootUrl + `/api/command/refund-details/${params.orderId}`,
-      __body,
-      {
-        headers: __headers,
-        params: __params,
-        responseType: 'json'
-      });
-
-    return this.http.request<any>(req).pipe(
-      __filter(_r => _r instanceof HttpResponse),
-      __map((_r) => {
-        return _r as __StrictHttpResponse<RefundDetailsDTO>;
-      })
-    );
-  }
-  /**
-   * @param params The `CommandResourceService.CreateRefundDetailsUsingPOSTParams` containing the following parameters:
-   *
-   * - `refundDetailsDTO`: refundDetailsDTO
-   *
-   * - `orderId`: orderId
-   *
-   * @return OK
-   */
-  createRefundDetailsUsingPOST(params: CommandResourceService.CreateRefundDetailsUsingPOSTParams): __Observable<RefundDetailsDTO> {
-    return this.createRefundDetailsUsingPOSTResponse(params).pipe(
-      __map(_r => _r.body as RefundDetailsDTO)
-    );
-  }
 }
 
 module CommandResourceService {
@@ -839,22 +791,6 @@ module CommandResourceService {
      * paymentId
      */
     paymentId: string;
-
-    /**
-     * orderId
-     */
-    orderId: string;
-  }
-
-  /**
-   * Parameters for createRefundDetailsUsingPOST
-   */
-  export interface CreateRefundDetailsUsingPOSTParams {
-
-    /**
-     * refundDetailsDTO
-     */
-    refundDetailsDTO: RefundDetailsDTO;
 
     /**
      * orderId
