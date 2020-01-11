@@ -46,9 +46,16 @@
   
     <ion-item>
     <ion-input placeholder="Enter shop id for shop based orders *" [(ngModel)]="storeId" required="true" >
+      <!-- <ion-input placeholder="Enter shop id for shop based orders *" [(ngModel)]="storeSearchTerm" required="true" debounce=250 (ionChange)="searchStore()"> -->
 
     </ion-input>
     </ion-item>
+    <!-- <div *ngIf="isStoreSearch" >
+      <ion-item *ngFor="let store of stores" >
+        {{store.name}}
+      </ion-item>
+
+    </div> -->
   </ion-card>
   <div *ngIf="reportType==='orders'">
     <ion-card>

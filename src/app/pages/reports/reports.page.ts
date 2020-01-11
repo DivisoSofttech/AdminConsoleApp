@@ -28,7 +28,7 @@ export class ReportsPage implements OnInit {
   storeId: string = null;
   paymenttype: string;
   deliveryType: string;
-
+  stores=[]
   // tslint:disable-next-line: member-ordering
 
   rows = [];
@@ -43,8 +43,8 @@ export class ReportsPage implements OnInit {
   rawEvent: any;
   contextmenuRow: any;
   contextmenuColumn: any;
-
   columnMode = ColumnMode;
+  isStoreSearch:boolean=false;
 
   ngOnInit() {
   }
@@ -86,7 +86,17 @@ applyFilter() {
   });
 
   this.changeDiv(true);
+}
 
+searchStore(){
+
+  this.isStoreSearch=true;
+
+  this.queryResourceService.findStoreBySearchTermUsingGET({name:this.storeSearchTerm}).subscribe(
+    res=>{
+      this.stores=res.content;
+    }
+  )
 
 
 }
