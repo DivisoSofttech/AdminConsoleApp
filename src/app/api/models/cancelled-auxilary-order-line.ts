@@ -1,7 +1,8 @@
 /* tslint:disable */
-export interface CancelledOrderLineDTO {
+import { CancellationRequest } from './cancellation-request';
+export interface CancelledAuxilaryOrderLine {
   ammount?: number;
-  cancellationRequestId?: number;
+  cancellationRequest?: CancellationRequest;
   id?: number;
   itemName?: string;
   orderLineId?: number;

@@ -11,6 +11,7 @@ import { BannerDTO } from '../models/banner-dto';
 import { CancellationRequestDTO } from '../models/cancellation-request-dto';
 import { CancelledOrderLineDTO } from '../models/cancelled-order-line-dto';
 import { RefundDetailsDTO } from '../models/refund-details-dto';
+import { CancelledAuxilaryOrderLineDTO } from '../models/cancelled-auxilary-order-line-dto';
 import { DeductionValueTypeDTO } from '../models/deduction-value-type-dto';
 import { NotificationDTO } from '../models/notification-dto';
 import { OrderModel } from '../models/order-model';
@@ -33,6 +34,8 @@ class CommandResourceService extends __BaseService {
   static readonly updateCancelledOrderLineUsingPUTPath = '/api/command/cancelled-order-lines';
   static readonly deleteCancelledOrderLineUsingDELETEPath = '/api/command/cancelled-order-lines/{id}';
   static readonly createRefundUsingPOSTPath = '/api/command/create/refundDetails/{orderId}/{paymentId}';
+  static readonly createCancelledAuxilaryOrderLineByListUsingPOSTPath = '/api/command/createCancelledAuxilaryOrderLineByList';
+  static readonly createCancelledOrderLineByListUsingPOSTPath = '/api/command/createCancelledOrderLineByList';
   static readonly createDeductionValueTypeUsingPOSTPath = '/api/command/deduction-value-types';
   static readonly createNotificationUsingPOSTPath = '/api/command/notifications';
   static readonly updateNotificationUsingPUTPath = '/api/command/notifications';
@@ -417,6 +420,74 @@ class CommandResourceService extends __BaseService {
   createRefundUsingPOST(params: CommandResourceService.CreateRefundUsingPOSTParams): __Observable<RefundDetailsDTO> {
     return this.createRefundUsingPOSTResponse(params).pipe(
       __map(_r => _r.body as RefundDetailsDTO)
+    );
+  }
+
+  /**
+   * @param cancelledAuxilaryOrderLineDTOList cancelledAuxilaryOrderLineDTOList
+   */
+  createCancelledAuxilaryOrderLineByListUsingPOSTResponse(cancelledAuxilaryOrderLineDTOList: Array<CancelledAuxilaryOrderLineDTO>): __Observable<__StrictHttpResponse<null>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+    __body = cancelledAuxilaryOrderLineDTOList;
+    let req = new HttpRequest<any>(
+      'POST',
+      this.rootUrl + `/api/command/createCancelledAuxilaryOrderLineByList`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<null>;
+      })
+    );
+  }
+  /**
+   * @param cancelledAuxilaryOrderLineDTOList cancelledAuxilaryOrderLineDTOList
+   */
+  createCancelledAuxilaryOrderLineByListUsingPOST(cancelledAuxilaryOrderLineDTOList: Array<CancelledAuxilaryOrderLineDTO>): __Observable<null> {
+    return this.createCancelledAuxilaryOrderLineByListUsingPOSTResponse(cancelledAuxilaryOrderLineDTOList).pipe(
+      __map(_r => _r.body as null)
+    );
+  }
+
+  /**
+   * @param cancelledOrderLineDTOList cancelledOrderLineDTOList
+   */
+  createCancelledOrderLineByListUsingPOSTResponse(cancelledOrderLineDTOList: Array<CancelledOrderLineDTO>): __Observable<__StrictHttpResponse<null>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+    __body = cancelledOrderLineDTOList;
+    let req = new HttpRequest<any>(
+      'POST',
+      this.rootUrl + `/api/command/createCancelledOrderLineByList`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<null>;
+      })
+    );
+  }
+  /**
+   * @param cancelledOrderLineDTOList cancelledOrderLineDTOList
+   */
+  createCancelledOrderLineByListUsingPOST(cancelledOrderLineDTOList: Array<CancelledOrderLineDTO>): __Observable<null> {
+    return this.createCancelledOrderLineByListUsingPOSTResponse(cancelledOrderLineDTOList).pipe(
+      __map(_r => _r.body as null)
     );
   }
 

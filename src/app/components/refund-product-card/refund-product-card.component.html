@@ -24,4 +24,29 @@
   </ion-grid>
 </ion-item>
 </ion-card-header>
+<ion-card-content>
+  <ion-item *ngFor="let aux of auxs">
+    <ion-label text-start class="wrap">
+       <h2>{{aux.auxItem.auxItem}}</h2>
+       <h3>
+          &#8364;{{(aux.auxItem.total | number: "1.1-2")}}              
+      </h3>
+    </ion-label>
+    <ion-grid slot="end" class="borderFull">
+      <ion-row>
+        <ion-col text-center (click)="decreaseAuxCount(aux)">
+          <ion-icon name="remove"></ion-icon>
+        </ion-col>
+        <ion-col text-center>
+          <ion-text>
+            {{aux.auxItem.quantity}}
+          </ion-text>
+        </ion-col>
+        <ion-col text-center (click)="increaseAuxCount(aux)">
+            <ion-icon name="add" ></ion-icon>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-item>
+</ion-card-content>
 </ion-card>

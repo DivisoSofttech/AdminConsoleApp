@@ -8,19 +8,21 @@ import { ColumnMode } from '@swimlane/ngx-datatable';
 })
 export class ReportsPage implements OnInit {
 
+  isReport = true;
+
   constructor() {
 
   }
   // tslint:disable-next-line: member-ordering
   rows = [
-    { order: '123', date: 'jgiuhiuhih', totel_due: '12' },
-    { order: '234', date: '23-23-23', totel_due: 'KFC' },
-    { order_no: '211', date: '34-23-45', totel_due: 'Burger King' },
+    { orderNo: '123', date: 'jgiuhiuhih', totelDue: '12' },
+    { orderNo: '234', date: '23-23-23', totelDue: 'KFC' },
+    { orderNo: '211', date: '34-23-45', totelDue: 'Burger King' },
   ];
   columns = [
     { name: 'Order no' },
     { name: 'Date' },
-    { name: 'totel_due' },
+    { name: 'totel due' },
     { name: 'Customer id' },
     { name: 'Payment status' }
   ];
@@ -39,5 +41,9 @@ export class ReportsPage implements OnInit {
   refresh(event) {
     event.target.complete();
   }
+changeDiv(isReport: boolean) {
+  this.isReport = isReport;
+
+}
 
 }

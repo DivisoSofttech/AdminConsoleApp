@@ -8,6 +8,9 @@
 </ion-header>
 
 <ion-content>
+  <!-- ////////////////////////////////////////////////////filter div start////////////////////////////////////////////// -->
+
+  <div *ngIf="!isReport" >
   <ion-grid no-padding no-margin>
     <ion-row justify-content-center class="white-background">
       <ion-col size="5" class="date">
@@ -30,9 +33,25 @@
         </ion-item>
       </ion-col>
 
-    </ion-row>
+    </ion-row>    
   </ion-grid>
-  <div>
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed" >
+    <ion-fab-button  (click)="changeDiv(true)">
+      <ion-icon name="analytics"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</div>
+
+<!-- ////////////////////////////////////////////////////filter div end/////////////////////////////////////////////// -->
+<!-- ////////////////////////////////////////////////////table div start////////////////////////////////////////////// -->
+
+<div *ngIf="isReport" >
+  <ion-fab vertical="bottom" horizontal="start" >
+    <ion-fab-list side="end">
+      <ion-fab-button><ion-icon name="bus"></ion-icon></ion-fab-button>
+    </ion-fab-list>
+  </ion-fab>
+  <ion-card>
     <ngx-datatable
     class="material"
     [rows]="rows"
@@ -43,16 +62,25 @@
     [scrollbarV]="true"
     [scrollbarH]="true"
   >
-    <ngx-datatable-column name="Order_no" [width]="100" >order no</ngx-datatable-column>
-    <ngx-datatable-column name="totel_due" [width]="100"></ngx-datatable-column>
-    <ngx-datatable-column name="Age" [width]="100"></ngx-datatable-column>
+    <ngx-datatable-column name="Order no" [width]="100" >order no</ngx-datatable-column>
+    <ngx-datatable-column name="Totel due" [width]="100"></ngx-datatable-column>
+    <ngx-datatable-column name="Customer Id" [width]="150"></ngx-datatable-column>
     <ngx-datatable-column name="Date" [width]="100" ></ngx-datatable-column>
-    <ngx-datatable-column name="State" [width]="300" ></ngx-datatable-column>
+    <ngx-datatable-column name="Payment Status" [width]="300" ></ngx-datatable-column>
   </ngx-datatable>
-  </div>
+</ion-card>
 
-  <!--Refresh -->
-  <ion-refresher slot="fixed" (ionRefresh)="refresh($event)">
-    <ion-refresher-content></ion-refresher-content>
-  </ion-refresher>
+<ion-fab vertical="bottom" horizontal="end" slot="fixed">
+  <ion-fab-button (click)="changeDiv(false)">
+    <ion-icon name="funnel"></ion-icon>
+  </ion-fab-button>
+</ion-fab>
+</div>
+<!-- ////////////////////////////////////////////////////filter div end////////////////////////////////////////////// -->
+
+ <!--Refresh -->
+ <ion-refresher slot="fixed" (ionRefresh)="refresh($event)">
+  <ion-refresher-content></ion-refresher-content>
+</ion-refresher>
+
 </ion-content>

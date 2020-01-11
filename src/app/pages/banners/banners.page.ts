@@ -76,13 +76,15 @@ export class BannersPage implements OnInit {
         handler: () => {
           this.deleteBanner(banner);
         }
-      }, {
-        text: 'Edit',
-        icon: 'create',
-        handler: () => {
-          this.router.navigate(['/', 'create-banner', banner.id]);
-        }
-      }, {
+      },
+      // {
+      //   text: 'Edit',
+      //   icon: 'create',
+      //   handler: () => {
+      //     this.router.navigate(['/', 'create-banner', banner.id]);
+      //   }
+      // },
+      {
         text: 'Cancel',
         icon: 'close',
         role: 'cancel',

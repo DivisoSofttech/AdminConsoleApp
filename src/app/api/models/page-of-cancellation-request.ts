@@ -1,8 +1,8 @@
 /* tslint:disable */
-import { OrderMaster } from './order-master';
+import { CancellationRequest } from './cancellation-request';
 import { Sort } from './sort';
-export interface PageOfOrderMaster {
-  content?: Array<OrderMaster>;
+export interface PageOfCancellationRequest {
+  content?: Array<CancellationRequest>;
   empty?: boolean;
   first?: boolean;
   last?: boolean;

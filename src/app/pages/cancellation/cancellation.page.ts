@@ -1,3 +1,7 @@
+import { CancellationRequestService } from './../../services/cancellation-request.service';
+import { CancellationRequestComponent } from './../../components/cancellation-request/cancellation-request.component';
+import { QueryResourceService } from 'src/app/api/services';
+import { CancellationRequestDTO } from './../../api/models/cancellation-request-dto';
 import { Router } from '@angular/router';
 import { OderSearchPopoverComponent } from './../../components/oder-search-popover/oder-search-popover.component';
 import { PopoverController } from '@ionic/angular';
@@ -10,10 +14,35 @@ import { url } from 'inspector';
   styleUrls: ['./cancellation.page.scss'],
 })
 export class CancellationPage implements OnInit {
-
-  constructor(private popoverController: PopoverController, private router: Router) { }
+  isCompleted=false;
+  
+  constructor(private popoverController: PopoverController,
+     private router: Router, private queryResourceService: QueryResourceService,
+     public cancellationRequestService:CancellationRequestService) { }
 
   ngOnInit() {
+
+    this.queryResourceService.findCancellationRequestByStatusUsingGET({statusName:'accepted'}).subscribe(
+      res => {
+          console.log('completed request ', res);
+          this.cancellationRequestService.completedRequestDTOs = res.content;
+      },
+      err => {
+
+      }
+    );
+
+    this.queryResourceService.findCancellationRequestByStatusUsingGET({statusName:'requested'}).subscribe(
+      res => {
+          console.log('cancellation request ', res);
+          this.cancellationRequestService.cancellationRequestDTOs = res.content;
+      },
+      err => {
+
+      }
+    );
+
+
   }
 
 
@@ -38,4 +67,15 @@ export class CancellationPage implements OnInit {
 
   }
 
+ segmentChanged(ev) {
+
+    if (ev.detail.value === 'completed') {
+      this.isCompleted = true;
+     } else {
+      this.isCompleted = false;
+     }
+
+  }
+
+ 
 }
