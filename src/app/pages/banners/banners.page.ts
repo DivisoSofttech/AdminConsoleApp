@@ -36,6 +36,8 @@ export class BannersPage implements OnInit {
         this.banners = response;
         loader.dismiss();
         this.refreshEvent.event.complete();
+      },err => {
+        loader.dismiss();
       });
     });
   }
