@@ -1,3 +1,4 @@
+import { Store } from './../../api/models/store';
 import { Util } from 'src/app/services/util';
 import { QueryResourceService } from 'src/app/api/services';
 import { Component, OnInit } from '@angular/core';
@@ -17,15 +18,15 @@ export class ReportsPage implements OnInit {
   constructor(private queryResourceService: QueryResourceService
     ,         private datePipe: DatePipe,
               private util: Util
-    ) {
+    ) {}
 
-  }
+store:Store=null;
+ 
   isReport: Boolean = false;
   reportType = 'orders';
-  storeSearchTerm= '';
+  storeSearchTerm='';
   fromDate: string = null;
   toDate: string = null;
-  storeId: string = null;
   paymenttype: string;
   deliveryType: string;
   stores=[]
@@ -68,7 +69,7 @@ applyFilter() {
   console.log('from collection', this.deliveryType);
 
   // tslint:disable-next-line: max-line-length
-  this.queryResourceService.getOrdersByFilterUsingGET({fromDate: this.fromDate, toDate: this.toDate, storeId: this.storeId, paymentStatus: this.paymenttype,
+  this.queryResourceService.getOrdersByFilterUsingGET({fromDate: this.fromDate, toDate: this.toDate, storeId: this.store.storeUniqueId, paymentStatus: this.paymenttype,
   methodOfOrder: this.deliveryType}).subscribe(res => {
     console.log('got ordermasters ', res);
     if (res == null) {this.util.presentAlert('Alert','the requested filter option is currently not availabe') }
@@ -91,7 +92,6 @@ applyFilter() {
 searchStore(){
 
   this.isStoreSearch=true;
-
   this.queryResourceService.findStoreBySearchTermUsingGET({name:this.storeSearchTerm}).subscribe(
     res=>{
       this.stores=res.content;
@@ -99,6 +99,16 @@ searchStore(){
   )
 
 
+}
+
+selectStore(store:Store){
+  console.log('selected store is ',store);
+  this.isStoreSearch=false;
+  this.store=store;
+
+}
+removeStore(){
+  this.store=null;
 }
 
 }

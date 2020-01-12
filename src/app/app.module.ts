@@ -1,3 +1,4 @@
+import { ImageCropperModule } from 'ngx-image-cropper';
 import { Util } from './services/util';
 import { ConfigsModule } from './configs/configs.module';
 import { KeycloakAdminConfig } from './configs/keycloak.admin.config';
@@ -34,7 +35,8 @@ import { DatePipe } from '@angular/common';
       name: '__mydb',
       driverOrder: ['indexeddb', 'sqlite', 'websql']
     }),
-    OAuthModule.forRoot()
+    OAuthModule.forRoot(),
+    ImageCropperModule
   ],
   providers: [
     StatusBar,

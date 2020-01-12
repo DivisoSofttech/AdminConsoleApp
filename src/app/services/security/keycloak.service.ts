@@ -34,35 +34,32 @@ export class KeycloakService {
       user.attributes = map;
       user.enabled = true;
 
-      console.log('log 1');
-
       this.keycloakAdmin.users.create(user)
-        .then( async res => {
-          await this.keycloakAdmin.roles.findOneByName({name:'administator',realm:'graeshoppe'}).then(
-            async roles=>{
-              await this.keycloakAdmin.users.addRealmRoleMappings(
-                {id:res.id,
-                realm:'graeshoppe',
+        .then(async res => {
+          await this.keycloakAdmin.roles
+            .findOneByName({
+              name: 'administator',
+              realm: 'graeshoppe'
+            })
+            .then(async role => {
+              await this.keycloakAdmin.users.addRealmRoleMappings({
+                id: res.id,
+                realm: 'graeshoppe',
                 roles: [
                   {
-                    id: roles.id,
-                    name: roles.name
+                    id: role.id,
+                    name: role.name
                   }
                 ]
-                }
-              );
-            }
-          );
+              });
+            });
           success(res);
-        },error=>{err(error)})
+        })
         .catch(e => {
           err(e);
         });
-    },err=>{
-      console.log('error ',err);
     }
     );
-
   }
 
   async isAuthenticated(): Promise<boolean> {

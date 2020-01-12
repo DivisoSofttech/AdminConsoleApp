@@ -1,9 +1,9 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-buttons  slot="start">
+  <ion-toolbar color="primary">
+    <ion-buttons>
       <ion-menu-button></ion-menu-button>
-    </ion-buttons>
     <ion-title>Reports</ion-title>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -45,17 +45,21 @@
     </ion-grid>
   
     <ion-item>
-    <ion-input placeholder="Enter shop id for shop based orders *" [(ngModel)]="storeId" required="true" >
-      <!-- <ion-input placeholder="Enter shop id for shop based orders *" [(ngModel)]="storeSearchTerm" required="true" debounce=250 (ionChange)="searchStore()"> -->
-
-    </ion-input>
+    <!-- <ion-input placeholder="Enter shop id for shop based orders *" [(ngModel)]="storeId" required="true" > -->
+      <ion-input *ngIf="store==null"  placeholder="Enter shop id for shop based orders *" [(ngModel)]="storeSearchTerm" required="true" debounce=250 (ionChange)="searchStore()">
+      </ion-input>
+        <ion-chip *ngIf="store!=null" >
+        <ion-label>{{store.name}}</ion-label>
+        <ion-icon name="close" (click)="removeStore()"></ion-icon>
+      </ion-chip>
+    
     </ion-item>
-    <!-- <div *ngIf="isStoreSearch" >
-      <ion-item *ngFor="let store of stores" >
+    <div *ngIf="isStoreSearch"  >
+      <ion-item *ngFor="let store of stores" (click)="selectStore( store)" >
         {{store.name}}
       </ion-item>
 
-    </div> -->
+    </div>
   </ion-card>
   <div *ngIf="reportType==='orders'">
     <ion-card>
@@ -141,12 +145,15 @@
 </div>
 <!-- ////////////////////////////////////////////////////filter div end////////////////////////////////////////////// -->
 
-
+ <!--Refresh -->
+ <ion-refresher slot="fixed" (ionRefresh)="refresh($event)">
+  <ion-refresher-content></ion-refresher-content>
+</ion-refresher>
 
 </ion-content>
 <ion-footer  >
-<ion-button *ngIf="!isReport && storeId!==null && fromDate!==null && toDate!==null" expand="full" (click)="applyFilter()" > Apply Filter</ion-button>
-<ion-button *ngIf="!isReport && storeId===null || fromDate===null || toDate===null" expand="full" disabled="true" > Apply Filter</ion-button>
+<ion-button *ngIf="!isReport && store!==null && fromDate!==null && toDate!==null" expand="full" (click)="applyFilter()" > Apply Filter</ion-button>
+<ion-button *ngIf="!isReport && store===null || fromDate===null || toDate===null" expand="full" disabled="true" > Apply Filter</ion-button>
 <ion-fab vertical="bottom" horizontal="end" *ngIf="isReport">
   <ion-fab-button (click)="changeDiv(false)">
     <ion-icon name="funnel"></ion-icon>

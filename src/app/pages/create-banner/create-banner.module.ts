@@ -1,3 +1,4 @@
+import { ImageSelectorComponent } from './../../components/image-selector/image-selector.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -27,6 +28,6 @@ const routes: Routes = [
     ComponentsModule
   ],
   declarations: [CreateBannerPage],
-  entryComponents: [SearchResultComponent]
+  entryComponents: [SearchResultComponent, ImageSelectorComponent]
 })
 export class CreateBannerPageModule {}
