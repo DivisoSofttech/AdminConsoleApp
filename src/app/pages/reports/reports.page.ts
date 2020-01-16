@@ -1,5 +1,9 @@
+import { Store } from './../../api/models/store';
+import { Util } from 'src/app/services/util';
+import { QueryResourceService } from 'src/app/api/services';
 import { Component, OnInit } from '@angular/core';
 import { ColumnMode } from '@swimlane/ngx-datatable';
+import { DatePipe, NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-reports',
@@ -8,21 +12,31 @@ import { ColumnMode } from '@swimlane/ngx-datatable';
 })
 export class ReportsPage implements OnInit {
 
-  isReport = true;
 
-  constructor() {
+  totalAmount: number;
 
-  }
+  constructor(private queryResourceService: QueryResourceService
+    ,         private datePipe: DatePipe,
+              private util: Util
+    ) {}
+
+store:Store=null;
+ 
+  isReport: Boolean = false;
+  reportType = 'orders';
+  storeSearchTerm='';
+  fromDate: string = null;
+  toDate: string = null;
+  paymenttype: string;
+  deliveryType: string;
+  stores=[]
   // tslint:disable-next-line: member-ordering
-  rows = [
-    { orderNo: '123', date: 'jgiuhiuhih', totelDue: '12' },
-    { orderNo: '234', date: '23-23-23', totelDue: 'KFC' },
-    { orderNo: '211', date: '34-23-45', totelDue: 'Burger King' },
-  ];
+
+  rows = [];
   columns = [
-    { name: 'Order no' },
-    { name: 'Date' },
-    { name: 'totel due' },
+    { name: 'Order number' },
+    { name: 'Order place at' },
+    { name: 'total due' },
     { name: 'Customer id' },
     { name: 'Payment status' }
   ];
@@ -30,20 +44,71 @@ export class ReportsPage implements OnInit {
   rawEvent: any;
   contextmenuRow: any;
   contextmenuColumn: any;
-
-  ColumnMode = ColumnMode;
-
+  columnMode = ColumnMode;
+  isStoreSearch:boolean=false;
 
   ngOnInit() {
-
   }
 
-  refresh(event) {
-    event.target.complete();
-  }
-changeDiv(isReport: boolean) {
+changeDiv(isReport: Boolean) {
   this.isReport = isReport;
+  console.log('report type is ', this.reportType);
+}
 
+applyFilter() {
+
+
+
+  this.fromDate = this.fromDate.split('T', 1)[0];
+  this.toDate = this.toDate.split('T', 1)[0];
+  console.log('from date', this.fromDate);
+  console.log('to date', this.toDate);
+
+  console.log('payment ', this.paymenttype);
+
+  console.log('from collection', this.deliveryType);
+
+  // tslint:disable-next-line: max-line-length
+  this.queryResourceService.getOrdersByFilterUsingGET({fromDate: this.fromDate, toDate: this.toDate, storeId: this.store.storeUniqueId, paymentStatus: this.paymenttype,
+  methodOfOrder: this.deliveryType}).subscribe(res => {
+    console.log('got ordermasters ', res);
+    if (res == null) {this.util.presentAlert('Alert','the requested filter option is currently not availabe') }
+    this.rows = res;
+    res.forEach(row => {
+      this.totalAmount += row.totalDue;
+      row.orderPlaceAt = this.datePipe.transform(new Date(row.orderPlaceAt), 'dd/MM/yyyy');
+
+    });
+    console.log('got ordermasters ', res);
+
+  }, err => {
+    console.log('error ordermasters ', err);
+
+  });
+
+  this.changeDiv(true);
+}
+
+searchStore(){
+
+  this.isStoreSearch=true;
+  this.queryResourceService.findStoreBySearchTermUsingGET({name:this.storeSearchTerm}).subscribe(
+    res=>{
+      this.stores=res.content;
+    }
+  )
+
+
+}
+
+selectStore(store:Store){
+  console.log('selected store is ',store);
+  this.isStoreSearch=false;
+  this.store=store;
+
+}
+removeStore(){
+  this.store=null;
 }
 
 }

@@ -19,6 +19,7 @@ import { IonicStorageModule } from '@ionic/storage';
 import { Camera } from '@ionic-native/camera/ngx';
 import { SearchResultComponent } from './components/search-result/search-result.component';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+import { DatePipe } from '@angular/common';
 
 @NgModule({
   declarations: [AppComponent],
@@ -40,6 +41,7 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable';
   providers: [
     StatusBar,
     SplashScreen,
+    DatePipe,
     Util,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     HttpClient,

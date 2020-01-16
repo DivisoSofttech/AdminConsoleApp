@@ -38,7 +38,6 @@ import { ImageCropperModule } from 'ngx-img-cropper';
     OrderProductCardComponent,
     ImageSelectorComponent
   ],
-  // schemas: [CUSTOM_ELEMENTS_SCHEMA],
 
 })
 export class ComponentsModule { }

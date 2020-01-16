@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { LoadingController, ToastController, NavController } from '@ionic/angular';
+import { LoadingController, ToastController, NavController, PopoverController, AlertController } from '@ionic/angular';
 import { Router } from '@angular/router';
 
 @Injectable()
@@ -9,6 +9,7 @@ export class Util {
         private loadingController: LoadingController,
         private toastController: ToastController,
         private navController: NavController,
+        private alertController:AlertController
     ) {}
 
     async createLoader() {
@@ -44,5 +45,15 @@ export class Util {
     navigateToLogin() {
         this.navController.navigateRoot('login');
     }
+
+    async presentAlert(header:string,message:string) {
+        const alert = await this.alertController.create({
+          header: header,
+          message: message,
+          buttons: ['OK']
+        });
+    
+        await alert.present();
+      }
 
 }
