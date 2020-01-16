@@ -19,14 +19,18 @@ import { IonicStorageModule } from '@ionic/storage';
 import { Camera } from '@ionic-native/camera/ngx';
 import { SearchResultComponent } from './components/search-result/search-result.component';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
-import { DatePipe } from '@angular/common';
-
+import { DatePipe, DecimalPipe } from '@angular/common';
+import {NgxPaginationModule} from 'ngx-pagination';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
   imports: [
     NgxDatatableModule,
+    //FormsModule      ,
+    NgxPaginationModule,
     BrowserModule,
+    ReactiveFormsModule ,
     IonicModule.forRoot(),
     AppRoutingModule,
     HttpClientModule,
@@ -40,6 +44,7 @@ import { DatePipe } from '@angular/common';
   ],
   providers: [
     StatusBar,
+    DecimalPipe,
     SplashScreen,
     DatePipe,
     Util,

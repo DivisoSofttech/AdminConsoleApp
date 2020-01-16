@@ -1,3 +1,4 @@
+import { CancellationDetailsComponent } from './../../components/cancellation-details/cancellation-details.component';
 import { ComponentsModule } from './../../components/components.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -27,6 +28,6 @@ const routes: Routes = [
     RouterModule.forChild(routes)
   ],
   declarations: [CreateCancellationPage],
-  entryComponents: [OrderViewComponent, OrderProductCardComponent,RefundProductCardComponent]
+  entryComponents: [OrderViewComponent, OrderProductCardComponent,RefundProductCardComponent,CancellationDetailsComponent]
 })
 export class CreateCancellationPageModule {}

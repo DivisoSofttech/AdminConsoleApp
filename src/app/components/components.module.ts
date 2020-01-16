@@ -10,6 +10,7 @@ import { SearchResultComponent } from './search-result/search-result.component';
 import { OrderViewComponent } from './order-view/order-view.component';
 import { OrderProductCardComponent } from './order-product-card/order-product-card.component';
 import { ImageCropperModule } from 'ngx-img-cropper';
+import { CancellationDetailsComponent } from './cancellation-details/cancellation-details.component';
 
 
 
@@ -21,7 +22,8 @@ import { ImageCropperModule } from 'ngx-img-cropper';
     CancellationRequestComponent,
     OrderViewComponent,
     OrderProductCardComponent,
-    ImageSelectorComponent
+    ImageSelectorComponent,
+    CancellationDetailsComponent
   ],
   imports: [
     CommonModule,
@@ -36,8 +38,12 @@ import { ImageCropperModule } from 'ngx-img-cropper';
     CancellationRequestComponent,
     OrderViewComponent,
     OrderProductCardComponent,
-    ImageSelectorComponent
+    ImageSelectorComponent,
+    CancellationDetailsComponent
+    
+    
   ],
+  entryComponents:[CancellationDetailsComponent]
 
 })
 export class ComponentsModule { }
