@@ -40,6 +40,7 @@ export { Sort } from './models/sort';
 export { Status } from './models/status';
 export { Store } from './models/store';
 export { StoreAddress } from './models/store-address';
+export { StoreDTO } from './models/store-dto';
 export { StoreSettings } from './models/store-settings';
 export { StoreType } from './models/store-type';
 export { Type } from './models/type';

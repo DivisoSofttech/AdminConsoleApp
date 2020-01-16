@@ -35,8 +35,10 @@ export class BannersPage implements OnInit {
         console.log('banners: ', response);
         this.banners = response;
         loader.dismiss();
-        this.refreshEvent.event.complete();
-      },err => {
+        if (this.refreshEvent) {
+          this.refreshEvent.target.complete();
+        }
+      }, err => {
         loader.dismiss();
       });
     });
@@ -77,13 +79,13 @@ export class BannersPage implements OnInit {
           this.deleteBanner(banner);
         }
       },
-      // {
-      //   text: 'Edit',
-      //   icon: 'create',
-      //   handler: () => {
-      //     this.router.navigate(['/', 'create-banner', banner.id]);
-      //   }
-      // },
+      {
+        text: 'Edit',
+        icon: 'create',
+        handler: () => {
+          this.router.navigate(['/', 'create-banner', banner.id]);
+        }
+      },
       {
         text: 'Cancel',
         icon: 'close',

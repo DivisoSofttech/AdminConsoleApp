@@ -35,14 +35,14 @@ export class BaseService {
   ) {
   }
 
-  private _rootUrl: string = 'http://dev.ci3.divisosofttech.com:8074';
+  private _rootUrl: string = '';
 
   /**
    * Returns the root url for API operations. If not set directly in this
    * service, will fallback to ApiConfiguration.rootUrl.
    */
   get rootUrl(): string {
-    return this._rootUrl ;
+    return this._rootUrl || this.config.rootUrl;
   }
 
   /**

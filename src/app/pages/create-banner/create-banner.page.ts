@@ -1,6 +1,7 @@
+import { Util } from './../../services/security/util';
 import { ImageSelectorComponent } from './../../components/image-selector/image-selector.component';
 import { Banner } from './../../api/models/banner';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { ImageService } from 'src/app/services/image.service';
 import { OrderService } from 'src/app/services/order.service';
@@ -30,28 +31,66 @@ export class CreateBannerPage implements OnInit {
               private toastController: ToastController,
               private commandService: CommandResourceService,
               private navController: NavController,
-              private activatedRoute: ActivatedRoute) { }
+              private activatedRoute: ActivatedRoute,
+              private util: Util
+             ) { }
 
   ngOnInit() {
     const id = Number(this.activatedRoute.snapshot.paramMap.get('id'));
     console.log(id);
-    this.queryService.getBannerUsingGET(id).subscribe(ban => {
-      console.log(ban);
-      this.banner = ban;
+    if (id > 0) {
+      this.util.createLoader().then(loader => {
+        loader.present();
+        this.queryService.getBannerUsingGET(id).subscribe(ban => {
+          console.log(ban);
+          this.banner = ban;
+          this.queryService.getStoreByRegNoUsingGET(ban.storeId).subscribe(store => {
+            this.orderService.selectedStore = store;
+            loader.dismiss();
+          });
+        });
+      });
+    }
+    console.log(this.banner);
+  }
+
+  createUpdateBanner() {
+    if (this.banner.id) {
+      this.updateBanner();
+    } else {
+      this.createNewBanner();
+    }
+  }
+
+  updateBanner() {
+    console.log('update banner');
+    // this.banner.image = this.imageService.croppedImage.split(',')[1];
+    this.banner.storeId = this.orderService.selectedStore.regNo;
+    console.log('banner to be saved', this.banner);
+    this.commandService.updateBannerUsingPUT(this.banner)
+    .subscribe(response => {
+      console.log('banner successfully saved', this.banner);
+      this.presentToast();
+      this.navController.back();
+    }, err => {
+      this.navController.back();
+      console.error('error while saving banner', err);
+
     });
   }
 
   public createNewBanner(): void {
     console.log('creates new banner');
-    this.banner.image = this.imageService.croppedImage.split(',')[1];
+    // this.banner.image = this.imageService.croppedImage.split(',')[1];
     this.banner.storeId = this.orderService.selectedStore.regNo;
-    this.banner.expiryDate = this.banner.expiryDate;
     console.log('banner to be saved', this.banner);
     this.commandService.createBannerUsingPOST(this.banner)
     .subscribe(response => {
+      this.navController.back();
       console.log('banner successfully saved', this.banner);
       this.presentToast();
     }, err => {
+      this.navController.back();
       console.error('error while saving banner', err);
 
     });
