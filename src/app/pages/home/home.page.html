@@ -4,19 +4,21 @@
       <ion-menu-button></ion-menu-button>
       <ion-title>Dashboard</ion-title>
     </ion-buttons>
-    <ion-buttons *ngIf="!searchStatus" slot="end">
-      <ion-button (click)="isSearching()">
-        <ion-icon name="search" slot="icon-only"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-    <ion-searchbar #searchBar class="animated duration" [ngClass]="searchStatus?'slideInRight':'slideOutRight' "
-      showCancelButton="focus" debounce="500" cancel-button-icon='md-arrow-back' cancel-button-text='Cancel'
-      placeholder="search stores" #event (ionCancel)="isNotSearching()" (ionClear)="isNotSearching()"
-      (ionChange)="loadResults()" [(ngModel)]="orderService.searchTerm"></ion-searchbar>
+    <ion-searchbar placeholder="Enter store name" #searchBar class="animated duration" [ngClass]="searchStatus?'slideInRight':'slideOutRight' "
+    showCancelButton="focus" debounce="500" cancel-button-icon='md-arrow-back' cancel-button-text='Cancel'
+    placeholder="search stores" #event (ionCancel)="isNotSearching()" (ionClear)="isNotSearching()"
+    (ionChange)="loadResults()" [(ngModel)]="orderService.searchTerm"></ion-searchbar>
+   
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+
+  <ion-searchbar *ngIf="!searchStatus" (click)="isSearching()" placeholder="Enter store name">
+   
+  </ion-searchbar>
+
+  
 
 <!-- 
 

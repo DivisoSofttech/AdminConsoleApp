@@ -1,6 +1,8 @@
+import { CancellationDetailsComponent } from './../../components/cancellation-details/cancellation-details.component';
+import { DecimalPipe } from '@angular/common';
 import { CancellationRequestService } from './../../services/cancellation-request.service';
 import { url } from 'inspector';
-import { NavController, ToastController } from '@ionic/angular';
+import { NavController, ToastController, ModalController } from '@ionic/angular';
 import { Auxilary } from './../../customModels/auxilary';
 import { CancellationRequestDTO } from './../../api/models/cancellation-request-dto';
 import { Component, OnInit, Input } from '@angular/core';
@@ -23,7 +25,9 @@ export class CreateCancellationPage implements OnInit {
               private commandResource: CommandResourceService,
               private util: Util,
               private navCtrl: NavController,
-              private cancellationRequestService: CancellationRequestService) { }
+              private cancellationRequestService: CancellationRequestService,
+              private decimalPipe:DecimalPipe,
+              private modalController:ModalController) { }
   orderId: string;
 
 
@@ -141,7 +145,8 @@ export class CreateCancellationPage implements OnInit {
     }
 
     );
-    // console.log('refund Ammount ', this.cancellationRequestDTO.amount);
+    this.cancellationRequestDTO.amount=Number.parseFloat(this.decimalPipe.transform(this.cancellationRequestDTO.amount,'1.2-2'));
+    //  console.log('refund Ammount piped', this.cancellationRequestDTO.amount);
 
   }
 
@@ -166,7 +171,9 @@ export class CreateCancellationPage implements OnInit {
 
          console.log('created cancellation request ', res1);
          this.saveCancelledOrderLines(res1.id);
-         this.cancellationRequestService.cancellationRequestDTOs.push(res1);
+        // this.cancellationRequestService.cancellationRequestDTOs.push(res1);
+         this.cancellationRequestService.cancellationRequestDTOs=[res1].concat(this.cancellationRequestService.cancellationRequestDTOs);
+
          loader.dismiss();
 
          this.route.navigateByUrl('/cancellation');

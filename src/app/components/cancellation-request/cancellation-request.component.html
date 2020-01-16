@@ -5,26 +5,36 @@
    
      <!-- <ion-datetime id="dynamicDisabled" displayFormat="MM DD YY" disabled value="1994-12-15" slot="end"></ion-datetime> -->
     </ion-item>
-  </ion-card-header>
+    </ion-card-header>
   <ion-card-content>
 <ion-item lines="full">
   <ion-text slot="start">Date  </ion-text>
   <ion-text slot="end"> {{cancellation.date | date}}</ion-text>
 </ion-item>
-<ion-item lines="full">
-  <ion-text slot="start">Customer Mail  </ion-text>
-  <ion-text slot="end"> {{cancellation.customerEmail}}</ion-text>
-</ion-item>
 
 <ion-item lines="full">
-    <ion-text slot="start">Refund Ammount</ion-text>
+  <ion-text slot="start">Customer phone  </ion-text>
+  <ion-text slot="end"> {{cancellation.customerPhone}}</ion-text>
+</ion-item>
+
+
+<ion-item lines="full">
+    <ion-text slot="start">Refund Amount</ion-text>
     <ion-text slot="end">{{cancellation.amount |  number: "1.2-2"}}</ion-text>
 
   </ion-item>
+  <ion-item lines="full">
+    <ion-text slot="start">Transaction id</ion-text>
+    <ion-text slot="end">{{cancellation.paymentId }}</ion-text>
+
+  </ion-item>
+
   <br>
-  <div *ngIf="cancellation.status=='requested'" >
-      <ion-button color="success" (click)="refund()">Refund</ion-button>
-    </div>
+  <ion-item lines="none">
+      <ion-button slot="start" *ngIf="cancellation.status=='requested'"  color="success" (click)="refund()">Refund</ion-button>
+       <ion-button slot="end" (click)="moreInfo()"  color="success">More info</ion-button> 
+
+  </ion-item>
   </ion-card-content>
   
 <br>

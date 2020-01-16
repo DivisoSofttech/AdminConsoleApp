@@ -1,0 +1,80 @@
+<ion-header>
+  <ion-tab-bar>
+    <ion-title>Cancellation details</ion-title>
+    <ion-buttons>
+      <ion-button (click)="dismiss()">
+        <ion-icon name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-tab-bar>
+</ion-header>
+<ion-content>
+<ion-card>
+  
+    <ion-card-header color="light">
+      <ion-item lines="none" color="light">
+       <ion-text slot="start">OrderId : {{cancellation.orderId}}</ion-text> 
+     
+       <!-- <ion-datetime id="dynamicDisabled" displayFormat="MM DD YY" disabled value="1994-12-15" slot="end"></ion-datetime> -->
+      </ion-item>
+      </ion-card-header>
+    <ion-card-content>
+  <ion-item lines="full">
+    <ion-text slot="start">Date  </ion-text>
+    <ion-text slot="end"> {{cancellation.date | date}}</ion-text>
+  </ion-item>
+  
+  <ion-item lines="full">
+    <ion-text slot="start">Customer phone  </ion-text>
+    <ion-text slot="end"> {{cancellation.customerPhone}}</ion-text>
+  </ion-item>
+  
+  
+  <ion-item lines="full">
+      <ion-text slot="start">Refund Amount</ion-text>
+      <ion-text slot="end">{{cancellation.amount |  number: "1.2-2"}}</ion-text>
+  
+    </ion-item>
+    <ion-item lines="full">
+      <ion-text slot="start">Transaction id</ion-text>
+      <ion-text slot="end">{{cancellation.paymentId }}</ion-text>
+  
+    </ion-item>
+    </ion-card-content>
+    <br>
+    <br>
+    <ion-item  color="success">
+      <ion-label text-start class="wrap">
+         <h2>Dhosha</h2>
+         <h3>
+            &#8364;12             
+        </h3>
+      </ion-label>
+      <ion-grid slot="end" class="borderFull">
+        <ion-row>
+          <ion-col text-center>
+            <ion-text>
+              10
+            </ion-text>
+          </ion-col>
+          <ion-col text-center>
+            <ion-text>
+              X
+            </ion-text>
+          </ion-col>
+          <ion-col text-center >
+             2
+          </ion-col>
+          <ion-col text-center >
+            =
+         </ion-col>
+          <ion-col text-center >
+            20
+         </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+</ion-card>
+</ion-content>
+
+
