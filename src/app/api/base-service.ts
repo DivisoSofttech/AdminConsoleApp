@@ -35,7 +35,7 @@ export class BaseService {
   ) {
   }
 
-  private _rootUrl: string = 'https://dev.ci3.divisosofttech.com:8074';
+  private _rootUrl: string = 'http://dev.ci3.divisosofttech.com:8074';
 
   /**
    * Returns the root url for API operations. If not set directly in this
