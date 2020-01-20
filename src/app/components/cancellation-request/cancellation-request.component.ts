@@ -3,7 +3,7 @@ import { Status } from './../../api/models/status';
 import { RefundDetailsDTO } from './../../api/models/refund-details-dto';
 import { CommandResourceService } from 'src/app/api/services';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { CancellationRequestDTO } from 'src/app/api/models';
+import { CancellationRequestDTO, CancellationRequest } from 'src/app/api/models';
 import { CancellationRequestService } from 'src/app/services/cancellation-request.service';
 import { Util } from 'src/app/services/util';
 import { CancellationDetailsComponent } from '../cancellation-details/cancellation-details.component';
@@ -15,13 +15,13 @@ import { CancellationDetailsComponent } from '../cancellation-details/cancellati
 })
 export class CancellationRequestComponent implements OnInit {
 
-  @Input() cancellation: CancellationRequestDTO;
+  @Input() cancellation: CancellationRequest;
   refundDto: RefundDetailsDTO = {};
 
   constructor(private commandResource: CommandResourceService,
               public cancellationRequestService: CancellationRequestService,
               private util: Util,
-              private modalController:ModalController) {
+              private modalController: ModalController) {
 
    }
 
@@ -38,13 +38,14 @@ export class CancellationRequestComponent implements OnInit {
               console.log('created refund detials ', res);
               if (res.status === 'completed') {
               this.cancellation.status = 'accepted';
-              this.cancellationRequestService.completedRequestDTOs.push(this.cancellation);
+              this.cancellation.refundDetails = res;
+              this.cancellationRequestService.completedRequestDTOs = [this.cancellation].concat(this.cancellationRequestService.completedRequestDTOs);
               // console.log(' element completed ', this.cancellation);
               // tslint:disable-next-line:max-line-length
               this.cancellationRequestService.cancellationRequestDTOs.splice(this.cancellationRequestService.cancellationRequestDTOs.indexOf(this.cancellation), 1 );
 
               } else {
-                this.util.presentAlert('Alert','The payment is not received at our bank account, Please try after sometime.')
+                this.util.presentAlert('Alert', 'The payment is not received at our bank account, Please try after sometime.');
               }
               loader.dismiss();
             }, err => {
@@ -55,17 +56,17 @@ export class CancellationRequestComponent implements OnInit {
 
      }
 
-     async moreInfo(){
+     async moreInfo() {
 
-      const modal= await this.modalController.create({
+      const modal = await this.modalController.create({
         component: CancellationDetailsComponent,
         componentProps: {
-          'cancellation': this.cancellation,
-          
+          cancellation: this.cancellation,
+
         }
       });
       return await modal.present();
-  
+
      }
 
 }

@@ -28,11 +28,16 @@
     <ion-text slot="end">{{cancellation.paymentId }}</ion-text>
 
   </ion-item>
+  <ion-item lines="full" *ngIf="cancellation.refundDetails!==null" >
+    <ion-text slot="start">Refund id</ion-text>
+    <ion-text slot="end">{{cancellation.refundDetails.refundId }}</ion-text>
+
+  </ion-item>
 
   <br>
   <ion-item lines="none">
       <ion-button slot="start" *ngIf="cancellation.status=='requested'"  color="success" (click)="refund()">Refund</ion-button>
-       <ion-button slot="end" (click)="moreInfo()"  color="success">More info</ion-button> 
+        <ion-button slot="end" (click)="moreInfo()"  color="success">More info</ion-button>  
 
   </ion-item>
   </ion-card-content>

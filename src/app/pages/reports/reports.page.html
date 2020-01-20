@@ -26,7 +26,6 @@
     </ion-card>
     <ion-card>
 
-
       <ion-item *ngIf="store.id==null">
         <ion-input placeholder="Enter shop name " [(ngModel)]="storeSearchTerm" required="true"
           debounce=250 (ionChange)="searchStore()">
@@ -49,7 +48,7 @@
 
       </ion-item>
 
-      <form no-padding no-margin [formGroup]="ordersForm" (ngSubmit)="submit()">
+      <form no-padding no-margin [formGroup]="ordersForm" (ngSubmit)="submit()" *ngIf="reportType==='orders'">
 
         <ion-item lines="full" class="date">
           <ion-label position="floating">From *</ion-label>
@@ -68,6 +67,22 @@
        
       </form>
 
+      <form no-padding no-margin [formGroup]="orderSummeryForm" (ngSubmit)="submit()" *ngIf="reportType!=='orders'" >
+
+        <ion-item lines="full" class="date">
+          <ion-label position="floating">Date *</ion-label>
+          <ion-datetime displayFormat="DD-MMM-YYYY"  formControlName="date"></ion-datetime>
+        </ion-item>
+
+
+
+
+
+        
+        
+       
+      </form>
+
 
 
 
@@ -79,7 +94,7 @@
           <ion-select placeholder=" optional" [(ngModel)]="paymenttype">
             <ion-select-option value="order paid">Order by card</ion-select-option>
             <ion-select-option value="order not paid">Order by cash</ion-select-option>
-            <!-- <ion-select-option value="all">All</ion-select-option> -->
+            <ion-select-option value="all">All</ion-select-option> 
 
           </ion-select>
         </ion-item>
@@ -129,6 +144,15 @@
         <ion-text *ngFor="let page of pages | paginate: { itemsPerPage: 1, currentPage: p }"></ion-text>
         <pagination-controls (pageChange)="p = $event" (pageChange)="nextPage($event)"></pagination-controls>
       </ion-card>
+     
+     
+
+      <ion-fab vertical="bottom" horizontal="start" slot="fixed" >
+        <ion-fab-button (click)="getOrdersReportPdf()" color="success">
+          <ion-icon name="save"></ion-icon>
+        </ion-fab-button>
+      </ion-fab>
+
     </div>
 
     <div *ngIf="reportType!=='orders'">
@@ -144,6 +168,13 @@
 
 
       </ion-card>
+    
+
+      <ion-fab vertical="bottom" horizontal="start" slot="fixed">
+        <ion-fab-button (click)="getOrderSummaryPdf()" color="success">
+          <ion-icon name="save"></ion-icon>
+        </ion-fab-button>
+      </ion-fab>
     </div>
 
   </div>
@@ -155,7 +186,9 @@
 <ion-footer>
   
 
-  <ion-button *ngIf="!isReport"  [disabled]="! (ordersForm.valid)" type="submit" expand="block"
+  <ion-button *ngIf="!isReport && reportType==='orders'"  [disabled]="(! (ordersForm.valid)) " type="submit" expand="block"
+   (click)="submit()"> Apply Filter</ion-button>
+   <ion-button *ngIf="!isReport  && reportType!=='orders'"  [disabled]="(! (orderSummeryForm.valid)) " type="submit" expand="block"
    (click)="submit()"> Apply Filter</ion-button>
   
   <ion-fab vertical="bottom" horizontal="end" *ngIf="isReport">
