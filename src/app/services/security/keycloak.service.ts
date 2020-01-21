@@ -71,9 +71,18 @@ export class KeycloakService {
       credentials.username,
       credentials.password,
       new HttpHeaders()
-    ).then(data => {
+    ).then((data: any) => {
       this.storage.set('user' , data);
-      success();
+      this.checkUserInRole(data.sub)
+          .then(async hasRoleCustomer => {
+            if (hasRoleCustomer) {
+              success();
+            } else {
+              await this.oauthService.logOut();
+              err();
+            }
+          })
+          .catch(() => err());
     }).catch(e => {
       err();
     });
@@ -128,5 +137,34 @@ export class KeycloakService {
     this.oauthService.logOut();
     this.storage.clear();
     this.util.navigateToLogin();
+  }
+
+  async checkUserInRole(user): Promise<boolean> {
+    return await new Promise<boolean>(async (resolve, reject) => {
+      await this.keycloakConfig
+        .refreshClient()
+        .then(async () => {
+          await this.keycloakConfig.kcAdminClient.users
+            .listRoleMappings({
+              id: user,
+              realm: 'graeshoppe'
+            })
+            .then(async roles => {
+              const rolesAvailable = await roles.realmMappings.filter(
+                mapping => {
+                  if (mapping.name === 'administator') {
+                    return true;
+                  }
+                }
+              );
+              if (rolesAvailable.length === 1) {
+                resolve(true);
+              } else {
+                resolve(false);
+              }
+            });
+        })
+        .catch(err => reject(false));
+    });
   }
 }

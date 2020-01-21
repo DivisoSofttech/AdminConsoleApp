@@ -40,10 +40,10 @@ import { CancellationDetailsComponent } from './cancellation-details/cancellatio
     OrderProductCardComponent,
     ImageSelectorComponent,
     CancellationDetailsComponent
-    
-    
   ],
-  entryComponents:[CancellationDetailsComponent]
+  entryComponents: [
+    CancellationDetailsComponent
+  ]
 
 })
 export class ComponentsModule { }

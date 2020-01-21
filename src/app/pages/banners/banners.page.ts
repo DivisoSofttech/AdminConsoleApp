@@ -1,3 +1,4 @@
+import { ImageService } from 'src/app/services/image.service';
 import { Util } from './../../services/util';
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
@@ -23,11 +24,21 @@ export class BannersPage implements OnInit {
     private actionSheetController: ActionSheetController,
     private modalController: ModalController,
     private router: Router,
-    private util: Util
+    private util: Util,
+    public imageService: ImageService
   ) { }
 
 
   ngOnInit() {
+    this.imageService.banner.subscribe(banner => {
+      console.log(banner);
+      if (this.banners) {
+        this.banners = this.banners.filter(b => b.id !== banner.id);
+      }
+      if (banner) {
+        this.banners.push(banner);
+      }
+    });
     this.util.createLoader().then(loader => {
       loader.present();
       this.queryService.getAllBannersUsingGET({page: this.pageNumber})
@@ -35,8 +46,10 @@ export class BannersPage implements OnInit {
         console.log('banners: ', response);
         this.banners = response;
         loader.dismiss();
-        this.refreshEvent.event.complete();
-      },err => {
+        if (this.refreshEvent) {
+          this.refreshEvent.target.complete();
+        }
+      }, err => {
         loader.dismiss();
       });
     });
@@ -77,13 +90,13 @@ export class BannersPage implements OnInit {
           this.deleteBanner(banner);
         }
       },
-      // {
-      //   text: 'Edit',
-      //   icon: 'create',
-      //   handler: () => {
-      //     this.router.navigate(['/', 'create-banner', banner.id]);
-      //   }
-      // },
+      {
+        text: 'Edit',
+        icon: 'create',
+        handler: () => {
+          this.router.navigate(['/', 'create-banner', banner.id]);
+        }
+      },
       {
         text: 'Cancel',
         icon: 'close',

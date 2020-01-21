@@ -1,9 +1,10 @@
 <ion-header>
   <ion-toolbar color='primary'>
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="home"></ion-back-button>
+      <ion-back-button defaultHref="banners"></ion-back-button>
     </ion-buttons>
-    <ion-title>create-banner</ion-title>
+    <ion-title *ngIf="banner.id">Update banner</ion-title>
+    <ion-title *ngIf="!banner.id">Create-banner</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -64,9 +65,12 @@
           <ion-label position="floating">Price</ion-label>
           <ion-input type="number" color="primary" [(ngModel)]="banner.cost"></ion-input>
         </ion-item>
-        <ion-item lines="none" class="submit" (click)="createNewBanner()">
-          <ion-button slot="end" size="medium">
+        <ion-item lines="none" class="submit" (click)="createUpdateBanner()">
+          <ion-button *ngIf="!banner.id" slot="end" size="medium">
             Create
+          </ion-button>
+          <ion-button *ngIf="banner.id" slot="end" size="medium">
+            Update
           </ion-button>
         </ion-item>
       </ion-col>
