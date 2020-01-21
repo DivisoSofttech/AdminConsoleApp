@@ -9,7 +9,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { QueryResourceService, CommandResourceService } from 'src/app/api/services';
 import { OrderLine } from 'src/app/api/models/order-line';
-import { AuxItem, Order, CancelledOrderLineDTO } from 'src/app/api/models';
+import { AuxItem, Order, CancelledOrderLineDTO, CancellationRequest } from 'src/app/api/models';
 import { ThrowStmt } from '@angular/compiler';
 import { Util } from 'src/app/services/util';
 
@@ -26,8 +26,8 @@ export class CreateCancellationPage implements OnInit {
               private util: Util,
               private navCtrl: NavController,
               private cancellationRequestService: CancellationRequestService,
-              private decimalPipe:DecimalPipe,
-              private modalController:ModalController) { }
+              private decimalPipe: DecimalPipe,
+              private modalController: ModalController) { }
   orderId: string;
 
 
@@ -58,19 +58,31 @@ export class CreateCancellationPage implements OnInit {
     this.query.findOrderByOrderIdUsingGET(this.orderId).subscribe(res => {
 
       this.order = res;
-      
+      if(this.order!==null){
+
       console.log('order is ', this.order);
       if (this.order.paymentMode !== 'COD') {
-      
-      this.findOrderLines();
-    
 
-      } 
+      this.findOrderLines();
+
+
+      }
+      else{
+        this.util.createToast('cant create cancellation/refund on a cash on delivery order','waring');
+        this.navCtrl.navigateBack('/cancellation');
+      }
+    }
+    else{
+      this.util.createToast('Cant find the order check the given order id ','waring');
+      this.navCtrl.navigateBack('/cancellation');
+
+    }
 
     }, err => {
       console.log('>>>>>>>>>>>>>>>>>>>', err);
     });
     console.log('order is ', this.order);
+  
 
   }
 
@@ -145,7 +157,7 @@ export class CreateCancellationPage implements OnInit {
     }
 
     );
-    this.cancellationRequestDTO.amount=Number.parseFloat(this.decimalPipe.transform(this.cancellationRequestDTO.amount,'1.2-2'));
+    this.cancellationRequestDTO.amount = Number.parseFloat(this.decimalPipe.transform(this.cancellationRequestDTO.amount, '1.2-2'));
     //  console.log('refund Ammount piped', this.cancellationRequestDTO.amount);
 
   }
@@ -168,11 +180,16 @@ export class CreateCancellationPage implements OnInit {
       console.log('created cancellation request ', this.cancellationRequestDTO);
 
       this.commandResource.createCancellationRequestUsingPOST(this.cancellationRequestDTO).subscribe(res1 => {
-
          console.log('created cancellation request ', res1);
+         const cancellationRequest:CancellationRequest=res1;
+         cancellationRequest.refundDetails=null;
+         console.log('created cancellationRequest request ', cancellationRequest);
+
          this.saveCancelledOrderLines(res1.id);
         // this.cancellationRequestService.cancellationRequestDTOs.push(res1);
-         this.cancellationRequestService.cancellationRequestDTOs=[res1].concat(this.cancellationRequestService.cancellationRequestDTOs);
+         // tslint:disable-next-line:max-line-length
+         this.cancellationRequestService.cancellationRequestDTOs = [cancellationRequest].concat(this.cancellationRequestService.cancellationRequestDTOs);
+         console.log('created cancellation requests ##### ',  this.cancellationRequestService.cancellationRequestDTOs);
 
          loader.dismiss();
 

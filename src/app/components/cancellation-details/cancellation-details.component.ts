@@ -25,6 +25,10 @@ cancelledAuxilaryOrderLines: CancelledAuxilaryOrderLine[] = [];
 this.queryResourceService.findCancellationOrderLinesAndCancelledAuxilaryOrderLinesByIdUsingGET(this.cancellation.id).subscribe(
   res=>{
       console.log(' got orderlines ',res);
+      this.cancelledOrderLines=res.cancelledOrderLines;
+      this.cancelledAuxilaryOrderLines=res.cancelledAuxilaryOrderLines;
+
+
   },
   err=>{
     console.log(' got orderlines ',err);

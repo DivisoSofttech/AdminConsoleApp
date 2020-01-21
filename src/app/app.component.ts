@@ -26,24 +26,20 @@ export class AppComponent {
       icon: 'document'
     },
     {
+      title: 'Cancellation',
+      url: '/cancellation',
+      icon: 'close'
+    }
+    ,
+    {
       title: 'Offers',
       url: '/offers',
       icon: 'gift'
     },
     {
-      title: 'Users',
-      url: '/users',
-      icon: 'people'
-    },
-    {
       title: 'Banners',
       url: '/banners',
       icon: 'albums'
-    },
-    {
-      title: 'Cancellation',
-      url: '/cancellation',
-      icon: 'close'
     }
   ];
 

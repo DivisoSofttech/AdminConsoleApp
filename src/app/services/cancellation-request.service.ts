@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { CancellationRequestDTO } from '../api/models';
+import { CancellationRequestDTO, CancellationRequest } from '../api/models';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CancellationRequestService {
 
-  cancellationRequestDTOs: CancellationRequestDTO[] = [];
-  completedRequestDTOs: CancellationRequestDTO[] = [];
+  cancellationRequestDTOs: CancellationRequest[] = [];
+  completedRequestDTOs: CancellationRequest[] = [];
   constructor() { }
 }

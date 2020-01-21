@@ -57,12 +57,7 @@
       <div *ngFor="let orderLine of orderLines" lines="none">
         <app-refund-product-card  [orderLine]="orderLine" (changeEmiter)="updateCancellationOrderLines($event)"  (auxChangeEmiter)="updateAuxLines($event)" ></app-refund-product-card>
       </div>
-      <ion-card text-center *ngIf="order.paymentMode==='COD'" >
-        <ion-card-header> Note</ion-card-header>
-        <ion-card-content>
-<ion-card-subtitle>Could'nt create cancellation/refund on a cash on delivery order!</ion-card-subtitle>
-        </ion-card-content>
-      </ion-card>
+     
 
 
     </div>

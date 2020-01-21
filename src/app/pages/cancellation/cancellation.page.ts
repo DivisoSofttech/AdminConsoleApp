@@ -26,9 +26,9 @@ export class CancellationPage implements OnInit {
 
   ngOnInit() {
 
-    const date=new Date().toISOString().split('T',1)[0];
-    console.log('date is ',date);
-    this.queryResourceService.findCancellationRequestByStatusUsingGET({statusName: 'accepted',date:date}).subscribe(
+    const date = new Date().toISOString().split('T', 1)[0];
+    console.log('date is ', date);
+    this.queryResourceService.findCancellationRequestByStatusUsingGET({statusName: 'accepted', date}).subscribe(
       res => {
           console.log('completed request ', res);
           this.cancellationRequestService.completedRequestDTOs = res.content;
@@ -38,7 +38,7 @@ export class CancellationPage implements OnInit {
       }
     );
 
-    this.queryResourceService.findCancellationRequestByStatusUsingGET({statusName: 'requested',date:date}).subscribe(
+    this.queryResourceService.findCancellationRequestByStatusUsingGET({statusName: 'requested', date}).subscribe(
       res => {
           console.log('cancellation request ', res);
           this.cancellationRequestService.cancellationRequestDTOs = res.content;
@@ -86,22 +86,22 @@ export class CancellationPage implements OnInit {
     this.isSearching = !this.isSearching;
   }
 
-  searchByOrderId(ev){
+  searchByOrderId(ev) {
 
-    const orderId:string=ev.detail.value;
-    console.log('evnt ',ev.detail.value);
+    const orderId: string = ev.detail.value;
+    console.log('evnt ', ev.detail.value);
 
-    if(orderId.length>0){
+    if (orderId.length > 0) {
    this.queryResourceService.getCancellationRequestByOrderIdUsingGET(ev.detail.value).subscribe(
-     res=>{
-       console.log('got cncellation request by order id ',res);
-       this.searchResult=res;
-    },err=>{
+     res => {
+       console.log('got cncellation request by order id ', res);
+       this.searchResult = res;
+    }, err => {
 
-      console.log('error geting cncellation request by order id ',err);
+      console.log('error geting cncellation request by order id ', err);
 
     }
-  
+
    );
   }
 
