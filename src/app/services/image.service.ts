@@ -1,7 +1,9 @@
+import { BannerDTO } from './../api/models/banner-dto';
 import { Injectable } from '@angular/core';
 import { CameraOptions, Camera } from '@ionic-native/camera/ngx';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +14,8 @@ export class ImageService {
   public uploadedImage: any;
   public croppedImage: any;
   public isImageCropped: boolean;
+
+  banner = new BehaviorSubject(null);
 
   readonly options: CameraOptions = {
     quality: 100,
@@ -30,6 +34,10 @@ export class ImageService {
     }, error => {
       console.error('error while taking image', error);
     });
+  }
+
+  updateBannerPage( banner) {
+    this.banner.next(banner);
   }
 
   // uploads image from the gallery

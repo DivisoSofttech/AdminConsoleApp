@@ -1,3 +1,4 @@
+import { ImageService } from 'src/app/services/image.service';
 import { Util } from './../../services/util';
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
@@ -23,11 +24,21 @@ export class BannersPage implements OnInit {
     private actionSheetController: ActionSheetController,
     private modalController: ModalController,
     private router: Router,
-    private util: Util
+    private util: Util,
+    public imageService: ImageService
   ) { }
 
 
   ngOnInit() {
+    this.imageService.banner.subscribe(banner => {
+      console.log(banner);
+      if (this.banners) {
+        this.banners = this.banners.filter(b => b.id !== banner.id);
+      }
+      if (banner) {
+        this.banners.push(banner);
+      }
+    });
     this.util.createLoader().then(loader => {
       loader.present();
       this.queryService.getAllBannersUsingGET({page: this.pageNumber})

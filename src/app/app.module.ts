@@ -6,6 +6,8 @@ import { AuthInterceptor } from './services/security/auth-interceptor';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
+import { File } from '@ionic-native/file/ngx';
+
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
@@ -22,6 +24,7 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { DatePipe, DecimalPipe } from '@angular/common';
 import {NgxPaginationModule} from 'ngx-pagination';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Printer } from '@ionic-native/printer/ngx';
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -44,9 +47,11 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
   ],
   providers: [
     StatusBar,
+    Printer,
     DecimalPipe,
     SplashScreen,
     DatePipe,
+    File,
     Util,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     HttpClient,

@@ -71,6 +71,7 @@ export class CreateBannerPage implements OnInit {
     .subscribe(response => {
       console.log('banner successfully saved', this.banner);
       this.presentToast();
+      this.imageService.updateBannerPage(response);
       this.navController.back();
     }, err => {
       this.navController.back();
@@ -86,6 +87,7 @@ export class CreateBannerPage implements OnInit {
     console.log('banner to be saved', this.banner);
     this.commandService.createBannerUsingPOST(this.banner)
     .subscribe(response => {
+      this.imageService.updateBannerPage(response);
       this.navController.back();
       console.log('banner successfully saved', this.banner);
       this.presentToast();

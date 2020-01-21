@@ -78,8 +78,8 @@ class QueryResourceService extends __BaseService {
   static readonly getOfferByIdUsingGETPath = '/api/query/offers/get-offer-by-id/{id}';
   static readonly getAllRefundDetailsUsingGETPath = '/api/query/refund-details';
   static readonly getRefundDetailsUsingGETPath = '/api/query/refund-details/{id}';
-  static readonly getReportSummaryAsPdfUsingGETPath = '/api/query/reportSummary/{date}/{storeId}';
-  static readonly createReportSummaryUsingGETPath = '/api/query/reportview/{fromDate}/{toDate}';
+  static readonly getReportSummaryAsPdfUsingGETPath = '/api/query/reportSummary/{date}';
+  static readonly createReportSummaryUsingGETPath = '/api/query/reportview/{date}';
   static readonly getSaleReportAsPdfUsingGETPath = '/api/query/salereport/{storeidpcode}';
   static readonly getTasksUsingGETPath = '/api/query/tasks';
 
@@ -1589,7 +1589,7 @@ class QueryResourceService extends __BaseService {
    *
    * @return OK
    */
-  getOrdersPdfByFilterUsingGETResponse(params: QueryResourceService.GetOrdersPdfByFilterUsingGETParams): __Observable<__StrictHttpResponse<string>> {
+  getOrdersPdfByFilterUsingGETResponse(params: QueryResourceService.GetOrdersPdfByFilterUsingGETParams): __Observable<__StrictHttpResponse<PdfDTO>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
@@ -1605,13 +1605,13 @@ class QueryResourceService extends __BaseService {
       {
         headers: __headers,
         params: __params,
-        responseType: 'text'
+        responseType: 'json'
       });
 
     return this.http.request<any>(req).pipe(
       __filter(_r => _r instanceof HttpResponse),
       __map((_r) => {
-        return _r as __StrictHttpResponse<string>;
+        return _r as __StrictHttpResponse<PdfDTO>;
       })
     );
   }
@@ -1630,9 +1630,9 @@ class QueryResourceService extends __BaseService {
    *
    * @return OK
    */
-  getOrdersPdfByFilterUsingGET(params: QueryResourceService.GetOrdersPdfByFilterUsingGETParams): __Observable<string> {
+  getOrdersPdfByFilterUsingGET(params: QueryResourceService.GetOrdersPdfByFilterUsingGETParams): __Observable<PdfDTO> {
     return this.getOrdersPdfByFilterUsingGETResponse(params).pipe(
-      __map(_r => _r.body as string)
+      __map(_r => _r.body as PdfDTO)
     );
   }
 
@@ -2027,56 +2027,54 @@ class QueryResourceService extends __BaseService {
   /**
    * @param params The `QueryResourceService.GetReportSummaryAsPdfUsingGETParams` containing the following parameters:
    *
-   * - `storeId`: storeId
-   *
    * - `date`: date
+   *
+   * - `storeId`: storeId
    *
    * @return OK
    */
-  getReportSummaryAsPdfUsingGETResponse(params: QueryResourceService.GetReportSummaryAsPdfUsingGETParams): __Observable<__StrictHttpResponse<string>> {
+  getReportSummaryAsPdfUsingGETResponse(params: QueryResourceService.GetReportSummaryAsPdfUsingGETParams): __Observable<__StrictHttpResponse<PdfDTO>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
 
-
+    if (params.storeId != null) __params = __params.set('storeId', params.storeId.toString());
     let req = new HttpRequest<any>(
       'GET',
-      this.rootUrl + `/api/query/reportSummary/${params.date}/${params.storeId}`,
+      this.rootUrl + `/api/query/reportSummary/${params.date}`,
       __body,
       {
         headers: __headers,
         params: __params,
-        responseType: 'text'
+        responseType: 'json'
       });
 
     return this.http.request<any>(req).pipe(
       __filter(_r => _r instanceof HttpResponse),
       __map((_r) => {
-        return _r as __StrictHttpResponse<string>;
+        return _r as __StrictHttpResponse<PdfDTO>;
       })
     );
   }
   /**
    * @param params The `QueryResourceService.GetReportSummaryAsPdfUsingGETParams` containing the following parameters:
    *
-   * - `storeId`: storeId
-   *
    * - `date`: date
+   *
+   * - `storeId`: storeId
    *
    * @return OK
    */
-  getReportSummaryAsPdfUsingGET(params: QueryResourceService.GetReportSummaryAsPdfUsingGETParams): __Observable<string> {
+  getReportSummaryAsPdfUsingGET(params: QueryResourceService.GetReportSummaryAsPdfUsingGETParams): __Observable<PdfDTO> {
     return this.getReportSummaryAsPdfUsingGETResponse(params).pipe(
-      __map(_r => _r.body as string)
+      __map(_r => _r.body as PdfDTO)
     );
   }
 
   /**
    * @param params The `QueryResourceService.CreateReportSummaryUsingGETParams` containing the following parameters:
    *
-   * - `toDate`: toDate
-   *
-   * - `fromDate`: fromDate
+   * - `date`: date
    *
    * - `storeName`: storeName
    *
@@ -2087,11 +2085,10 @@ class QueryResourceService extends __BaseService {
     let __headers = new HttpHeaders();
     let __body: any = null;
 
-
     if (params.storeName != null) __params = __params.set('storeName', params.storeName.toString());
     let req = new HttpRequest<any>(
       'GET',
-      this.rootUrl + `/api/query/reportview/${params.fromDate}/${params.toDate}`,
+      this.rootUrl + `/api/query/reportview/${params.date}`,
       __body,
       {
         headers: __headers,
@@ -2109,9 +2106,7 @@ class QueryResourceService extends __BaseService {
   /**
    * @param params The `QueryResourceService.CreateReportSummaryUsingGETParams` containing the following parameters:
    *
-   * - `toDate`: toDate
-   *
-   * - `fromDate`: fromDate
+   * - `date`: date
    *
    * - `storeName`: storeName
    *
@@ -2993,14 +2988,14 @@ module QueryResourceService {
   export interface GetReportSummaryAsPdfUsingGETParams {
 
     /**
-     * storeId
-     */
-    storeId: string;
-
-    /**
      * date
      */
     date: string;
+
+    /**
+     * storeId
+     */
+    storeId?: string;
   }
 
   /**
@@ -3009,14 +3004,9 @@ module QueryResourceService {
   export interface CreateReportSummaryUsingGETParams {
 
     /**
-     * toDate
+     * date
      */
-    toDate: string;
-
-    /**
-     * fromDate
-     */
-    fromDate: string;
+    date: string;
 
     /**
      * storeName
