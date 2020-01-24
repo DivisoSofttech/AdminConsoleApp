@@ -112,19 +112,19 @@
         </ion-chip>
       </ion-col>
     </ion-row>
-    <ion-row justify-content-center>
+    <!-- <ion-row justify-content-center>
       <ion-col no-padding class="side-border">
         <div float-right>
           <h6>Today</h6>
           <h5>{{(orderService.todaysCount < 0) ? 'NA' :  orderService.todaysCount}}</h5>
-          <!-- <h5 float-right *ngIf="orderService.todaysCount>=0">{{orderService.todaysCount}}</h5> -->
+         <h5 float-right *ngIf="orderService.todaysCount>=0">{{orderService.todaysCount}}</h5> 
         </div>
       </ion-col>
       <ion-col no-padding>
         <h6>This week</h6>
         <h5>N/A</h5>
       </ion-col>
-    </ion-row>
+    </ion-row> -->
 
   </ion-grid>
   <!-- <app-search-result *ngIf="searchStatus"></app-search-result> -->
@@ -145,6 +145,13 @@
   <ion-refresher slot="fixed" (ionRefresh)="refresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
+  <h6 class="heading" text-center>Approvel Pending</h6>
+<div class="numberCircle">10</div>
+<h6 class="heading" text-center>Approved</h6>
+<div class="numberCircle">9</div>
+<h6 text-center>Delivered</h6>
+<div class="numberCircle">15</div>
+
 </ion-content>
 <!-- <ion-footer>
   <ion-item lines="full">

@@ -43,18 +43,19 @@
     </ion-card-content>
     <br>
     <br>
-    <ion-item  color="success" let orderLine of cancelledOrderLines>
+    <ion-item  color="success" *ngFor="  let orderLine of cancelledOrderLines" >
       <ion-label text-start class="wrap">
-         <h2>Dhosha</h2>
+         <h2>{{orderLine.itemName}}</h2>
          <h3>
-            &#8364;12             
+             &#8364;  {{orderLine.ammount | number : '1.2-2'}}
+ 
         </h3>
       </ion-label>
       <ion-grid slot="end" class="borderFull">
         <ion-row>
           <ion-col text-center>
             <ion-text>
-              10
+              {{orderLine.pricePerUnit | number : '1.2-2' }}
             </ion-text>
           </ion-col>
           <ion-col text-center>
@@ -63,48 +64,17 @@
             </ion-text>
           </ion-col>
           <ion-col text-center >
-             2
+            {{orderLine.quantity}}
+
           </ion-col>
-          <ion-col text-center >
-            =
-         </ion-col>
-          <ion-col text-center >
-            20
-         </ion-col>
+         
+          <!-- <ion-col text-center >
+
+         </ion-col> -->
         </ion-row>
       </ion-grid>
     </ion-item>
-    <ion-item  color="success" let orderLine of cancelledAuxilaryOrderLines>
-      <ion-label text-start class="wrap">
-         <h2>Dhosha</h2>
-         <h3>
-            &#8364;12             
-        </h3>
-      </ion-label>
-      <ion-grid slot="end" class="borderFull">
-        <ion-row>
-          <ion-col text-center>
-            <ion-text>
-              10
-            </ion-text>
-          </ion-col>
-          <ion-col text-center>
-            <ion-text>
-              X
-            </ion-text>
-          </ion-col>
-          <ion-col text-center >
-             2
-          </ion-col>
-          <ion-col text-center >
-            =
-         </ion-col>
-          <ion-col text-center >
-            20
-         </ion-col>
-        </ion-row>
-      </ion-grid>
-    </ion-item>
+    
 </ion-card>
 </ion-content>
 

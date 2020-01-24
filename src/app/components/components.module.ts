@@ -1,3 +1,4 @@
+import { FeedbackComponent } from './feedback/feedback.component';
 import { ImageSelectorComponent } from './image-selector/image-selector.component';
 import { RefundProductCardComponent } from './refund-product-card/refund-product-card.component';
 import { CancellationRequestComponent } from './cancellation-request/cancellation-request.component';
@@ -23,7 +24,8 @@ import { CancellationDetailsComponent } from './cancellation-details/cancellatio
     OrderViewComponent,
     OrderProductCardComponent,
     ImageSelectorComponent,
-    CancellationDetailsComponent
+    CancellationDetailsComponent,
+    FeedbackComponent
   ],
   imports: [
     CommonModule,
@@ -32,6 +34,7 @@ import { CancellationDetailsComponent } from './cancellation-details/cancellatio
     ImageCropperModule
   ],
   exports: [
+    FeedbackComponent,
     SearchResultComponent,
     OderSearchPopoverComponent,
     RefundProductCardComponent,

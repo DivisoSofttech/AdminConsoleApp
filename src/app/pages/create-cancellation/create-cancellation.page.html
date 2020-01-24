@@ -47,10 +47,14 @@
   </ion-card>
 
       <ion-card>
-        <ion-card-header color="light">
-          <ion-card-title>
-          Items
-          </ion-card-title>
+        <ion-card-header>
+          <ion-item lines="full">
+          <ion-text slot='start'>Items</ion-text>
+         
+
+          <ion-spinner slot='end'*ngIf="orderLines.length == 0" name="dots"  ></ion-spinner>
+          </ion-item>
+          
         </ion-card-header>
     
       </ion-card>

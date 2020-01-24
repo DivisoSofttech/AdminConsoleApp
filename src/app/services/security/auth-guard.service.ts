@@ -11,7 +11,7 @@ export class AuthGuardService implements CanActivate {
   constructor(private oauthService: OAuthService,
               private router: Router,
               private navController: NavController) { }
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
+ public canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
     if (this.oauthService.hasValidAccessToken()) {
       return true;
     }

@@ -39,6 +39,7 @@ export class CancellationRequestComponent implements OnInit {
               if (res.status === 'completed') {
               this.cancellation.status = 'accepted';
               this.cancellation.refundDetails = res;
+              // tslint:disable-next-line: max-line-length
               this.cancellationRequestService.completedRequestDTOs = [this.cancellation].concat(this.cancellationRequestService.completedRequestDTOs);
               // console.log(' element completed ', this.cancellation);
               // tslint:disable-next-line:max-line-length
@@ -51,6 +52,8 @@ export class CancellationRequestComponent implements OnInit {
             }, err => {
               loader.dismiss();
               console.log('error crating refund detials ', err);
+              this.util.presentAlert('Alert', 'An error occured, Please try after sometime.');
+
             } );
         } );
 

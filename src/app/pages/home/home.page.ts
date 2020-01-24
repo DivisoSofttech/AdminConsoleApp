@@ -19,6 +19,10 @@ export class HomePage implements OnInit {
   isRefreshed = false;
   refreshEvent;
   loader: HTMLIonLoadingElement;
+  approvelPending:0;
+  approved:0;
+  delivered:0;
+
   @ViewChild('searchBar', { static: false }) searchBar: IonSearchbar;
 
   constructor(

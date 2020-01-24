@@ -12,9 +12,9 @@ import { CancellationRequestDTO } from '../models/cancellation-request-dto';
 import { CancelledOrderLineDTO } from '../models/cancelled-order-line-dto';
 import { NotificationDTO } from '../models/notification-dto';
 import { RefundDetailsDTO } from '../models/refund-details-dto';
-import { CancellationRequest } from '../models/cancellation-request';
 import { AuxItem } from '../models/aux-item';
 import { PageOfBanner } from '../models/page-of-banner';
+import { CancellationDetails } from '../models/cancellation-details';
 import { PageOfCancellationRequest } from '../models/page-of-cancellation-request';
 import { Customer } from '../models/customer';
 import { OfferLine } from '../models/offer-line';
@@ -22,7 +22,9 @@ import { PageOfOrderMaster } from '../models/page-of-order-master';
 import { Order } from '../models/order';
 import { OrderLine } from '../models/order-line';
 import { PageOfStore } from '../models/page-of-store';
+import { CancellationRequest } from '../models/cancellation-request';
 import { PdfDTO } from '../models/pdf-dto';
+import { RefundDetails } from '../models/refund-details';
 import { StoreDTO } from '../models/store-dto';
 import { Store } from '../models/store';
 import { DeductionValueTypeDTO } from '../models/deduction-value-type-dto';
@@ -50,9 +52,9 @@ class QueryResourceService extends __BaseService {
   static readonly getAllCancelledOrderLinesUsingGETPath = '/api/query/cancelled-order-lines';
   static readonly getCancelledOrderLineUsingGETPath = '/api/query/cancelled-order-lines/{id}';
   static readonly findAllCancellationRequestsUsingGETPath = '/api/query/findAllCancellationRequests';
-  static readonly findCancellationOrderLinesAndCancelledAuxilaryOrderLinesByIdUsingGETPath = '/api/query/findAllCancelledOrderlinesAndAuxilaryOrderlinesById/{id}';
   static readonly findAuxItemsByIdUsingGETPath = '/api/query/findAuxItemsLinesById/{id}';
   static readonly findBannerByStoreIdUsingGETPath = '/api/query/findBannerByStoreId/{storeId}';
+  static readonly findCancellationDetailsByIdUsingGETPath = '/api/query/findCancellationDetailsById/{id}';
   static readonly findCancellationRequestByStatusUsingGETPath = '/api/query/findCancellationRequestByStatus/{statusName}/{date}';
   static readonly findCustomerByIdpCodeUsingGETPath = '/api/query/findCustomerByIdpCode/{idpCode}';
   static readonly findOfferLinesByOrderNumberUsingGETPath = '/api/query/findOfferLinesByOrderNumber/{orderId}';
@@ -69,6 +71,7 @@ class QueryResourceService extends __BaseService {
   static readonly getOrderSummaryByDateAndStoreNameUsingGETPath = '/api/query/getOrderSummaryByDateAndStoreName/{date}/{storeId}';
   static readonly getOrdersByFilterUsingGETPath = '/api/query/getOrdersByFilter/{fromDate}/{toDate}';
   static readonly getOrdersPdfByFilterUsingGETPath = '/api/query/getOrdersPdfByFilter/{fromDate}/{toDate}';
+  static readonly findRefundDetailUsingGETPath = '/api/query/getRefundDetailById/{id}';
   static readonly getStoreUsingGETPath = '/api/query/getStore/{id}';
   static readonly getStoreByRegNoUsingGETPath = '/api/query/getStoreByRegNo/{regNo}';
   static readonly getAllNotificationsUsingGETPath = '/api/query/notifications';
@@ -731,42 +734,6 @@ class QueryResourceService extends __BaseService {
    * @param id id
    * @return OK
    */
-  findCancellationOrderLinesAndCancelledAuxilaryOrderLinesByIdUsingGETResponse(id: number): __Observable<__StrictHttpResponse<CancellationRequest>> {
-    let __params = this.newParams();
-    let __headers = new HttpHeaders();
-    let __body: any = null;
-
-    let req = new HttpRequest<any>(
-      'GET',
-      this.rootUrl + `/api/query/findAllCancelledOrderlinesAndAuxilaryOrderlinesById/${id}`,
-      __body,
-      {
-        headers: __headers,
-        params: __params,
-        responseType: 'json'
-      });
-
-    return this.http.request<any>(req).pipe(
-      __filter(_r => _r instanceof HttpResponse),
-      __map((_r) => {
-        return _r as __StrictHttpResponse<CancellationRequest>;
-      })
-    );
-  }
-  /**
-   * @param id id
-   * @return OK
-   */
-  findCancellationOrderLinesAndCancelledAuxilaryOrderLinesByIdUsingGET(id: number): __Observable<CancellationRequest> {
-    return this.findCancellationOrderLinesAndCancelledAuxilaryOrderLinesByIdUsingGETResponse(id).pipe(
-      __map(_r => _r.body as CancellationRequest)
-    );
-  }
-
-  /**
-   * @param id id
-   * @return OK
-   */
   findAuxItemsByIdUsingGETResponse(id: number): __Observable<__StrictHttpResponse<Array<AuxItem>>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
@@ -853,6 +820,42 @@ class QueryResourceService extends __BaseService {
   findBannerByStoreIdUsingGET(params: QueryResourceService.FindBannerByStoreIdUsingGETParams): __Observable<PageOfBanner> {
     return this.findBannerByStoreIdUsingGETResponse(params).pipe(
       __map(_r => _r.body as PageOfBanner)
+    );
+  }
+
+  /**
+   * @param id id
+   * @return OK
+   */
+  findCancellationDetailsByIdUsingGETResponse(id: number): __Observable<__StrictHttpResponse<CancellationDetails>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+
+    let req = new HttpRequest<any>(
+      'GET',
+      this.rootUrl + `/api/query/findCancellationDetailsById/${id}`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<CancellationDetails>;
+      })
+    );
+  }
+  /**
+   * @param id id
+   * @return OK
+   */
+  findCancellationDetailsByIdUsingGET(id: number): __Observable<CancellationDetails> {
+    return this.findCancellationDetailsByIdUsingGETResponse(id).pipe(
+      __map(_r => _r.body as CancellationDetails)
     );
   }
 
@@ -1633,6 +1636,42 @@ class QueryResourceService extends __BaseService {
   getOrdersPdfByFilterUsingGET(params: QueryResourceService.GetOrdersPdfByFilterUsingGETParams): __Observable<PdfDTO> {
     return this.getOrdersPdfByFilterUsingGETResponse(params).pipe(
       __map(_r => _r.body as PdfDTO)
+    );
+  }
+
+  /**
+   * @param id id
+   * @return OK
+   */
+  findRefundDetailUsingGETResponse(id?: number): __Observable<__StrictHttpResponse<RefundDetails>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+    if (id != null) __params = __params.set('id', id.toString());
+    let req = new HttpRequest<any>(
+      'GET',
+      this.rootUrl + `/api/query/getRefundDetailById/${id}`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<RefundDetails>;
+      })
+    );
+  }
+  /**
+   * @param id id
+   * @return OK
+   */
+  findRefundDetailUsingGET(id?: number): __Observable<RefundDetails> {
+    return this.findRefundDetailUsingGETResponse(id).pipe(
+      __map(_r => _r.body as RefundDetails)
     );
   }
 

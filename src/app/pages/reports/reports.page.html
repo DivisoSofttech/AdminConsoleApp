@@ -21,6 +21,7 @@
         <ion-select placeholder=" optional" [(ngModel)]="reportType">
           <ion-select-option value="orders summery">Order Summary</ion-select-option>
           <ion-select-option value="orders">Orders</ion-select-option>
+          <!-- <ion-select-option value="detaild orders summery">Detaild Order Summary</ion-select-option> -->
         </ion-select>
       </ion-item>
     </ion-card>
@@ -67,7 +68,7 @@
        
       </form>
 
-      <form no-padding no-margin [formGroup]="orderSummeryForm" (ngSubmit)="submit()" *ngIf="reportType!=='orders'" >
+      <form no-padding no-margin [formGroup]="orderSummeryForm" (ngSubmit)="submit()" *ngIf="reportType==='orders summery'" >
 
         <ion-item lines="full" class="date">
           <ion-label position="floating">Date *</ion-label>
@@ -82,6 +83,15 @@
         
        
       </form>
+
+      <!-- <form no-padding no-margin [formGroup]="orderDetaildSummeryForm" (ngSubmit)="submit()" *ngIf="reportType==='detaild orders summery'" >
+
+        <ion-item lines="full" class="date">
+          <ion-label position="floating">Date *</ion-label>
+          <ion-datetime displayFormat="DD-MMM-YYYY"  formControlName="date"></ion-datetime>
+        </ion-item>
+       
+      </form> -->
 
 
 
@@ -104,7 +114,7 @@
           <ion-label>Delivery type</ion-label>
           <ion-select placeholder=" optional" [(ngModel)]="deliveryType">
             <ion-select-option value="COLLECTION">Collection</ion-select-option>
-            <ion-select-option value="DELIVERY">Home Delivery</ion-select-option>
+            <ion-select-option value="DELIVERY"> Delivery</ion-select-option>
             <ion-select-option value="all">All</ion-select-option>
           </ion-select>
         </ion-item>
@@ -188,7 +198,9 @@
 
   <ion-button *ngIf="!isReport && reportType==='orders'"  [disabled]="(! (ordersForm.valid)) " type="submit" expand="block"
    (click)="submit()"> Apply Filter</ion-button>
-   <ion-button *ngIf="!isReport  && reportType!=='orders'"  [disabled]="(! (orderSummeryForm.valid)) " type="submit" expand="block"
+   <ion-button *ngIf="!isReport  && reportType==='orders summery'"  [disabled]="(! (orderSummeryForm.valid)) " type="submit" expand="block"
+   (click)="submit()"> Apply Filter</ion-button>
+   <ion-button *ngIf="!isReport  && reportType==='detaild orders summery'"  [disabled]="(! (orderDetaildSummeryForm.valid)) " type="submit" expand="block"
    (click)="submit()"> Apply Filter</ion-button>
   
   <ion-fab vertical="bottom" horizontal="end" *ngIf="isReport">

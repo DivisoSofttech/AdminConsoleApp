@@ -38,6 +38,7 @@ export class LoginSignupPage implements OnInit {
         () => {
           loader.dismiss();
           this.util.navigateRoot();
+          console.log('haiiii ');
           this.util.createToast('Logged in successfully' , 'checkmark-circle-outline');
         },
         () => {

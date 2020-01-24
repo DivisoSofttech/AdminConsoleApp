@@ -22,7 +22,7 @@ cancelledAuxilaryOrderLines: CancelledAuxilaryOrderLine[] = [];
 
 
   ngOnInit() {
-this.queryResourceService.findCancellationOrderLinesAndCancelledAuxilaryOrderLinesByIdUsingGET(this.cancellation.id).subscribe(
+this.queryResourceService.findCancellationDetailsByIdUsingGET(this.cancellation.id).subscribe(
   res=>{
       console.log(' got orderlines ',res);
       this.cancelledOrderLines=res.cancelledOrderLines;

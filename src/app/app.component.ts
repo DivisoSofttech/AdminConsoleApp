@@ -32,6 +32,12 @@ export class AppComponent {
     }
     ,
     {
+      title: 'Feedbacks',
+      url: '/feedbacks',
+      icon: 'star-half'
+    }
+    ,
+    {
       title: 'Offers',
       url: '/offers',
       icon: 'gift'

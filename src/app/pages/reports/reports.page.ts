@@ -1,4 +1,4 @@
-import { Printer,PrintOptions} from '@ionic-native/printer/ngx';
+import { Printer, PrintOptions} from '@ionic-native/printer/ngx';
 import { ReportSummary } from './../../api/models/report-summary';
 import { OrderSummeryRow } from './../../customModels/order-summery-row';
 import { Store } from './../../api/models/store';
@@ -23,9 +23,9 @@ export class ReportsPage implements OnInit {
               private util: Util,
               private formBuilder: FormBuilder,
               private decimalPipe: DecimalPipe,
-              private printer:Printer,
-              private queryResource:QueryResourceService,
-              private file:File
+              private printer: Printer,
+              private queryResource: QueryResourceService,
+              private file: File
     ) {
 
     }
@@ -57,6 +57,10 @@ orderSummeryForm = this.formBuilder.group({
   storeId: ['', [ Validators.maxLength(100)]],
 });
 
+orderDetaildSummeryForm = this.formBuilder.group({
+  date: ['', [Validators.required, Validators.maxLength(100)]],
+  storeId: ['', [Validators.required, Validators.maxLength(100)]],
+});
 
 
 public errorMessages = {
@@ -125,8 +129,8 @@ applyFilter() {
 
   this.fromDate = this.ordersForm.get('fromDate').value.split('T', 1)[0];
   this.toDate = this.ordersForm.get('toDate').value.split('T', 1)[0];
-  if(this.deliveryType==='all')this.deliveryType=undefined;
-  if(this.paymenttype==='all')this.paymenttype=undefined;
+  if (this.deliveryType === 'all') {this.deliveryType = undefined; }
+  if (this.paymenttype === 'all') {this.paymenttype = undefined; }
 
   console.log('from date', this.fromDate);
   console.log('to date', this.toDate);
@@ -160,37 +164,42 @@ applyFilter() {
   }
   } else {
 
-    this.getOrderSummeryByFillter();
+    this.getOrderSummeryAndDetaildOrderSummeryByFillter();
     }
 
   this.changeDiv(true);
 }
 
-getOrderSummeryByFillter() {
+getOrderSummeryAndDetaildOrderSummeryByFillter() {
   this.date = this.orderSummeryForm.get('date').value.split('T', 1)[0];
   console.log('the date is ', this.date);
 
   console.log('the store id is ', this.store.storeUniqueId);
   this.util.createLoader().then(loader => {
     loader.present();
+
+
     this.queryResourceService.createReportSummaryUsingGET({date: this.date,
-  storeName: this.store.storeUniqueId}).subscribe(res => {
+          storeName: this.store.storeUniqueId}).subscribe(res => {
 
-    console.log('report summery is ', res);
+            console.log('report summery is ', res);
 
-    this.makeOrderSummeryTable(res);
-    loader.dismiss();
+            this.makeOrderSummeryTable(res);
+            loader.dismiss();
 
-  }, err => {
-    console.log('error geting report summery is ', err);
-    loader.dismiss();
+          }, err => {
+            console.log('error geting report summery is ', err);
+            loader.dismiss();
 
-  }
+          }
 
 
 
-);
-});
+        );
+        });
+  
+
+
 
 }
   makeOrderSummeryTable(reportSummery: ReportSummary) {
@@ -367,14 +376,14 @@ fileCreation(blob, result) {
     getOrdersReportPdf() {
       this.util.createLoader().then(loader => {
         loader.present();
-    
+
         this.queryResource.getOrdersPdfByFilterUsingGET({
           storeId: this.store.storeUniqueId,
           toDate: this.toDate,
-          fromDate:this.fromDate,
+          fromDate: this.fromDate,
            paymentStatus: this.paymenttype,
           methodOfOrder: this.deliveryType,
-          
+
         }).subscribe(orderDocket => {
           console.log(orderDocket.pdf, orderDocket.contentType);
           const byteCharacters = atob(orderDocket.pdf);

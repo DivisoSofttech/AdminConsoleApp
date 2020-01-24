@@ -3,6 +3,7 @@ export { AuxItem } from './models/aux-item';
 export { AuxilaryOrderLine } from './models/auxilary-order-line';
 export { Banner } from './models/banner';
 export { BannerDTO } from './models/banner-dto';
+export { CancellationDetails } from './models/cancellation-details';
 export { CancellationRequest } from './models/cancellation-request';
 export { CancellationRequestDTO } from './models/cancellation-request-dto';
 export { CancelledAuxilaryOrderLine } from './models/cancelled-auxilary-order-line';

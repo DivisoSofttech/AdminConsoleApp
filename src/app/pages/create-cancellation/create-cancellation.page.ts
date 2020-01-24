@@ -50,6 +50,7 @@ export class CreateCancellationPage implements OnInit {
 
 
   ngOnInit() {
+  
     console.log('id is ');
     this.orderId = this.activeRoute.snapshot.paramMap.get('id');
     console.log('id is ', this.orderId);
@@ -174,7 +175,6 @@ export class CreateCancellationPage implements OnInit {
       this.cancellationRequestDTO.orderId = this.order.orderId;
 
       this.cancellationRequestDTO.date = new Date().toISOString();
-      // this.cancellationRequestDTO.paymentId=this.order.paymentRef
       this.cancellationRequestDTO.status = 'requested';
       this.cancellationRequestDTO.paymentId = this.order.paymentRef;
       console.log('created cancellation request ', this.cancellationRequestDTO);
@@ -209,7 +209,6 @@ export class CreateCancellationPage implements OnInit {
 
    saveCancelledOrderLines(cancellationRequestId) {
 
-
     this.orderLines.forEach(element => {
 
       const cancelledOrderLine: CancelledOrderLineDTO = {};
@@ -217,10 +216,12 @@ export class CreateCancellationPage implements OnInit {
       cancelledOrderLine.cancellationRequestId = cancellationRequestId;
       cancelledOrderLine.ammount = element.total;
       cancelledOrderLine.itemName = element.item;
-      cancelledOrderLine.pricePerUnit = element.pricePerUnit;
+      cancelledOrderLine.pricePerUnit = +this.decimalPipe.transform(element.total/element.quantity,'1.2-2');
       cancelledOrderLine.quantity = element.quantity;
       cancelledOrderLine.productId = element.productId;
       this.cancelledOrderLines.push(cancelledOrderLine);
+      console.log(' #cancelled orderlines  ', cancelledOrderLine);
+
      });
     console.log('cancelled orderlines  ', this.orderLines);
     this.commandResource.createCancelledOrderLineByListUsingPOST(this.cancelledOrderLines).subscribe(res => {

@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons>
+      <ion-menu-button></ion-menu-button>
+      <ion-title>Feedbacks</ion-title>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+  <ion-item lines="full" class="date">
+    <ion-label position="floating">From *</ion-label>
+    <ion-datetime displayFormat="DD-MMM-YYYY"></ion-datetime>
+  </ion-item>  
+</ion-card>
+<app-feedback *ngFor="let item of numbers" ></app-feedback>
+
+<ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
+  <ion-infinite-scroll-content
+    loadingSpinner="bubbles"
+    loadingText="Loading more data...">
+  </ion-infinite-scroll-content>
+</ion-infinite-scroll>
+
+</ion-content>
