@@ -19,9 +19,9 @@ export class HomePage implements OnInit {
   isRefreshed = false;
   refreshEvent;
   loader: HTMLIonLoadingElement;
-  approvelPending:0;
-  approved:0;
-  delivered:0;
+  approvelPending=0;
+  approved=0;
+  completed=0;
 
   @ViewChild('searchBar', { static: false }) searchBar: IonSearchbar;
 
@@ -40,7 +40,66 @@ export class HomePage implements OnInit {
     console.log(' test ', ev.detail.value);
   }
 
+dashBoardCount()
+{
+
+  this.queryService.findOrderCountByDateAndStatusNameUsingGET({
+    statusName: 'delivered',
+    date: this.orderService.endDate.split('T')[0]
+  })
+  .subscribe(
+    response => {
+      console.log(response);
+      this.completed = response;
+    },
+    error => {
+      if (this.isRefreshed) {
+        this.refreshEvent.target.complete();
+      }
+      this.loader.dismiss();
+      console.log('something went wrong', error, this.orderService.endDate.split('T')[0]);
+    }
+  );
+
+  this.queryService.findOrderCountByDateAndStatusNameUsingGET({
+    statusName: 'payment-processed-approved',
+    date: this.orderService.endDate.split('T')[0]
+  })
+  .subscribe(
+    response => {
+      console.log(response);
+      this.approved = response;
+    },
+    error => {
+      if (this.isRefreshed) {
+        this.refreshEvent.target.complete();
+      }
+      this.loader.dismiss();
+      console.log('something went wrong', error, this.orderService.endDate.split('T')[0]);
+    }
+  );
+
+  this.queryService.findOrderCountByDateAndStatusNameUsingGET({
+    statusName: 'payment-processed-unapproved',
+    date: this.orderService.endDate.split('T')[0]
+  })
+  .subscribe(
+    response => {
+      console.log(response);
+      this.approvelPending = response;
+    },
+    error => {
+      if (this.isRefreshed) {
+        this.refreshEvent.target.complete();
+      }
+      this.loader.dismiss();
+      console.log('something went wrong', error, this.orderService.endDate.split('T')[0]);
+    }
+  );
+}
+
   ngOnInit() {
+    this.dashBoardCount();
     this.util.createLoader().then(loader => {
       this.loader = loader;
       loader.present();
