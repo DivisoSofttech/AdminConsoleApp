@@ -12,6 +12,8 @@ import { CancellationRequestDTO } from '../models/cancellation-request-dto';
 import { CancelledOrderLineDTO } from '../models/cancelled-order-line-dto';
 import { NotificationDTO } from '../models/notification-dto';
 import { RefundDetailsDTO } from '../models/refund-details-dto';
+import { PdfDTO } from '../models/pdf-dto';
+import { PageOfFeedback } from '../models/page-of-feedback';
 import { AuxItem } from '../models/aux-item';
 import { PageOfBanner } from '../models/page-of-banner';
 import { CancellationDetails } from '../models/cancellation-details';
@@ -23,7 +25,6 @@ import { Order } from '../models/order';
 import { OrderLine } from '../models/order-line';
 import { PageOfStore } from '../models/page-of-store';
 import { CancellationRequest } from '../models/cancellation-request';
-import { PdfDTO } from '../models/pdf-dto';
 import { RefundDetails } from '../models/refund-details';
 import { StoreDTO } from '../models/store-dto';
 import { Store } from '../models/store';
@@ -49,9 +50,11 @@ class QueryResourceService extends __BaseService {
   static readonly getBannerUsingGETPath = '/api/query/banners/{id}';
   static readonly getAllCancellationRequestsUsingGETPath = '/api/query/cancellation-requests';
   static readonly getCancellationRequestUsingGETPath = '/api/query/cancellation-requests/{id}';
+  static readonly getCancellationReportAsPdfUsingGETPath = '/api/query/cancellationSummary/{date}/{storeName}';
   static readonly getAllCancelledOrderLinesUsingGETPath = '/api/query/cancelled-order-lines';
   static readonly getCancelledOrderLineUsingGETPath = '/api/query/cancelled-order-lines/{id}';
   static readonly findAllCancellationRequestsUsingGETPath = '/api/query/findAllCancellationRequests';
+  static readonly findAllFeedBackUsingGETPath = '/api/query/findAllFeedBack';
   static readonly findAuxItemsByIdUsingGETPath = '/api/query/findAuxItemsLinesById/{id}';
   static readonly findBannerByStoreIdUsingGETPath = '/api/query/findBannerByStoreId/{storeId}';
   static readonly findCancellationDetailsByIdUsingGETPath = '/api/query/findCancellationDetailsById/{id}';
@@ -591,6 +594,53 @@ class QueryResourceService extends __BaseService {
   }
 
   /**
+   * @param params The `QueryResourceService.GetCancellationReportAsPdfUsingGETParams` containing the following parameters:
+   *
+   * - `storeName`: storeName
+   *
+   * - `date`: date
+   *
+   * @return OK
+   */
+  getCancellationReportAsPdfUsingGETResponse(params: QueryResourceService.GetCancellationReportAsPdfUsingGETParams): __Observable<__StrictHttpResponse<PdfDTO>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+
+
+    let req = new HttpRequest<any>(
+      'GET',
+      this.rootUrl + `/api/query/cancellationSummary/${params.date}/${params.storeName}`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<PdfDTO>;
+      })
+    );
+  }
+  /**
+   * @param params The `QueryResourceService.GetCancellationReportAsPdfUsingGETParams` containing the following parameters:
+   *
+   * - `storeName`: storeName
+   *
+   * - `date`: date
+   *
+   * @return OK
+   */
+  getCancellationReportAsPdfUsingGET(params: QueryResourceService.GetCancellationReportAsPdfUsingGETParams): __Observable<PdfDTO> {
+    return this.getCancellationReportAsPdfUsingGETResponse(params).pipe(
+      __map(_r => _r.body as PdfDTO)
+    );
+  }
+
+  /**
    * @param params The `QueryResourceService.GetAllCancelledOrderLinesUsingGETParams` containing the following parameters:
    *
    * - `sort`: Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
@@ -727,6 +777,58 @@ class QueryResourceService extends __BaseService {
   findAllCancellationRequestsUsingGET(params: QueryResourceService.FindAllCancellationRequestsUsingGETParams): __Observable<Array<CancellationRequestDTO>> {
     return this.findAllCancellationRequestsUsingGETResponse(params).pipe(
       __map(_r => _r.body as Array<CancellationRequestDTO>)
+    );
+  }
+
+  /**
+   * @param params The `QueryResourceService.FindAllFeedBackUsingGETParams` containing the following parameters:
+   *
+   * - `sort`: Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+   *
+   * - `size`: Size of a page
+   *
+   * - `page`: Page number of the requested page
+   *
+   * @return OK
+   */
+  findAllFeedBackUsingGETResponse(params: QueryResourceService.FindAllFeedBackUsingGETParams): __Observable<__StrictHttpResponse<PageOfFeedback>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+    (params.sort || []).forEach(val => {if (val != null) __params = __params.append('sort', val.toString())});
+    if (params.size != null) __params = __params.set('size', params.size.toString());
+    if (params.page != null) __params = __params.set('page', params.page.toString());
+    let req = new HttpRequest<any>(
+      'GET',
+      this.rootUrl + `/api/query/findAllFeedBack`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<PageOfFeedback>;
+      })
+    );
+  }
+  /**
+   * @param params The `QueryResourceService.FindAllFeedBackUsingGETParams` containing the following parameters:
+   *
+   * - `sort`: Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+   *
+   * - `size`: Size of a page
+   *
+   * - `page`: Page number of the requested page
+   *
+   * @return OK
+   */
+  findAllFeedBackUsingGET(params: QueryResourceService.FindAllFeedBackUsingGETParams): __Observable<PageOfFeedback> {
+    return this.findAllFeedBackUsingGETResponse(params).pipe(
+      __map(_r => _r.body as PageOfFeedback)
     );
   }
 
@@ -2621,6 +2723,22 @@ module QueryResourceService {
   }
 
   /**
+   * Parameters for getCancellationReportAsPdfUsingGET
+   */
+  export interface GetCancellationReportAsPdfUsingGETParams {
+
+    /**
+     * storeName
+     */
+    storeName: string;
+
+    /**
+     * date
+     */
+    date: string;
+  }
+
+  /**
    * Parameters for getAllCancelledOrderLinesUsingGET
    */
   export interface GetAllCancelledOrderLinesUsingGETParams {
@@ -2645,6 +2763,27 @@ module QueryResourceService {
    * Parameters for findAllCancellationRequestsUsingGET
    */
   export interface FindAllCancellationRequestsUsingGETParams {
+
+    /**
+     * Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+     */
+    sort?: Array<string>;
+
+    /**
+     * Size of a page
+     */
+    size?: number;
+
+    /**
+     * Page number of the requested page
+     */
+    page?: number;
+  }
+
+  /**
+   * Parameters for findAllFeedBackUsingGET
+   */
+  export interface FindAllFeedBackUsingGETParams {
 
     /**
      * Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.

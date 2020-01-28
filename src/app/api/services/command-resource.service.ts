@@ -7,6 +7,7 @@ import { StrictHttpResponse as __StrictHttpResponse } from '../strict-http-respo
 import { Observable as __Observable } from 'rxjs';
 import { map as __map, filter as __filter } from 'rxjs/operators';
 
+import { AboutDTO } from '../models/about-dto';
 import { BannerDTO } from '../models/banner-dto';
 import { CancellationRequestDTO } from '../models/cancellation-request-dto';
 import { CancelledOrderLineDTO } from '../models/cancelled-order-line-dto';
@@ -16,6 +17,8 @@ import { DeductionValueTypeDTO } from '../models/deduction-value-type-dto';
 import { NotificationDTO } from '../models/notification-dto';
 import { OrderModel } from '../models/order-model';
 import { OfferModel } from '../models/offer-model';
+import { SubTermDTO } from '../models/sub-term-dto';
+import { TermDTO } from '../models/term-dto';
 
 /**
  * Command Resource
@@ -24,6 +27,9 @@ import { OfferModel } from '../models/offer-model';
   providedIn: 'root',
 })
 class CommandResourceService extends __BaseService {
+  static readonly createAboutUsUsingPOSTPath = '/api/command/about';
+  static readonly updateAboutUsUsingPUTPath = '/api/command/about';
+  static readonly deleteAboutUsUsingDELETEPath = '/api/command/about/{id}';
   static readonly createBannerUsingPOSTPath = '/api/command/banners';
   static readonly updateBannerUsingPUTPath = '/api/command/banners';
   static readonly deleteBannerUsingDELETEPath = '/api/command/banners/{id}';
@@ -45,12 +51,196 @@ class CommandResourceService extends __BaseService {
   static readonly updateRefundDetailsUsingPUTPath = '/api/command/refund-details';
   static readonly deleteRefundDetailsUsingDELETEPath = '/api/command/refund-details/{id}';
   static readonly createRefundDetailsUsingPOSTPath = '/api/command/refund-details/{orderId}';
+  static readonly createSubTermUsingPOSTPath = '/api/command/sub-term';
+  static readonly updateSubTermUsingPUTPath = '/api/command/sub-term';
+  static readonly deleteSubTermUsingDELETEPath = '/api/command/sub-term/{id}';
+  static readonly createTermUsingPOSTPath = '/api/command/term';
+  static readonly updateTermUsingPUTPath = '/api/command/term';
+  static readonly deleteTermUsingDELETEPath = '/api/command/term/{id}';
 
   constructor(
     config: __Configuration,
     http: HttpClient
   ) {
     super(config, http);
+  }
+
+  /**
+   * @param params The `CommandResourceService.CreateAboutUsUsingPOSTParams` containing the following parameters:
+   *
+   * - `supportPhone`:
+   *
+   * - `supportMail`:
+   *
+   * - `id`:
+   *
+   * - `description`:
+   *
+   * - `addOn3`:
+   *
+   * - `addOn2`:
+   *
+   * - `addOn1`:
+   *
+   * @return OK
+   */
+  createAboutUsUsingPOSTResponse(params: CommandResourceService.CreateAboutUsUsingPOSTParams): __Observable<__StrictHttpResponse<AboutDTO>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+    if (params.supportPhone != null) __params = __params.set('supportPhone', params.supportPhone.toString());
+    if (params.supportMail != null) __params = __params.set('supportMail', params.supportMail.toString());
+    if (params.id != null) __params = __params.set('id', params.id.toString());
+    if (params.description != null) __params = __params.set('description', params.description.toString());
+    if (params.addOn3 != null) __params = __params.set('addOn3', params.addOn3.toString());
+    if (params.addOn2 != null) __params = __params.set('addOn2', params.addOn2.toString());
+    if (params.addOn1 != null) __params = __params.set('addOn1', params.addOn1.toString());
+    let req = new HttpRequest<any>(
+      'POST',
+      this.rootUrl + `/api/command/about`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<AboutDTO>;
+      })
+    );
+  }
+  /**
+   * @param params The `CommandResourceService.CreateAboutUsUsingPOSTParams` containing the following parameters:
+   *
+   * - `supportPhone`:
+   *
+   * - `supportMail`:
+   *
+   * - `id`:
+   *
+   * - `description`:
+   *
+   * - `addOn3`:
+   *
+   * - `addOn2`:
+   *
+   * - `addOn1`:
+   *
+   * @return OK
+   */
+  createAboutUsUsingPOST(params: CommandResourceService.CreateAboutUsUsingPOSTParams): __Observable<AboutDTO> {
+    return this.createAboutUsUsingPOSTResponse(params).pipe(
+      __map(_r => _r.body as AboutDTO)
+    );
+  }
+
+  /**
+   * @param params The `CommandResourceService.UpdateAboutUsUsingPUTParams` containing the following parameters:
+   *
+   * - `supportPhone`:
+   *
+   * - `supportMail`:
+   *
+   * - `id`:
+   *
+   * - `description`:
+   *
+   * - `addOn3`:
+   *
+   * - `addOn2`:
+   *
+   * - `addOn1`:
+   *
+   * @return OK
+   */
+  updateAboutUsUsingPUTResponse(params: CommandResourceService.UpdateAboutUsUsingPUTParams): __Observable<__StrictHttpResponse<AboutDTO>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+    if (params.supportPhone != null) __params = __params.set('supportPhone', params.supportPhone.toString());
+    if (params.supportMail != null) __params = __params.set('supportMail', params.supportMail.toString());
+    if (params.id != null) __params = __params.set('id', params.id.toString());
+    if (params.description != null) __params = __params.set('description', params.description.toString());
+    if (params.addOn3 != null) __params = __params.set('addOn3', params.addOn3.toString());
+    if (params.addOn2 != null) __params = __params.set('addOn2', params.addOn2.toString());
+    if (params.addOn1 != null) __params = __params.set('addOn1', params.addOn1.toString());
+    let req = new HttpRequest<any>(
+      'PUT',
+      this.rootUrl + `/api/command/about`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<AboutDTO>;
+      })
+    );
+  }
+  /**
+   * @param params The `CommandResourceService.UpdateAboutUsUsingPUTParams` containing the following parameters:
+   *
+   * - `supportPhone`:
+   *
+   * - `supportMail`:
+   *
+   * - `id`:
+   *
+   * - `description`:
+   *
+   * - `addOn3`:
+   *
+   * - `addOn2`:
+   *
+   * - `addOn1`:
+   *
+   * @return OK
+   */
+  updateAboutUsUsingPUT(params: CommandResourceService.UpdateAboutUsUsingPUTParams): __Observable<AboutDTO> {
+    return this.updateAboutUsUsingPUTResponse(params).pipe(
+      __map(_r => _r.body as AboutDTO)
+    );
+  }
+
+  /**
+   * @param id id
+   */
+  deleteAboutUsUsingDELETEResponse(id: number): __Observable<__StrictHttpResponse<null>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+
+    let req = new HttpRequest<any>(
+      'DELETE',
+      this.rootUrl + `/api/command/about/${id}`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<null>;
+      })
+    );
+  }
+  /**
+   * @param id id
+   */
+  deleteAboutUsUsingDELETE(id: number): __Observable<null> {
+    return this.deleteAboutUsUsingDELETEResponse(id).pipe(
+      __map(_r => _r.body as null)
+    );
   }
 
   /**
@@ -821,9 +1011,301 @@ class CommandResourceService extends __BaseService {
       __map(_r => _r.body as RefundDetailsDTO)
     );
   }
+
+  /**
+   * @param params The `CommandResourceService.CreateSubTermUsingPOSTParams` containing the following parameters:
+   *
+   * - `termId`:
+   *
+   * - `termDescription`:
+   *
+   * - `id`:
+   *
+   * @return OK
+   */
+  createSubTermUsingPOSTResponse(params: CommandResourceService.CreateSubTermUsingPOSTParams): __Observable<__StrictHttpResponse<SubTermDTO>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+    if (params.termId != null) __params = __params.set('termId', params.termId.toString());
+    if (params.termDescription != null) __params = __params.set('termDescription', params.termDescription.toString());
+    if (params.id != null) __params = __params.set('id', params.id.toString());
+    let req = new HttpRequest<any>(
+      'POST',
+      this.rootUrl + `/api/command/sub-term`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<SubTermDTO>;
+      })
+    );
+  }
+  /**
+   * @param params The `CommandResourceService.CreateSubTermUsingPOSTParams` containing the following parameters:
+   *
+   * - `termId`:
+   *
+   * - `termDescription`:
+   *
+   * - `id`:
+   *
+   * @return OK
+   */
+  createSubTermUsingPOST(params: CommandResourceService.CreateSubTermUsingPOSTParams): __Observable<SubTermDTO> {
+    return this.createSubTermUsingPOSTResponse(params).pipe(
+      __map(_r => _r.body as SubTermDTO)
+    );
+  }
+
+  /**
+   * @param params The `CommandResourceService.UpdateSubTermUsingPUTParams` containing the following parameters:
+   *
+   * - `termId`:
+   *
+   * - `termDescription`:
+   *
+   * - `id`:
+   *
+   * @return OK
+   */
+  updateSubTermUsingPUTResponse(params: CommandResourceService.UpdateSubTermUsingPUTParams): __Observable<__StrictHttpResponse<SubTermDTO>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+    if (params.termId != null) __params = __params.set('termId', params.termId.toString());
+    if (params.termDescription != null) __params = __params.set('termDescription', params.termDescription.toString());
+    if (params.id != null) __params = __params.set('id', params.id.toString());
+    let req = new HttpRequest<any>(
+      'PUT',
+      this.rootUrl + `/api/command/sub-term`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<SubTermDTO>;
+      })
+    );
+  }
+  /**
+   * @param params The `CommandResourceService.UpdateSubTermUsingPUTParams` containing the following parameters:
+   *
+   * - `termId`:
+   *
+   * - `termDescription`:
+   *
+   * - `id`:
+   *
+   * @return OK
+   */
+  updateSubTermUsingPUT(params: CommandResourceService.UpdateSubTermUsingPUTParams): __Observable<SubTermDTO> {
+    return this.updateSubTermUsingPUTResponse(params).pipe(
+      __map(_r => _r.body as SubTermDTO)
+    );
+  }
+
+  /**
+   * @param id id
+   */
+  deleteSubTermUsingDELETEResponse(id: number): __Observable<__StrictHttpResponse<null>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+
+    let req = new HttpRequest<any>(
+      'DELETE',
+      this.rootUrl + `/api/command/sub-term/${id}`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<null>;
+      })
+    );
+  }
+  /**
+   * @param id id
+   */
+  deleteSubTermUsingDELETE(id: number): __Observable<null> {
+    return this.deleteSubTermUsingDELETEResponse(id).pipe(
+      __map(_r => _r.body as null)
+    );
+  }
+
+  /**
+   * @param params The `CommandResourceService.CreateTermUsingPOSTParams` containing the following parameters:
+   *
+   * - `title`:
+   *
+   * - `id`:
+   *
+   * @return OK
+   */
+  createTermUsingPOSTResponse(params: CommandResourceService.CreateTermUsingPOSTParams): __Observable<__StrictHttpResponse<TermDTO>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+    if (params.title != null) __params = __params.set('title', params.title.toString());
+    if (params.id != null) __params = __params.set('id', params.id.toString());
+    let req = new HttpRequest<any>(
+      'POST',
+      this.rootUrl + `/api/command/term`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<TermDTO>;
+      })
+    );
+  }
+  /**
+   * @param params The `CommandResourceService.CreateTermUsingPOSTParams` containing the following parameters:
+   *
+   * - `title`:
+   *
+   * - `id`:
+   *
+   * @return OK
+   */
+  createTermUsingPOST(params: CommandResourceService.CreateTermUsingPOSTParams): __Observable<TermDTO> {
+    return this.createTermUsingPOSTResponse(params).pipe(
+      __map(_r => _r.body as TermDTO)
+    );
+  }
+
+  /**
+   * @param params The `CommandResourceService.UpdateTermUsingPUTParams` containing the following parameters:
+   *
+   * - `title`:
+   *
+   * - `id`:
+   *
+   * @return OK
+   */
+  updateTermUsingPUTResponse(params: CommandResourceService.UpdateTermUsingPUTParams): __Observable<__StrictHttpResponse<TermDTO>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+    if (params.title != null) __params = __params.set('title', params.title.toString());
+    if (params.id != null) __params = __params.set('id', params.id.toString());
+    let req = new HttpRequest<any>(
+      'PUT',
+      this.rootUrl + `/api/command/term`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<TermDTO>;
+      })
+    );
+  }
+  /**
+   * @param params The `CommandResourceService.UpdateTermUsingPUTParams` containing the following parameters:
+   *
+   * - `title`:
+   *
+   * - `id`:
+   *
+   * @return OK
+   */
+  updateTermUsingPUT(params: CommandResourceService.UpdateTermUsingPUTParams): __Observable<TermDTO> {
+    return this.updateTermUsingPUTResponse(params).pipe(
+      __map(_r => _r.body as TermDTO)
+    );
+  }
+
+  /**
+   * @param id id
+   */
+  deleteTermUsingDELETEResponse(id: number): __Observable<__StrictHttpResponse<null>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+
+    let req = new HttpRequest<any>(
+      'DELETE',
+      this.rootUrl + `/api/command/term/${id}`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<null>;
+      })
+    );
+  }
+  /**
+   * @param id id
+   */
+  deleteTermUsingDELETE(id: number): __Observable<null> {
+    return this.deleteTermUsingDELETEResponse(id).pipe(
+      __map(_r => _r.body as null)
+    );
+  }
 }
 
 module CommandResourceService {
+
+  /**
+   * Parameters for createAboutUsUsingPOST
+   */
+  export interface CreateAboutUsUsingPOSTParams {
+    supportPhone?: number;
+    supportMail?: string;
+    id?: number;
+    description?: string;
+    addOn3?: string;
+    addOn2?: string;
+    addOn1?: string;
+  }
+
+  /**
+   * Parameters for updateAboutUsUsingPUT
+   */
+  export interface UpdateAboutUsUsingPUTParams {
+    supportPhone?: number;
+    supportMail?: string;
+    id?: number;
+    description?: string;
+    addOn3?: string;
+    addOn2?: string;
+    addOn1?: string;
+  }
 
   /**
    * Parameters for createRefundUsingPOST
@@ -860,6 +1342,40 @@ module CommandResourceService {
      * orderId
      */
     orderId: string;
+  }
+
+  /**
+   * Parameters for createSubTermUsingPOST
+   */
+  export interface CreateSubTermUsingPOSTParams {
+    termId?: number;
+    termDescription?: string;
+    id?: number;
+  }
+
+  /**
+   * Parameters for updateSubTermUsingPUT
+   */
+  export interface UpdateSubTermUsingPUTParams {
+    termId?: number;
+    termDescription?: string;
+    id?: number;
+  }
+
+  /**
+   * Parameters for createTermUsingPOST
+   */
+  export interface CreateTermUsingPOSTParams {
+    title?: string;
+    id?: number;
+  }
+
+  /**
+   * Parameters for updateTermUsingPUT
+   */
+  export interface UpdateTermUsingPUTParams {
+    title?: string;
+    id?: number;
   }
 }
 

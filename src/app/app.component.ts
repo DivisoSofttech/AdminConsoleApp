@@ -47,6 +47,18 @@ export class AppComponent {
       url: '/banners',
       icon: 'albums'
     }
+    ,
+    {
+      title: 'Terms and conditions',
+      url: '/terms-and-conditions',
+      icon: 'list'
+    }
+    ,
+    {
+      title: 'About',
+      url: '/about',
+      icon: 'information-circle-outline'
+    }
   ];
 
   constructor(

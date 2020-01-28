@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Feedback } from './../../api/models/feedback';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-feedback',
@@ -7,6 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FeedbackComponent implements OnInit {
 
+  @Input()feedback:Feedback={};
   constructor() { }
 
   ngOnInit() {}

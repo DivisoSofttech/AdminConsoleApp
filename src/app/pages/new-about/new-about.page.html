@@ -1,0 +1,54 @@
+<ion-header>
+  <ion-toolbar color='primary'>
+
+    <ion-title>Add about</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+
+
+
+
+
+  <!-- Textarea in an item with a placeholder -->
+
+
+  <form no-padding no-margin [formGroup]="aboutForm" (ngSubmit)="save()">
+
+
+    <ion-item>
+      <ion-label position="floating" color="primary">About</ion-label>
+
+      <ion-textarea rows="6" autoGrow="true" formControlName="description"></ion-textarea>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating" color="primary">Support mail</ion-label>
+      <ion-input  formControlName="supportMail"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating" color="primary">Support phone</ion-label>
+      <ion-input formControlName="supportPhone"></ion-input>
+    </ion-item>
+
+
+  </form>
+
+
+
+
+  <ion-fab vertical="bottom" horizontal="start" slot="fixed">
+    <ion-fab-button color="danger" (click)="close()">
+      <ion-icon name="close"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button color="success" (click)="save()">
+      <ion-icon name="checkmark"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+</ion-content>

@@ -57,7 +57,7 @@ orderSummeryForm = this.formBuilder.group({
   storeId: ['', [ Validators.maxLength(100)]],
 });
 
-orderDetaildSummeryForm = this.formBuilder.group({
+cancellationSummeryForm = this.formBuilder.group({
   date: ['', [Validators.required, Validators.maxLength(100)]],
   storeId: ['', [Validators.required, Validators.maxLength(100)]],
 });
@@ -197,7 +197,7 @@ getOrderSummeryAndDetaildOrderSummeryByFillter() {
 
         );
         });
-  
+
 
 
 
@@ -260,8 +260,21 @@ selectStore(store: Store) {
   console.log('selected store is ', store);
   this.isStoreSearch = false;
   this.store = store;
+  if (this.reportType === 'order summery') {
   this.ordersForm.value.storeId = this.store.storeUniqueId;
   this.ordersForm.setValue(this.ordersForm.value);
+} else if (this.reportType === 'cancellation summery') {
+
+  
+  
+  this.cancellationSummeryForm.value.storeId = this.store.storeUniqueId;
+  this.cancellationSummeryForm.setValue(this.cancellationSummeryForm.value);
+  console.log('cancellation valid', this.cancellationSummeryForm.valid);
+  console.log('the store is ', this.cancellationSummeryForm.get('storeId').value);
+  console.log('the date is ', this.cancellationSummeryForm.get('date').value);
+
+
+}
 
 }
 removeStore() {

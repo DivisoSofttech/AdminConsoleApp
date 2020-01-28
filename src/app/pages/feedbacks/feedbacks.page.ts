@@ -1,5 +1,7 @@
+import { Feedback } from './../../api/models/feedback';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { IonInfiniteScroll } from '@ionic/angular';
+import { QueryResourceService } from 'src/app/api/services/query-resource.service';
 
 @Component({
   selector: 'app-feedbacks',
@@ -8,30 +10,52 @@ import { IonInfiniteScroll } from '@ionic/angular';
 })
 export class FeedbacksPage implements OnInit {
 
-  constructor() { }
+  constructor(private queryService: QueryResourceService) { }
 
   @ViewChild(IonInfiniteScroll, null) infiniteScroll: IonInfiniteScroll;
+  pagenumber = 0;
+  totelPages = 1;
+  feedbacks: Feedback[] = [];
 
   ngOnInit() {
+    this.findFeedBacks();
+
+
   }
-  numbers  = [1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2];
 
 
   loadData(event) {
     setTimeout(() => {
       console.log('Done');
       event.target.complete();
-      const data = [1, 2, 3, 4, 5, 6, 7, 8];
       // App logic to determine if all data is loaded
       // and disable the infinite scroll
-      for(let i=0;i<100;i++){
-        if(i%10==0)this.numbers.push(i);
+      if (this.pagenumber < this.totelPages) {
+        this.pagenumber++;
+        this.findFeedBacks();
+        if (this.feedbacks.length === 1000) {
+            event.target.disabled = true;
+          }
+    }
+    }, 500);
+  }
+
+  findFeedBacks() {
+
+    this.queryService.findAllFeedBackUsingGET({page: this.pagenumber, size: 10}).subscribe(
+      res => {
+
+        console.log(' got feed backs ', res);
+        this.totelPages = res.totalPages;
+        this.feedbacks.concat(res.content);
+        this.feedbacks = this.feedbacks.concat(res.content);
+        console.log('  feed backs are', res.content);
+
+        console.log('  feed backs are', this.feedbacks);
 
       }
-      if (data.length === 1000) {
-        event.target.disabled = true;
-      }
-    }, 500);
+    );
+
   }
 
   toggleInfiniteScroll() {

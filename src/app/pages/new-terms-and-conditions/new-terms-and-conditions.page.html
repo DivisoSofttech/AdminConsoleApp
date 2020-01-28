@@ -1,0 +1,59 @@
+<ion-header>
+  <ion-toolbar color='primary'>
+
+    <ion-title>Terms and conditions</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+
+
+
+
+
+  <!-- Textarea in an item with a placeholder -->
+
+<ion-card>
+  <form no-padding no-margin [formGroup]="termForm" (ngSubmit)="save()">
+
+
+    <ion-item>
+      <ion-label position="floating" color="primary">Title</ion-label>
+
+      <ion-input  formControlName="title"></ion-input>
+    </ion-item>
+
+    <ion-item *ngFor="let subterm of subTermDTOs;let i=index">
+      <ion-label position="floating" color="primary">Subterm</ion-label>
+      <ion-textarea  row="10"  [formControlName]="'subterm' + i"></ion-textarea>
+    </ion-item>
+
+    
+
+
+  </form>
+  <ion-item (click)="addSubterm()">
+    <ion-text>Add sub term</ion-text>
+
+      <ion-icon slot="end" name="add"></ion-icon>
+
+  </ion-item>
+
+</ion-card>
+
+
+
+
+  <ion-fab vertical="bottom" horizontal="start" slot="fixed">
+    <ion-fab-button color="danger" (click)="close()">
+      <ion-icon name="close"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button color="success" (click)="save()">
+      <ion-icon name="checkmark"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+</ion-content>

@@ -1,11 +1,11 @@
 <ion-card>
   <ion-card-header >
   <ion-item lines="none" lines="full" >
-    <ion-text slot="start">manu@gmail.com</ion-text>
+  <ion-text slot="start">{{feedback.customerEmail}}</ion-text>
   </ion-item>
   <ion-item lines="none">  
     <ion-chip>
-      <ion-label>#223</ion-label>
+    <ion-label>{{feedback.ticketId}}</ion-label>
     </ion-chip>
   </ion-item>
 
@@ -13,7 +13,6 @@
   </ion-card-header>
 
   <ion-card-content>
-    Keep close to Nature's heart... and break clear away, once in awhile,
-    and climb a mountain or spend a week in the woods. Wash your spirit clean.
+   {{feedback.query}}
   </ion-card-content>
 </ion-card>

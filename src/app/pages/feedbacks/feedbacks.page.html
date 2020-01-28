@@ -8,13 +8,7 @@
 </ion-header>
 
 <ion-content>
-  <ion-card>
-  <ion-item lines="full" class="date">
-    <ion-label position="floating">From *</ion-label>
-    <ion-datetime displayFormat="DD-MMM-YYYY"></ion-datetime>
-  </ion-item>  
-</ion-card>
-<app-feedback *ngFor="let item of numbers" ></app-feedback>
+<app-feedback *ngFor="let feedback of feedbacks" [feedback]=feedback ></app-feedback>
 
 <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
   <ion-infinite-scroll-content
