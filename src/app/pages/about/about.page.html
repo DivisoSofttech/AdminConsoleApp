@@ -8,10 +8,26 @@
 </ion-header>
 
 <ion-content>
+  <ion-card>
+    
+    <ion-card-content>
+      <ion-text>
+        <h3>
+     {{aboutService.about.description}} 
+    </h3>
+    </ion-text>
+    </ion-card-content>
+    <ion-item>
+      <ion-text slot="end"> {{aboutService.about.supportPhone}}</ion-text>
+    </ion-item>
+    <ion-item>
+      <ion-text slot="end"> {{aboutService.about.supportMail}}</ion-text>
+    </ion-item>
+ </ion-card>
 
     <ion-fab vertical="bottom" horizontal="end" slot="fixed" routerLink="/new-about">
     <ion-fab-button>
-      <ion-icon name="add-circle"></ion-icon>
+      <ion-icon name="create"></ion-icon>
     </ion-fab-button>
   </ion-fab>
 </ion-content>

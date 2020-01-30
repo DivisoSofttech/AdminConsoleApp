@@ -1,3 +1,6 @@
+import { TermsService } from './../../services/terms.service';
+import { QueryResourceService } from 'src/app/api/services';
+import { Term } from './../../api/models/term';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -7,10 +10,24 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TermsAndConditionsPage implements OnInit {
 
-  constructor() { }
+  constructor(private queryResource: QueryResourceService,
+              private termsService: TermsService) { }
+
+
 
   ngOnInit() {
+     this.queryResource.findalltermsUsingGET({size: 10}).subscribe(res => {
+
+      console.log('res=>>>>>>>', res);
+      this.termsService.terms = res.content;
+
+
+     },
+     err => {
+      console.log('err=>>>>>>>', err);
+
+     });
   }
-  
+
 
 }

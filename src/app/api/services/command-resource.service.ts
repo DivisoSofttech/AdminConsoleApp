@@ -18,6 +18,7 @@ import { NotificationDTO } from '../models/notification-dto';
 import { OrderModel } from '../models/order-model';
 import { OfferModel } from '../models/offer-model';
 import { SubTermDTO } from '../models/sub-term-dto';
+import { Term } from '../models/term';
 import { TermDTO } from '../models/term-dto';
 
 /**
@@ -1155,15 +1156,27 @@ class CommandResourceService extends __BaseService {
    *
    * - `title`:
    *
+   * - `subTerms[0].termDescription`:
+   *
+   * - `subTerms[0].term.title`:
+   *
+   * - `subTerms[0].term.id`:
+   *
+   * - `subTerms[0].id`:
+   *
    * - `id`:
    *
    * @return OK
    */
-  createTermUsingPOSTResponse(params: CommandResourceService.CreateTermUsingPOSTParams): __Observable<__StrictHttpResponse<TermDTO>> {
+  createTermUsingPOSTResponse(params: CommandResourceService.CreateTermUsingPOSTParams): __Observable<__StrictHttpResponse<Term>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
     if (params.title != null) __params = __params.set('title', params.title.toString());
+    if (params.subTerms0TermDescription != null) __params = __params.set('subTerms[0].termDescription', params.subTerms0TermDescription.toString());
+    if (params.subTerms0TermTitle != null) __params = __params.set('subTerms[0].term.title', params.subTerms0TermTitle.toString());
+    if (params.subTerms0TermId != null) __params = __params.set('subTerms[0].term.id', params.subTerms0TermId.toString());
+    if (params.subTerms0Id != null) __params = __params.set('subTerms[0].id', params.subTerms0Id.toString());
     if (params.id != null) __params = __params.set('id', params.id.toString());
     let req = new HttpRequest<any>(
       'POST',
@@ -1178,7 +1191,7 @@ class CommandResourceService extends __BaseService {
     return this.http.request<any>(req).pipe(
       __filter(_r => _r instanceof HttpResponse),
       __map((_r) => {
-        return _r as __StrictHttpResponse<TermDTO>;
+        return _r as __StrictHttpResponse<Term>;
       })
     );
   }
@@ -1187,13 +1200,21 @@ class CommandResourceService extends __BaseService {
    *
    * - `title`:
    *
+   * - `subTerms[0].termDescription`:
+   *
+   * - `subTerms[0].term.title`:
+   *
+   * - `subTerms[0].term.id`:
+   *
+   * - `subTerms[0].id`:
+   *
    * - `id`:
    *
    * @return OK
    */
-  createTermUsingPOST(params: CommandResourceService.CreateTermUsingPOSTParams): __Observable<TermDTO> {
+  createTermUsingPOST(params: CommandResourceService.CreateTermUsingPOSTParams): __Observable<Term> {
     return this.createTermUsingPOSTResponse(params).pipe(
-      __map(_r => _r.body as TermDTO)
+      __map(_r => _r.body as Term)
     );
   }
 
@@ -1367,6 +1388,10 @@ module CommandResourceService {
    */
   export interface CreateTermUsingPOSTParams {
     title?: string;
+    subTerms0TermDescription?: string;
+    subTerms0TermTitle?: string;
+    subTerms0TermId?: number;
+    subTerms0Id?: number;
     id?: number;
   }
 

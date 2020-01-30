@@ -12,6 +12,7 @@ import { CancellationRequestDTO } from '../models/cancellation-request-dto';
 import { CancelledOrderLineDTO } from '../models/cancelled-order-line-dto';
 import { NotificationDTO } from '../models/notification-dto';
 import { RefundDetailsDTO } from '../models/refund-details-dto';
+import { About } from '../models/about';
 import { PdfDTO } from '../models/pdf-dto';
 import { PageOfFeedback } from '../models/page-of-feedback';
 import { AuxItem } from '../models/aux-item';
@@ -24,6 +25,9 @@ import { PageOfOrderMaster } from '../models/page-of-order-master';
 import { Order } from '../models/order';
 import { OrderLine } from '../models/order-line';
 import { PageOfStore } from '../models/page-of-store';
+import { SubTerm } from '../models/sub-term';
+import { PageOfAbout } from '../models/page-of-about';
+import { PageOfTerm } from '../models/page-of-term';
 import { CancellationRequest } from '../models/cancellation-request';
 import { RefundDetails } from '../models/refund-details';
 import { StoreDTO } from '../models/store-dto';
@@ -32,6 +36,7 @@ import { DeductionValueTypeDTO } from '../models/deduction-value-type-dto';
 import { OfferDTO } from '../models/offer-dto';
 import { ReportSummary } from '../models/report-summary';
 import { DataResponse } from '../models/data-response';
+import { Term } from '../models/term';
 
 /**
  * Query Resource
@@ -45,6 +50,7 @@ class QueryResourceService extends __BaseService {
   static readonly searchCancelledOrderLinesUsingGETPath = '/api/query/_search/cancelled-order-lines';
   static readonly searchNotificationsUsingGETPath = '/api/query/_search/notifications';
   static readonly searchRefundDetailsUsingGETPath = '/api/query/_search/refund-details';
+  static readonly findAboutByIdUsingGETPath = '/api/query/about/{id}';
   static readonly getReportWithAuxAndComboAsPdfUsingGETPath = '/api/query/auxcombo/{orderNumber}';
   static readonly getAllBannersUsingGETPath = '/api/query/banners';
   static readonly getBannerUsingGETPath = '/api/query/banners/{id}';
@@ -70,6 +76,9 @@ class QueryResourceService extends __BaseService {
   static readonly findOrderMasterCountByExpectedDeliveryBetweenUsingGETPath = '/api/query/findOrderMasterCountByExpectedDeliveryBetween/{from}/{to}';
   static readonly findOrdersByOrderIdUsingGETPath = '/api/query/findOrdersByOrderId/{orderId}';
   static readonly findStoreBySearchTermUsingGETPath = '/api/query/findStore/{name}';
+  static readonly getSubTermsByTermIdUsingGETPath = '/api/query/findSubTermByTermId/{id}';
+  static readonly findallaboutUsingGETPath = '/api/query/findallabout';
+  static readonly findalltermsUsingGETPath = '/api/query/findallterms';
   static readonly getCancellationRequestByOrderIdUsingGETPath = '/api/query/getCancellationRequest/{orderId}';
   static readonly getOrderSummaryByDateAndStoreNameUsingGETPath = '/api/query/getOrderSummaryByDateAndStoreName/{date}/{storeId}';
   static readonly getOrdersByFilterUsingGETPath = '/api/query/getOrdersByFilter/{fromDate}/{toDate}';
@@ -87,7 +96,9 @@ class QueryResourceService extends __BaseService {
   static readonly getReportSummaryAsPdfUsingGETPath = '/api/query/reportSummary/{date}';
   static readonly createReportSummaryUsingGETPath = '/api/query/reportview/{date}';
   static readonly getSaleReportAsPdfUsingGETPath = '/api/query/salereport/{storeidpcode}';
+  static readonly findSubTermByIdUsingGETPath = '/api/query/subTerm/{id}';
   static readonly getTasksUsingGETPath = '/api/query/tasks';
+  static readonly findTermByIdUsingGETPath = '/api/query/term/{id}';
 
   constructor(
     config: __Configuration,
@@ -378,6 +389,42 @@ class QueryResourceService extends __BaseService {
   searchRefundDetailsUsingGET(params: QueryResourceService.SearchRefundDetailsUsingGETParams): __Observable<Array<RefundDetailsDTO>> {
     return this.searchRefundDetailsUsingGETResponse(params).pipe(
       __map(_r => _r.body as Array<RefundDetailsDTO>)
+    );
+  }
+
+  /**
+   * @param id id
+   * @return OK
+   */
+  findAboutByIdUsingGETResponse(id: number): __Observable<__StrictHttpResponse<About>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+
+    let req = new HttpRequest<any>(
+      'GET',
+      this.rootUrl + `/api/query/about/${id}`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<About>;
+      })
+    );
+  }
+  /**
+   * @param id id
+   * @return OK
+   */
+  findAboutByIdUsingGET(id: number): __Observable<About> {
+    return this.findAboutByIdUsingGETResponse(id).pipe(
+      __map(_r => _r.body as About)
     );
   }
 
@@ -1520,6 +1567,146 @@ class QueryResourceService extends __BaseService {
   }
 
   /**
+   * @param id id
+   * @return OK
+   */
+  getSubTermsByTermIdUsingGETResponse(id: number): __Observable<__StrictHttpResponse<SubTerm>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+
+    let req = new HttpRequest<any>(
+      'GET',
+      this.rootUrl + `/api/query/findSubTermByTermId/${id}`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<SubTerm>;
+      })
+    );
+  }
+  /**
+   * @param id id
+   * @return OK
+   */
+  getSubTermsByTermIdUsingGET(id: number): __Observable<SubTerm> {
+    return this.getSubTermsByTermIdUsingGETResponse(id).pipe(
+      __map(_r => _r.body as SubTerm)
+    );
+  }
+
+  /**
+   * @param params The `QueryResourceService.FindallaboutUsingGETParams` containing the following parameters:
+   *
+   * - `sort`: Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+   *
+   * - `size`: Size of a page
+   *
+   * - `page`: Page number of the requested page
+   *
+   * @return OK
+   */
+  findallaboutUsingGETResponse(params: QueryResourceService.FindallaboutUsingGETParams): __Observable<__StrictHttpResponse<PageOfAbout>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+    (params.sort || []).forEach(val => {if (val != null) __params = __params.append('sort', val.toString())});
+    if (params.size != null) __params = __params.set('size', params.size.toString());
+    if (params.page != null) __params = __params.set('page', params.page.toString());
+    let req = new HttpRequest<any>(
+      'GET',
+      this.rootUrl + `/api/query/findallabout`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<PageOfAbout>;
+      })
+    );
+  }
+  /**
+   * @param params The `QueryResourceService.FindallaboutUsingGETParams` containing the following parameters:
+   *
+   * - `sort`: Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+   *
+   * - `size`: Size of a page
+   *
+   * - `page`: Page number of the requested page
+   *
+   * @return OK
+   */
+  findallaboutUsingGET(params: QueryResourceService.FindallaboutUsingGETParams): __Observable<PageOfAbout> {
+    return this.findallaboutUsingGETResponse(params).pipe(
+      __map(_r => _r.body as PageOfAbout)
+    );
+  }
+
+  /**
+   * @param params The `QueryResourceService.FindalltermsUsingGETParams` containing the following parameters:
+   *
+   * - `sort`: Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+   *
+   * - `size`: Size of a page
+   *
+   * - `page`: Page number of the requested page
+   *
+   * @return OK
+   */
+  findalltermsUsingGETResponse(params: QueryResourceService.FindalltermsUsingGETParams): __Observable<__StrictHttpResponse<PageOfTerm>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+    (params.sort || []).forEach(val => {if (val != null) __params = __params.append('sort', val.toString())});
+    if (params.size != null) __params = __params.set('size', params.size.toString());
+    if (params.page != null) __params = __params.set('page', params.page.toString());
+    let req = new HttpRequest<any>(
+      'GET',
+      this.rootUrl + `/api/query/findallterms`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<PageOfTerm>;
+      })
+    );
+  }
+  /**
+   * @param params The `QueryResourceService.FindalltermsUsingGETParams` containing the following parameters:
+   *
+   * - `sort`: Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+   *
+   * - `size`: Size of a page
+   *
+   * - `page`: Page number of the requested page
+   *
+   * @return OK
+   */
+  findalltermsUsingGET(params: QueryResourceService.FindalltermsUsingGETParams): __Observable<PageOfTerm> {
+    return this.findalltermsUsingGETResponse(params).pipe(
+      __map(_r => _r.body as PageOfTerm)
+    );
+  }
+
+  /**
    * @param orderId orderId
    * @return OK
    */
@@ -2296,6 +2483,42 @@ class QueryResourceService extends __BaseService {
   }
 
   /**
+   * @param id id
+   * @return OK
+   */
+  findSubTermByIdUsingGETResponse(id?: number): __Observable<__StrictHttpResponse<SubTerm>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+    if (id != null) __params = __params.set('id', id.toString());
+    let req = new HttpRequest<any>(
+      'GET',
+      this.rootUrl + `/api/query/subTerm/${id}`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<SubTerm>;
+      })
+    );
+  }
+  /**
+   * @param id id
+   * @return OK
+   */
+  findSubTermByIdUsingGET(id?: number): __Observable<SubTerm> {
+    return this.findSubTermByIdUsingGETResponse(id).pipe(
+      __map(_r => _r.body as SubTerm)
+    );
+  }
+
+  /**
    * @param params The `QueryResourceService.GetTasksUsingGETParams` containing the following parameters:
    *
    * - `withoutTenantId`: If true, only returns tasks without a tenantId set. If false, the withoutTenantId parameter is ignored.
@@ -2544,6 +2767,42 @@ class QueryResourceService extends __BaseService {
   getTasksUsingGET(params: QueryResourceService.GetTasksUsingGETParams): __Observable<DataResponse> {
     return this.getTasksUsingGETResponse(params).pipe(
       __map(_r => _r.body as DataResponse)
+    );
+  }
+
+  /**
+   * @param id id
+   * @return OK
+   */
+  findTermByIdUsingGETResponse(id: number): __Observable<__StrictHttpResponse<Term>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+
+    let req = new HttpRequest<any>(
+      'GET',
+      this.rootUrl + `/api/query/term/${id}`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<Term>;
+      })
+    );
+  }
+  /**
+   * @param id id
+   * @return OK
+   */
+  findTermByIdUsingGET(id: number): __Observable<Term> {
+    return this.findTermByIdUsingGETResponse(id).pipe(
+      __map(_r => _r.body as Term)
     );
   }
 }
@@ -2966,6 +3225,48 @@ module QueryResourceService {
      * name
      */
     name: string;
+
+    /**
+     * Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+     */
+    sort?: Array<string>;
+
+    /**
+     * Size of a page
+     */
+    size?: number;
+
+    /**
+     * Page number of the requested page
+     */
+    page?: number;
+  }
+
+  /**
+   * Parameters for findallaboutUsingGET
+   */
+  export interface FindallaboutUsingGETParams {
+
+    /**
+     * Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+     */
+    sort?: Array<string>;
+
+    /**
+     * Size of a page
+     */
+    size?: number;
+
+    /**
+     * Page number of the requested page
+     */
+    page?: number;
+  }
+
+  /**
+   * Parameters for findalltermsUsingGET
+   */
+  export interface FindalltermsUsingGETParams {
 
     /**
      * Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.

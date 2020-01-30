@@ -1,3 +1,4 @@
+import { AboutService } from './../../services/about.service';
 import { SubTermDTO } from './../../api/models/sub-term-dto';
 import { TermDTO } from './../../api/models/term-dto';
 import { Component, OnInit } from '@angular/core';
@@ -17,7 +18,8 @@ export class NewAboutPage implements OnInit {
   constructor(private navController: NavController,
               private commandResourceService: CommandResourceService,
               private util: Util,
-              private formBuilder: FormBuilder) {
+              private formBuilder: FormBuilder,
+              private aboutService: AboutService) {
 
 }
 
@@ -33,11 +35,17 @@ supportPhone: ['', [Validators.required, Validators.pattern('^(0|[1-9][0-9]*)$')
 
 
 ngOnInit() {
+  this.aboutDTO=this.aboutService.about;
+  this.aboutForm.get('description').setValue(this.aboutDTO.description);
+  this.aboutForm.get('supportMail').setValue(this.aboutDTO.supportMail);
+  this.aboutForm.get('supportPhone').setValue(this.aboutDTO.supportPhone);
+
+
 }
 
 
 close() {
-this.navController.navigateForward('/terms-and-conditions');
+this.navController.navigateForward('/about');
 }
 
 save() {
@@ -55,7 +63,7 @@ res => {
 
 console.log('created about ', res);
 
-this.navController.navigateForward('/terms-and-conditions');
+this.navController.navigateForward('/about');
 loader.dismiss();
 this.aboutForm.reset();
 },
