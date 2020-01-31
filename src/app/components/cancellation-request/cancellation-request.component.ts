@@ -29,12 +29,13 @@ export class CancellationRequestComponent implements OnInit {
   }
 
 
-  
+
 
   refund() {
     this.util.createLoader().then(loader => {
       loader.present();
-      // this.refundDto.amount = this.cancellation.amount;
+
+      this.refundDto.amount = this.cancellation.amount;
       this.commandResource.createRefundUsingPOST({paymentId: this.cancellation.paymentId,
          orderId: this.cancellation.orderId, refundDetailsDTO: this.refundDto}).subscribe(
             res => {

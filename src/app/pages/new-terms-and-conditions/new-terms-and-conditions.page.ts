@@ -19,7 +19,7 @@ export class NewTermsAndConditionsPage implements OnInit {
               private commandResourceService: CommandResourceService,
               private util: Util,
               private formBuilder: FormBuilder,
-              private termService:TermsService) {
+              private termService: TermsService) {
 
 }
 
@@ -36,8 +36,15 @@ termForm = this.formBuilder.group({
 
 
 ngOnInit() {
+
+  this.term = this.termService.term;
+  this.setDataInForm();
   this.addSubterm();
+  console.log('hii');
+
+
 }
+
 
 
 close() {
@@ -45,11 +52,13 @@ this.navController.navigateForward('/terms-and-conditions');
 }
 
 save() {
+  console.log(' term is ...', this.term);
+
   this.term.title = this.termForm.get('title').value;
   this.subTermDTOs = [];
   for (let x = 0; x < this.i; x++) {
 
-    this.subTermDTOs.push(this.termForm.get('subterm' + x).value);
+    this.subTermDTOs.push({termDescription: this.termForm.get('subterm' + x).value});
 
 
   }
@@ -66,7 +75,7 @@ this.commandResourceService.createTermUsingPOST(this.term).subscribe(
 res => {
 
 console.log('created term ', res);
-this.termService.terms=[res].concat(this.termService.terms);
+this.termService.term = res;
 
 this.navController.navigateForward('/terms-and-conditions');
 loader.dismiss();
@@ -91,6 +100,14 @@ addSubterm() {
   console.error(this.termForm);
   this.subTermDTOs.push({});
   this.i++;
+}
+
+setDataInForm() {
+
+  this.termForm.value.title = this.term.title;
+  this.termForm.setValue(this.termForm.value);
+ 
+
 }
 
 

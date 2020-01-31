@@ -67,35 +67,14 @@ class CommandResourceService extends __BaseService {
   }
 
   /**
-   * @param params The `CommandResourceService.CreateAboutUsUsingPOSTParams` containing the following parameters:
-   *
-   * - `supportPhone`:
-   *
-   * - `supportMail`:
-   *
-   * - `id`:
-   *
-   * - `description`:
-   *
-   * - `addOn3`:
-   *
-   * - `addOn2`:
-   *
-   * - `addOn1`:
-   *
+   * @param aboutDTO aboutDTO
    * @return OK
    */
-  createAboutUsUsingPOSTResponse(params: CommandResourceService.CreateAboutUsUsingPOSTParams): __Observable<__StrictHttpResponse<AboutDTO>> {
+  createAboutUsUsingPOSTResponse(aboutDTO: AboutDTO): __Observable<__StrictHttpResponse<AboutDTO>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
-    if (params.supportPhone != null) __params = __params.set('supportPhone', params.supportPhone.toString());
-    if (params.supportMail != null) __params = __params.set('supportMail', params.supportMail.toString());
-    if (params.id != null) __params = __params.set('id', params.id.toString());
-    if (params.description != null) __params = __params.set('description', params.description.toString());
-    if (params.addOn3 != null) __params = __params.set('addOn3', params.addOn3.toString());
-    if (params.addOn2 != null) __params = __params.set('addOn2', params.addOn2.toString());
-    if (params.addOn1 != null) __params = __params.set('addOn1', params.addOn1.toString());
+    __body = aboutDTO;
     let req = new HttpRequest<any>(
       'POST',
       this.rootUrl + `/api/command/about`,
@@ -114,60 +93,24 @@ class CommandResourceService extends __BaseService {
     );
   }
   /**
-   * @param params The `CommandResourceService.CreateAboutUsUsingPOSTParams` containing the following parameters:
-   *
-   * - `supportPhone`:
-   *
-   * - `supportMail`:
-   *
-   * - `id`:
-   *
-   * - `description`:
-   *
-   * - `addOn3`:
-   *
-   * - `addOn2`:
-   *
-   * - `addOn1`:
-   *
+   * @param aboutDTO aboutDTO
    * @return OK
    */
-  createAboutUsUsingPOST(params: CommandResourceService.CreateAboutUsUsingPOSTParams): __Observable<AboutDTO> {
-    return this.createAboutUsUsingPOSTResponse(params).pipe(
+  createAboutUsUsingPOST(aboutDTO: AboutDTO): __Observable<AboutDTO> {
+    return this.createAboutUsUsingPOSTResponse(aboutDTO).pipe(
       __map(_r => _r.body as AboutDTO)
     );
   }
 
   /**
-   * @param params The `CommandResourceService.UpdateAboutUsUsingPUTParams` containing the following parameters:
-   *
-   * - `supportPhone`:
-   *
-   * - `supportMail`:
-   *
-   * - `id`:
-   *
-   * - `description`:
-   *
-   * - `addOn3`:
-   *
-   * - `addOn2`:
-   *
-   * - `addOn1`:
-   *
+   * @param aboutDTO aboutDTO
    * @return OK
    */
-  updateAboutUsUsingPUTResponse(params: CommandResourceService.UpdateAboutUsUsingPUTParams): __Observable<__StrictHttpResponse<AboutDTO>> {
+  updateAboutUsUsingPUTResponse(aboutDTO: AboutDTO): __Observable<__StrictHttpResponse<AboutDTO>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
-    if (params.supportPhone != null) __params = __params.set('supportPhone', params.supportPhone.toString());
-    if (params.supportMail != null) __params = __params.set('supportMail', params.supportMail.toString());
-    if (params.id != null) __params = __params.set('id', params.id.toString());
-    if (params.description != null) __params = __params.set('description', params.description.toString());
-    if (params.addOn3 != null) __params = __params.set('addOn3', params.addOn3.toString());
-    if (params.addOn2 != null) __params = __params.set('addOn2', params.addOn2.toString());
-    if (params.addOn1 != null) __params = __params.set('addOn1', params.addOn1.toString());
+    __body = aboutDTO;
     let req = new HttpRequest<any>(
       'PUT',
       this.rootUrl + `/api/command/about`,
@@ -186,26 +129,11 @@ class CommandResourceService extends __BaseService {
     );
   }
   /**
-   * @param params The `CommandResourceService.UpdateAboutUsUsingPUTParams` containing the following parameters:
-   *
-   * - `supportPhone`:
-   *
-   * - `supportMail`:
-   *
-   * - `id`:
-   *
-   * - `description`:
-   *
-   * - `addOn3`:
-   *
-   * - `addOn2`:
-   *
-   * - `addOn1`:
-   *
+   * @param aboutDTO aboutDTO
    * @return OK
    */
-  updateAboutUsUsingPUT(params: CommandResourceService.UpdateAboutUsUsingPUTParams): __Observable<AboutDTO> {
-    return this.updateAboutUsUsingPUTResponse(params).pipe(
+  updateAboutUsUsingPUT(aboutDTO: AboutDTO): __Observable<AboutDTO> {
+    return this.updateAboutUsUsingPUTResponse(aboutDTO).pipe(
       __map(_r => _r.body as AboutDTO)
     );
   }
@@ -1014,23 +942,14 @@ class CommandResourceService extends __BaseService {
   }
 
   /**
-   * @param params The `CommandResourceService.CreateSubTermUsingPOSTParams` containing the following parameters:
-   *
-   * - `termId`:
-   *
-   * - `termDescription`:
-   *
-   * - `id`:
-   *
+   * @param subTermDTO subTermDTO
    * @return OK
    */
-  createSubTermUsingPOSTResponse(params: CommandResourceService.CreateSubTermUsingPOSTParams): __Observable<__StrictHttpResponse<SubTermDTO>> {
+  createSubTermUsingPOSTResponse(subTermDTO: SubTermDTO): __Observable<__StrictHttpResponse<SubTermDTO>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
-    if (params.termId != null) __params = __params.set('termId', params.termId.toString());
-    if (params.termDescription != null) __params = __params.set('termDescription', params.termDescription.toString());
-    if (params.id != null) __params = __params.set('id', params.id.toString());
+    __body = subTermDTO;
     let req = new HttpRequest<any>(
       'POST',
       this.rootUrl + `/api/command/sub-term`,
@@ -1049,40 +968,24 @@ class CommandResourceService extends __BaseService {
     );
   }
   /**
-   * @param params The `CommandResourceService.CreateSubTermUsingPOSTParams` containing the following parameters:
-   *
-   * - `termId`:
-   *
-   * - `termDescription`:
-   *
-   * - `id`:
-   *
+   * @param subTermDTO subTermDTO
    * @return OK
    */
-  createSubTermUsingPOST(params: CommandResourceService.CreateSubTermUsingPOSTParams): __Observable<SubTermDTO> {
-    return this.createSubTermUsingPOSTResponse(params).pipe(
+  createSubTermUsingPOST(subTermDTO: SubTermDTO): __Observable<SubTermDTO> {
+    return this.createSubTermUsingPOSTResponse(subTermDTO).pipe(
       __map(_r => _r.body as SubTermDTO)
     );
   }
 
   /**
-   * @param params The `CommandResourceService.UpdateSubTermUsingPUTParams` containing the following parameters:
-   *
-   * - `termId`:
-   *
-   * - `termDescription`:
-   *
-   * - `id`:
-   *
+   * @param subTermDTO subTermDTO
    * @return OK
    */
-  updateSubTermUsingPUTResponse(params: CommandResourceService.UpdateSubTermUsingPUTParams): __Observable<__StrictHttpResponse<SubTermDTO>> {
+  updateSubTermUsingPUTResponse(subTermDTO: SubTermDTO): __Observable<__StrictHttpResponse<SubTermDTO>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
-    if (params.termId != null) __params = __params.set('termId', params.termId.toString());
-    if (params.termDescription != null) __params = __params.set('termDescription', params.termDescription.toString());
-    if (params.id != null) __params = __params.set('id', params.id.toString());
+    __body = subTermDTO;
     let req = new HttpRequest<any>(
       'PUT',
       this.rootUrl + `/api/command/sub-term`,
@@ -1101,18 +1004,11 @@ class CommandResourceService extends __BaseService {
     );
   }
   /**
-   * @param params The `CommandResourceService.UpdateSubTermUsingPUTParams` containing the following parameters:
-   *
-   * - `termId`:
-   *
-   * - `termDescription`:
-   *
-   * - `id`:
-   *
+   * @param subTermDTO subTermDTO
    * @return OK
    */
-  updateSubTermUsingPUT(params: CommandResourceService.UpdateSubTermUsingPUTParams): __Observable<SubTermDTO> {
-    return this.updateSubTermUsingPUTResponse(params).pipe(
+  updateSubTermUsingPUT(subTermDTO: SubTermDTO): __Observable<SubTermDTO> {
+    return this.updateSubTermUsingPUTResponse(subTermDTO).pipe(
       __map(_r => _r.body as SubTermDTO)
     );
   }
@@ -1152,32 +1048,14 @@ class CommandResourceService extends __BaseService {
   }
 
   /**
-   * @param params The `CommandResourceService.CreateTermUsingPOSTParams` containing the following parameters:
-   *
-   * - `title`:
-   *
-   * - `subTerms[0].termDescription`:
-   *
-   * - `subTerms[0].term.title`:
-   *
-   * - `subTerms[0].term.id`:
-   *
-   * - `subTerms[0].id`:
-   *
-   * - `id`:
-   *
+   * @param term term
    * @return OK
    */
-  createTermUsingPOSTResponse(params: CommandResourceService.CreateTermUsingPOSTParams): __Observable<__StrictHttpResponse<Term>> {
+  createTermUsingPOSTResponse(term: Term): __Observable<__StrictHttpResponse<Term>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
-    if (params.title != null) __params = __params.set('title', params.title.toString());
-    if (params.subTerms0TermDescription != null) __params = __params.set('subTerms[0].termDescription', params.subTerms0TermDescription.toString());
-    if (params.subTerms0TermTitle != null) __params = __params.set('subTerms[0].term.title', params.subTerms0TermTitle.toString());
-    if (params.subTerms0TermId != null) __params = __params.set('subTerms[0].term.id', params.subTerms0TermId.toString());
-    if (params.subTerms0Id != null) __params = __params.set('subTerms[0].id', params.subTerms0Id.toString());
-    if (params.id != null) __params = __params.set('id', params.id.toString());
+    __body = term;
     let req = new HttpRequest<any>(
       'POST',
       this.rootUrl + `/api/command/term`,
@@ -1196,43 +1074,24 @@ class CommandResourceService extends __BaseService {
     );
   }
   /**
-   * @param params The `CommandResourceService.CreateTermUsingPOSTParams` containing the following parameters:
-   *
-   * - `title`:
-   *
-   * - `subTerms[0].termDescription`:
-   *
-   * - `subTerms[0].term.title`:
-   *
-   * - `subTerms[0].term.id`:
-   *
-   * - `subTerms[0].id`:
-   *
-   * - `id`:
-   *
+   * @param term term
    * @return OK
    */
-  createTermUsingPOST(params: CommandResourceService.CreateTermUsingPOSTParams): __Observable<Term> {
-    return this.createTermUsingPOSTResponse(params).pipe(
+  createTermUsingPOST(term: Term): __Observable<Term> {
+    return this.createTermUsingPOSTResponse(term).pipe(
       __map(_r => _r.body as Term)
     );
   }
 
   /**
-   * @param params The `CommandResourceService.UpdateTermUsingPUTParams` containing the following parameters:
-   *
-   * - `title`:
-   *
-   * - `id`:
-   *
+   * @param termDTO termDTO
    * @return OK
    */
-  updateTermUsingPUTResponse(params: CommandResourceService.UpdateTermUsingPUTParams): __Observable<__StrictHttpResponse<TermDTO>> {
+  updateTermUsingPUTResponse(termDTO: TermDTO): __Observable<__StrictHttpResponse<TermDTO>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
-    if (params.title != null) __params = __params.set('title', params.title.toString());
-    if (params.id != null) __params = __params.set('id', params.id.toString());
+    __body = termDTO;
     let req = new HttpRequest<any>(
       'PUT',
       this.rootUrl + `/api/command/term`,
@@ -1251,16 +1110,11 @@ class CommandResourceService extends __BaseService {
     );
   }
   /**
-   * @param params The `CommandResourceService.UpdateTermUsingPUTParams` containing the following parameters:
-   *
-   * - `title`:
-   *
-   * - `id`:
-   *
+   * @param termDTO termDTO
    * @return OK
    */
-  updateTermUsingPUT(params: CommandResourceService.UpdateTermUsingPUTParams): __Observable<TermDTO> {
-    return this.updateTermUsingPUTResponse(params).pipe(
+  updateTermUsingPUT(termDTO: TermDTO): __Observable<TermDTO> {
+    return this.updateTermUsingPUTResponse(termDTO).pipe(
       __map(_r => _r.body as TermDTO)
     );
   }
@@ -1303,32 +1157,6 @@ class CommandResourceService extends __BaseService {
 module CommandResourceService {
 
   /**
-   * Parameters for createAboutUsUsingPOST
-   */
-  export interface CreateAboutUsUsingPOSTParams {
-    supportPhone?: number;
-    supportMail?: string;
-    id?: number;
-    description?: string;
-    addOn3?: string;
-    addOn2?: string;
-    addOn1?: string;
-  }
-
-  /**
-   * Parameters for updateAboutUsUsingPUT
-   */
-  export interface UpdateAboutUsUsingPUTParams {
-    supportPhone?: number;
-    supportMail?: string;
-    id?: number;
-    description?: string;
-    addOn3?: string;
-    addOn2?: string;
-    addOn1?: string;
-  }
-
-  /**
    * Parameters for createRefundUsingPOST
    */
   export interface CreateRefundUsingPOSTParams {
@@ -1363,44 +1191,6 @@ module CommandResourceService {
      * orderId
      */
     orderId: string;
-  }
-
-  /**
-   * Parameters for createSubTermUsingPOST
-   */
-  export interface CreateSubTermUsingPOSTParams {
-    termId?: number;
-    termDescription?: string;
-    id?: number;
-  }
-
-  /**
-   * Parameters for updateSubTermUsingPUT
-   */
-  export interface UpdateSubTermUsingPUTParams {
-    termId?: number;
-    termDescription?: string;
-    id?: number;
-  }
-
-  /**
-   * Parameters for createTermUsingPOST
-   */
-  export interface CreateTermUsingPOSTParams {
-    title?: string;
-    subTerms0TermDescription?: string;
-    subTerms0TermTitle?: string;
-    subTerms0TermId?: number;
-    subTerms0Id?: number;
-    id?: number;
-  }
-
-  /**
-   * Parameters for updateTermUsingPUT
-   */
-  export interface UpdateTermUsingPUTParams {
-    title?: string;
-    id?: number;
   }
 }
 

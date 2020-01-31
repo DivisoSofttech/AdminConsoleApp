@@ -1,19 +1,22 @@
 <ion-card *ngIf="term!==null" >
-  <ion-fab vertical="top" horizontal="end" >
-    <ion-fab-button (click)=deleteTerm()>
+ 
+  <!-- <ion-fab vertical="top" horizontal="end" >
+    <ion-fab-button (click)=deleteTerm() size="small">
       <ion-icon name="trash"></ion-icon>
     </ion-fab-button>
-  </ion-fab>
+  </ion-fab> -->
+
   <ion-card-header text-center>
     <ion-text color="primary">
     <h3>  <u>{{term.title}}</u>
       </h3>
     </ion-text>
   </ion-card-header>
-  <ion-card *ngFor="let subterm of term.subTerms" >
+  <div *ngFor="let subterm of term.subTerms">
+  <ion-card *ngIf="subterm.termDescription!==null" >
   
     <ion-card-content>
-    {{subterm.term}} </ion-card-content>
+    {{subterm.termDescription}} </ion-card-content>
   <br>
   <br>
   <br>
@@ -21,17 +24,17 @@
 
 
   <ion-fab vertical="bottom" horizontal="start" slot="fixed">
-    <ion-fab-button color="danger" (click)="close()">
+    <ion-fab-button color="danger" (click)="deleteSubterm(subterm)" size="small">
       <ion-icon name="trash"></ion-icon>
     </ion-fab-button>
   </ion-fab>
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button color="primary" (click)="edit()">
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed" >
+    <ion-fab-button color="primary" (click)="editSubterm(subterm)" size="small">
       <ion-icon name="create"></ion-icon>
     </ion-fab-button>
   </ion-fab>
 </ion-card>
   
- 
+</div>
 
 </ion-card>

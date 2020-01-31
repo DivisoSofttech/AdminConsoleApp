@@ -58,12 +58,16 @@ console.log('About ', this.aboutDTO);
 
 this.util.createLoader().then(loader => {
 loader.present();
+console.log(' about id ', this.aboutService.about);
+
+if(this.aboutService.about.id===null){
 this.commandResourceService.createAboutUsUsingPOST(this.aboutDTO).subscribe(
 res => {
 
 console.log('created about ', res);
 
 this.navController.navigateForward('/about');
+this.aboutService.about=res;
 loader.dismiss();
 this.aboutForm.reset();
 },
@@ -75,7 +79,29 @@ this.util.createToast('Ops an error occuerd try again later');
 
 }
 );
-});
+}else{
+
+  this.commandResourceService.updateAboutUsUsingPUT(this.aboutDTO).subscribe(
+    res => {
+    
+    console.log('updated about ', res);
+    
+    this.navController.navigateForward('/about');
+    loader.dismiss();
+    this.aboutForm.reset();
+    },
+    err => {
+    console.log('error updating about ', err);
+    loader.dismiss();
+    
+    this.util.createToast('Ops an error occuerd try again later');
+    
+    }
+    );
+
+}
+}
+);
 } else {
 this.util.createToast(' Invalid data');
 }

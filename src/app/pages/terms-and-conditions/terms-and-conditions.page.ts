@@ -16,17 +16,7 @@ export class TermsAndConditionsPage implements OnInit {
 
 
   ngOnInit() {
-     this.queryResource.findalltermsUsingGET({size: 10}).subscribe(res => {
-
-      console.log('res=>>>>>>>', res);
-      this.termsService.terms = res.content;
-
-
-     },
-     err => {
-      console.log('err=>>>>>>>', err);
-
-     });
+   
   }
 
 

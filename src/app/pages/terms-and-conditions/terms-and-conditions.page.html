@@ -8,8 +8,8 @@
 </ion-header>
 
 <ion-content>
-<div *ngFor="let term of termsService.terms" >
-  <app-term-card [term]="term"></app-term-card>
+<div >
+  <app-term-card [term]=" termsService.term"></app-term-card>
 </div>
     <ion-fab vertical="bottom" horizontal="end" slot="fixed" routerLink="/new-terms-and-conditions">
     <ion-fab-button>

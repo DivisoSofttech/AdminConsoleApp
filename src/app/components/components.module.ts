@@ -1,3 +1,4 @@
+import { SubtermcardComponent } from './subtermcard/subtermcard.component';
 import { FeedbackComponent } from './feedback/feedback.component';
 import { ImageSelectorComponent } from './image-selector/image-selector.component';
 import { RefundProductCardComponent } from './refund-product-card/refund-product-card.component';
@@ -27,7 +28,8 @@ import { TermCardComponent } from './term-card/term-card.component';
     ImageSelectorComponent,
     CancellationDetailsComponent,
     FeedbackComponent,
-    TermCardComponent
+    TermCardComponent,
+    SubtermcardComponent
   ],
   imports: [
     CommonModule,
@@ -45,10 +47,12 @@ import { TermCardComponent } from './term-card/term-card.component';
     OrderProductCardComponent,
     ImageSelectorComponent,
     CancellationDetailsComponent,
-    TermCardComponent
+    TermCardComponent,
+    SubtermcardComponent
   ],
   entryComponents: [
-    CancellationDetailsComponent
+    CancellationDetailsComponent,
+    SubtermcardComponent
   ]
 
 })

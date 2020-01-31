@@ -1570,7 +1570,7 @@ class QueryResourceService extends __BaseService {
    * @param id id
    * @return OK
    */
-  getSubTermsByTermIdUsingGETResponse(id: number): __Observable<__StrictHttpResponse<SubTerm>> {
+  getSubTermsByTermIdUsingGETResponse(id: number): __Observable<__StrictHttpResponse<Array<SubTerm>>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
@@ -1588,7 +1588,7 @@ class QueryResourceService extends __BaseService {
     return this.http.request<any>(req).pipe(
       __filter(_r => _r instanceof HttpResponse),
       __map((_r) => {
-        return _r as __StrictHttpResponse<SubTerm>;
+        return _r as __StrictHttpResponse<Array<SubTerm>>;
       })
     );
   }
@@ -1596,9 +1596,9 @@ class QueryResourceService extends __BaseService {
    * @param id id
    * @return OK
    */
-  getSubTermsByTermIdUsingGET(id: number): __Observable<SubTerm> {
+  getSubTermsByTermIdUsingGET(id: number): __Observable<Array<SubTerm>> {
     return this.getSubTermsByTermIdUsingGETResponse(id).pipe(
-      __map(_r => _r.body as SubTerm)
+      __map(_r => _r.body as Array<SubTerm>)
     );
   }
 
