@@ -60,7 +60,7 @@ load() {
         resolve( res);
         } else {
           console.log('first empty ');
-          this.term = {id:null};
+          this.term = {id:null,title:''};
           this.navController.navigateForward('/new-terms-and-conditions');
         }
       },
