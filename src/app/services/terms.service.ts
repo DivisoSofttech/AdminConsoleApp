@@ -1,7 +1,7 @@
+import { Term } from 'src/app/api/models';
 import { NavController } from '@ionic/angular';
 import { QueryResourceService } from 'src/app/api/services';
 import { Injectable } from '@angular/core';
-import { Term } from '../api/models';
 import { resolve } from 'dns';
 
 @Injectable({
@@ -29,16 +29,38 @@ export class TermsService {
 
   }
 
-  load() {
-  return new Promise((resolve,reject)=>{ this.queryResourceService.findalltermsUsingGETResponse({}).subscribe(
+//   load() {
+//   return new Promise((resolve,reject)=>{ this.queryResourceService.findalltermsUsingGETResponse({}).subscribe(
+//       res => {
+//         if (res.body.numberOfElements > 0) {
+//         console.log('got terms ', res.body.content[0]);
+//         this.term = res.body.content[0];
+//         resolve( res.body.content[0]);
+//         } else {
+//           console.log('first empty ');
+//           this.term = {id:null};
+//           this.navController.navigateForward('/new-terms-and-conditions');
+//         }
+//       },
+//       err => {
+//         console.log('err=>> getting terms >>>>>', err);
+
+//        }
+//     );
+//   });
+// }
+
+
+load() {
+  return new Promise((resolve,reject)=>{ this.queryResourceService.findTermByIdUsingGET(14).subscribe(
       res => {
-        if (res.body.numberOfElements > 0) {
-        console.log('got terms ', res.body.content[0]);
-        this.term = res.body.content[0];
-        resolve( res.body.content[0]);
+        if(res!==null){
+        console.log('got terms', res);
+        this.term = res;
+        resolve( res);
         } else {
           console.log('first empty ');
-          this.term = {};
+          this.term = {id:null};
           this.navController.navigateForward('/new-terms-and-conditions');
         }
       },
