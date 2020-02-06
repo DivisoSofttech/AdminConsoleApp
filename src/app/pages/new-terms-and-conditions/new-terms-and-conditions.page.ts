@@ -6,7 +6,7 @@ import { NavController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators, FormControl } from '@angular/forms';
-import { TermDTO, SubTermDTO, Term } from 'src/app/api/models';
+import { TermDTO, SubTermDTO, Term, SubTerm } from 'src/app/api/models';
 
 @Component({
   selector: 'app-new-terms-and-conditions',
@@ -37,7 +37,7 @@ termForm = this.formBuilder.group({
 
 ngOnInit() {
 
-  this.term = this.termService.term;
+  this.term ={title:'',subTerms:[]};
   this.setDataInForm();
   this.addSubterm();
   console.log('hii');
@@ -53,60 +53,81 @@ this.navController.navigateForward('/terms-and-conditions');
 
 save() {
   console.log(' term is ...', this.term);
-  if (this.term.title !== this.termForm.get('title').value) {
+  if (this.termForm.valid) {
 
-    this.updateTerm(this.termForm.get('title').value);
-  }
+      // if (this.term.id === null) {
+        this.saveTerm();
+
+
+      // } else {
+
+      //this.updateTerm(this.termForm.get('title').value);
+
+      // }
+
+} else {
+  this.util.createToast(' Invalid data');
+}
+
+}
+
+
+saveTerm() {
+  // this.subTermDTOs = [];
+  // for (let x = 0; x < this.i; x++) {
+
+
+
+  //   if (this.termForm.get('subterm' + x).value !== '') {
+  //     this.subTermDTOs.push({termDescription: this.termForm.get('subterm' + x).value});
+  //    }
+
+
+  // }
+
+ 
+
   this.term.title = this.termForm.get('title').value;
-  this.subTermDTOs = [];
-  for (let x = 0; x < this.i; x++) {
-
-
-
-    if (this.termForm.get('subterm' + x).value !== '') {this.subTermDTOs.push({termDescription: this.termForm.get('subterm' + x).value}); }
-
-
-  }
 
   console.log('subterms >>>>', this.subTermDTOs);
 
-  if (this.termForm.valid) {
-    this.term.subTerms = this.term.subTerms.concat(this.subTermDTOs);
+
+            //  this.term.subTerms = this.term.subTerms.concat(this.subTermDTOs);
 
 
-    this.util.createLoader().then(loader => {
-loader.present();
+  this.term.subTerms[0] = {termDescription: this.termForm.get('subterm0').value};
 
-if (this.term.id === null) {
+  this.util.createLoader().then(loader => {
+          loader.present();
 
-this.commandResourceService.createTermUsingPOST(this.term).subscribe(
-res => {
 
-console.log('created term ', res);
-this.termService.term = res;
+          console.log('term to be created', this.term);
+          this.commandResourceService.createTermUsingPOST(this.term).subscribe(
+                  res => {
 
-loader.dismiss();
-this.termForm.reset();
-},
-err => {
-console.log('error creating about ', err);
-loader.dismiss();
+                        console.log('created term ', res);
+                        this.termService.terms= this.termService.terms.concat(res);
 
-this.util.createToast('Ops an error occuerd try again later');
+                        loader.dismiss();
+                        this.termForm.reset();
+                  },
+                  err => {
+                    console.log('error creating about ', err);
+                    loader.dismiss();
+
+                    this.util.createToast('Ops an error occuerd try again later');
+
+                  });
+
+          loader.dismiss();
+          this.termForm.reset();
+          this.navController.navigateForward('/terms-and-conditions');
+
+
+          });
 
 }
-);
-} else {
-  loader.dismiss();
-  this.termForm.reset();
-  this.navController.navigateForward('/terms-and-conditions');
 
-}
-});
-} else {
-this.util.createToast(' Invalid data');
-}
-}
 
 addSubterm() {
   this.termForm.addControl('subterm' + this.i , new FormControl('', []) );
@@ -123,14 +144,15 @@ setDataInForm() {
 
 }
 
-updateTerm(title:string) {
+updateTerm(title: string) {
 
-  this.term.title=title;
-  console.log(' updated term ');
+  this.term.title = title;
+  this.term.subTerms[0] = this.termForm.get('subterm0').value;
+  console.log(' update term ');
   this.commandResourceService.updateTermUsingPUT(this.term).subscribe(res => {
 
     console.log('updated term  ', res);
-
+    this.saveTerm();
 
   },
   err => {
@@ -139,6 +161,25 @@ updateTerm(title:string) {
   });
 
 }
+
+// saveTerm(title: string) {
+
+//   this.term.title = title;
+//   console.log(' create term ');
+//   this.commandResourceService.createTermUsingPOST(this.term).subscribe(res => {
+
+//     console.log('created term  ', res);
+//     this.term = res;
+//     this.saveSubTerms();
+
+
+//   },
+//   err => {
+//     console.log('error creating term ', err);
+
+//   });
+
+// }
 
 
 

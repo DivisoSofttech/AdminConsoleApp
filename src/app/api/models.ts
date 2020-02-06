@@ -8,6 +8,7 @@ export { BannerDTO } from './models/banner-dto';
 export { CancellationDetails } from './models/cancellation-details';
 export { CancellationRequest } from './models/cancellation-request';
 export { CancellationRequestDTO } from './models/cancellation-request-dto';
+export { CancellationSummary } from './models/cancellation-summary';
 export { CancelledAuxilaryOrderLine } from './models/cancelled-auxilary-order-line';
 export { CancelledAuxilaryOrderLineDTO } from './models/cancelled-auxilary-order-line-dto';
 export { CancelledOrderLine } from './models/cancelled-order-line';

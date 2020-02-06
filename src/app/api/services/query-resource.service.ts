@@ -14,6 +14,7 @@ import { NotificationDTO } from '../models/notification-dto';
 import { RefundDetailsDTO } from '../models/refund-details-dto';
 import { About } from '../models/about';
 import { PdfDTO } from '../models/pdf-dto';
+import { CancellationSummary } from '../models/cancellation-summary';
 import { PageOfFeedback } from '../models/page-of-feedback';
 import { AuxItem } from '../models/aux-item';
 import { PageOfBanner } from '../models/page-of-banner';
@@ -57,6 +58,7 @@ class QueryResourceService extends __BaseService {
   static readonly getAllCancellationRequestsUsingGETPath = '/api/query/cancellation-requests';
   static readonly getCancellationRequestUsingGETPath = '/api/query/cancellation-requests/{id}';
   static readonly getCancellationReportAsPdfUsingGETPath = '/api/query/cancellationSummary/{date}/{storeName}';
+  static readonly cancellationSummaryForViewUsingGETPath = '/api/query/cancellationview/{date}/{storeName}';
   static readonly getAllCancelledOrderLinesUsingGETPath = '/api/query/cancelled-order-lines';
   static readonly getCancelledOrderLineUsingGETPath = '/api/query/cancelled-order-lines/{id}';
   static readonly findAllCancellationRequestsUsingGETPath = '/api/query/findAllCancellationRequests';
@@ -684,6 +686,53 @@ class QueryResourceService extends __BaseService {
   getCancellationReportAsPdfUsingGET(params: QueryResourceService.GetCancellationReportAsPdfUsingGETParams): __Observable<PdfDTO> {
     return this.getCancellationReportAsPdfUsingGETResponse(params).pipe(
       __map(_r => _r.body as PdfDTO)
+    );
+  }
+
+  /**
+   * @param params The `QueryResourceService.CancellationSummaryForViewUsingGETParams` containing the following parameters:
+   *
+   * - `date`: date
+   *
+   * - `storeName`: storeName
+   *
+   * @return OK
+   */
+  cancellationSummaryForViewUsingGETResponse(params: QueryResourceService.CancellationSummaryForViewUsingGETParams): __Observable<__StrictHttpResponse<CancellationSummary>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+
+    if (params.storeName != null) __params = __params.set('storeName', params.storeName.toString());
+    let req = new HttpRequest<any>(
+      'GET',
+      this.rootUrl + `/api/query/cancellationview/${params.date}/${params.storeName}`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<CancellationSummary>;
+      })
+    );
+  }
+  /**
+   * @param params The `QueryResourceService.CancellationSummaryForViewUsingGETParams` containing the following parameters:
+   *
+   * - `date`: date
+   *
+   * - `storeName`: storeName
+   *
+   * @return OK
+   */
+  cancellationSummaryForViewUsingGET(params: QueryResourceService.CancellationSummaryForViewUsingGETParams): __Observable<CancellationSummary> {
+    return this.cancellationSummaryForViewUsingGETResponse(params).pipe(
+      __map(_r => _r.body as CancellationSummary)
     );
   }
 
@@ -2995,6 +3044,22 @@ module QueryResourceService {
      * date
      */
     date: string;
+  }
+
+  /**
+   * Parameters for cancellationSummaryForViewUsingGET
+   */
+  export interface CancellationSummaryForViewUsingGETParams {
+
+    /**
+     * date
+     */
+    date: string;
+
+    /**
+     * storeName
+     */
+    storeName?: string;
   }
 
   /**

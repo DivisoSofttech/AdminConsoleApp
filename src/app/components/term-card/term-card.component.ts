@@ -15,6 +15,8 @@ export class TermCardComponent implements OnInit {
 
 @Input()term: Term = {};
 
+isTitleEdit:boolean=false;
+
   constructor(private commandResource: CommandResourceService,
               private queryResourceService: QueryResourceService,
               private termService: TermsService,
@@ -64,6 +66,32 @@ const modal =  await this.modalController.create({
   });
     return await modal.present();
 
+
+}
+
+editTitile(){
+
+this.isTitleEdit=true;
+console.log('edit this title ');
+
+
+}
+
+updateTitile(){
+
+  console.log('new this title ',this.term.title);
+  this.commandResource.updateTermUsingPUT(this.term).subscribe(
+    res=>{
+
+      console.log('update completed ',res);
+
+    },
+    err=>{
+      console.log('error while updateing term  ',err);
+
+    }
+  );
+  this.isTitleEdit=false;
 
 }
 

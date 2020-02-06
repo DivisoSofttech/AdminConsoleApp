@@ -9,22 +9,22 @@ import { resolve } from 'dns';
 })
 export class TermsService {
 
-  term: Term = {};
+  terms: Term[] = [];
   constructor(private queryResourceService: QueryResourceService,
               private navController: NavController) {
                 this.load().then(res => {
-                  console.log('resolved',res);
-                  this.term=res;
-                  this.getSubterms();
+                  console.log('resolved', res);
+                  // this.term = res;
+                  // this.getSubterms();
 
-                  console.log('term id is', this.term);
-            
+                  console.log('terms is', this.terms);
+
                 },
                 err => {
                   console.log('rejected');
-            
+
                 });
-            
+
 
 
   }
@@ -52,16 +52,29 @@ export class TermsService {
 
 
 load() {
-  return new Promise((resolve,reject)=>{ this.queryResourceService.findTermByIdUsingGET(14).subscribe(
+  return new Promise((resolve, reject) => { this.queryResourceService.findalltermsUsingGET({size:10}).subscribe(
       res => {
-        if(res!==null){
-        console.log('got terms', res);
-        this.term = res;
+
+        console.log('load term', res);
+
+        if (res != null) {
+
+        console.log('got term', res);
+        this.terms = res.content;
         resolve( res);
+        this.terms.forEach(ele=>{
+
+          this.getSubterms(ele);
+
+        });
+        
+
         } else {
+
           console.log('first empty ');
-          this.term = {id:null,title:''};
+          this.terms = [];
           this.navController.navigateForward('/new-terms-and-conditions');
+
         }
       },
       err => {
@@ -73,9 +86,10 @@ load() {
 }
 
 
-getSubterms() {
-  this.queryResourceService.getSubTermsByTermIdUsingGETResponse(this.term.id).subscribe( res => {
-    this.term.subTerms = res.body;
+
+getSubterms(term:Term) {
+  this.queryResourceService.getSubTermsByTermIdUsingGETResponse(term.id).subscribe( res => {
+    term.subTerms = res.body;
     console.log('got subterms ', res.body);
   }, err => {
 

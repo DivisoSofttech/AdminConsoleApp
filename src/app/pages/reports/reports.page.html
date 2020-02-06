@@ -165,7 +165,7 @@
 
     </div>
 
-    <div *ngIf="reportType!=='orders'">
+    <div *ngIf="reportType==='orders summery'">
 
       <ion-card>
         <ngx-datatable class="material" [rows]="orderSummeryRow" columnMode="force" [headerHeight]="50" [footerHeight]="0" 
@@ -187,7 +187,24 @@
       </ion-fab>
     </div>
 
-  </div>
+  
+
+  <div *ngIf="reportType==='cancellation summery'">
+    hbhjjh
+  <ion-card>
+    <ngx-datatable class="material" [rows]="orderSummeryRow" columnMode="force" [headerHeight]="50" [footerHeight]="0" 
+      [rowHeight]="50" [limit]="10" [columns]="cancellationSummeryColumns">
+
+      
+
+
+    </ngx-datatable>
+
+
+  </ion-card>
+
+</div>
+</div>
   <!-- ////////////////////////////////////////////////////filter div end////////////////////////////////////////////// -->
 
 

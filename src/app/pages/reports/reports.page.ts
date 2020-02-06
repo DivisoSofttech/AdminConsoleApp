@@ -42,6 +42,16 @@ export class ReportsPage implements OnInit {
 
   ];
 
+  
+  cancellationSummeryRow: OrderSummeryRow[] = [];
+  cancellationSummeryColumns = [
+    { name: 'Type' },
+    { name: 'count' },
+    { name: 'balanceDue' },
+    { name: 'refundAmount' },
+
+  ];
+
 // store: Store = {storeUniqueId: 'spiceindia'};
  store: Store = {};
 
@@ -139,38 +149,86 @@ applyFilter() {
 
 
   if (this.reportType === 'orders') {
-  if (this.currentPage.data.length === 0) {
-  this.queryResourceService.getOrdersByFilterUsingGET({fromDate: this.fromDate, toDate: this.toDate,
-     storeId: this.store.storeUniqueId, paymentStatus: this.paymenttype,
-  methodOfOrder: this.deliveryType, pageNumber: this.currentPage.pageNumber, size: 10}).subscribe(res => {
-    console.log('got ordermasters ',  res);
-    if (res == null) {this.util.presentAlert('Alert', 'the requested filter option is currently not availabe'); }
-    this.rows = res.content;
-    this.rows.forEach(row => {
-      this.totalAmount += row.totalDue;
-      row.orderPlaceAt = this.datePipe.transform(new Date(row.orderPlaceAt), 'dd/MM/yyyy');
+        if (this.currentPage.data.length === 0) {
+            this.queryResourceService.getOrdersByFilterUsingGET({fromDate: this.fromDate, toDate: this.toDate,
+              storeId: this.store.storeUniqueId, paymentStatus: this.paymenttype,
+            methodOfOrder: this.deliveryType, pageNumber: this.currentPage.pageNumber, size: 10}).subscribe(res => {
+              console.log('got ordermasters ',  res);
+              if (res == null) {this.util.presentAlert('Alert', 'the requested filter option is currently not availabe'); }
+              this.rows = res.content;
+              this.rows.forEach(row => {
+                this.totalAmount += row.totalDue;
+                row.orderPlaceAt = this.datePipe.transform(new Date(row.orderPlaceAt), 'dd/MM/yyyy');
 
-    });
-    console.log('got ordermasters ', res);
-    this.createPages(res.totalPages, res.content);
+              });
+              console.log('got ordermasters ', res);
+              this.createPages(res.totalPages, res.content);
 
 
-  }, err => {
-    console.log('error ordermasters ', err);
+            }, err => {
+              console.log('error ordermasters ', err);
 
-  });
-  } else {
-    this.rows = this.currentPage.data;
-  }
-  } else {
+            });
+        } else {
+          this.rows = this.currentPage.data;
+        }
+  } else if (this.reportType === 'orders summery') {
 
-    this.getOrderSummeryAndDetaildOrderSummeryByFillter();
+    this.getOrderSummaryByFillter();
+    } else {
+
+      this.getCancellationSummary();
+
     }
 
   this.changeDiv(true);
 }
 
-getOrderSummeryAndDetaildOrderSummeryByFillter() {
+/////cancellation summary////////////
+getCancellationSummary() {
+
+  console.log(' cancellation summary ');
+
+  this.date = this.cancellationSummeryForm.get('date').value.split('T', 1)[0];
+
+  this.util.createLoader().then(loader => {
+    loader.present();
+
+
+    this.queryResourceService.createReportSummaryUsingGET({date: this.date,
+          storeName: this.store.storeUniqueId}).subscribe(res => {
+
+            console.log('cancellation summery is ', res);
+
+            this.makeCancellationSummeryTable(res);
+            loader.dismiss();
+
+          }, err => {
+            console.log('error geting cancellation summery is ', err);
+            loader.dismiss();
+
+          }
+
+
+
+        );
+        });
+
+}
+
+makeCancellationSummeryTable(data){
+
+
+
+}
+
+
+
+/////cancellation summary////////////
+
+getOrderSummaryByFillter() {
+
+  console.log('filter method working');
   this.date = this.orderSummeryForm.get('date').value.split('T', 1)[0];
   console.log('the date is ', this.date);
 
@@ -265,8 +323,8 @@ selectStore(store: Store) {
   this.ordersForm.setValue(this.ordersForm.value);
 } else if (this.reportType === 'cancellation summery') {
 
-  
-  
+
+
   this.cancellationSummeryForm.value.storeId = this.store.storeUniqueId;
   this.cancellationSummeryForm.setValue(this.cancellationSummeryForm.value);
   console.log('cancellation valid', this.cancellationSummeryForm.valid);
@@ -291,7 +349,7 @@ nextPage(pageNumber) {
   this.applyFilter();
 }
 
-
+////////////// table paginating area////////////////////
 
 createPages(totalPages, data) {
 
@@ -314,7 +372,7 @@ for (let i = 0; i < totalPages; i++) {
 
 
 }
-
+///////////////////
 submit() {
 
   console.log('pages length is', this.pages.length);
