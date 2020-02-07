@@ -1,3 +1,4 @@
+import { CancellationSummary } from './../../api/models/cancellation-summary';
 import { Printer, PrintOptions} from '@ionic-native/printer/ngx';
 import { ReportSummary } from './../../api/models/report-summary';
 import { OrderSummeryRow } from './../../customModels/order-summery-row';
@@ -11,6 +12,7 @@ import { DatatableComponent } from '@swimlane/ngx-datatable';
 import { Page } from 'src/app/customModels/page';
 import { FormBuilder, Validators } from '@angular/forms';
 import { File } from '@ionic-native/file/ngx';
+import { CancellationSummeryRow } from 'src/app/customModels/cancellation-summery-row ';
 @Component({
   selector: 'app-reports',
   templateUrl: './reports.page.html',
@@ -42,8 +44,8 @@ export class ReportsPage implements OnInit {
 
   ];
 
-  
-  cancellationSummeryRow: OrderSummeryRow[] = [];
+
+  cancellationSummeryRow: CancellationSummeryRow[] = [];
   cancellationSummeryColumns = [
     { name: 'Type' },
     { name: 'count' },
@@ -184,7 +186,7 @@ applyFilter() {
   this.changeDiv(true);
 }
 
-/////cancellation summary////////////
+///// cancellation summary////////////
 getCancellationSummary() {
 
   console.log(' cancellation summary ');
@@ -195,7 +197,7 @@ getCancellationSummary() {
     loader.present();
 
 
-    this.queryResourceService.createReportSummaryUsingGET({date: this.date,
+    this.queryResourceService.cancellationSummaryForViewUsingGET({date: this.date,
           storeName: this.store.storeUniqueId}).subscribe(res => {
 
             console.log('cancellation summery is ', res);
@@ -216,7 +218,39 @@ getCancellationSummary() {
 
 }
 
-makeCancellationSummeryTable(data){
+makeCancellationSummeryTable(cancellationSummery: CancellationSummary) {
+
+  console.log('created rows');
+  const col2: CancellationSummeryRow[] = [];
+
+  const all: CancellationSummeryRow = {};
+
+  all.type = 'all';
+  all.count = cancellationSummery.allCardCount;
+  all.balanceDue = this.decimalPipe.transform(cancellationSummery.allCardTotal, '1.2-2');
+  all.refundAmount = this.decimalPipe.transform(cancellationSummery.allRefundAmount, '1.2-2');
+  col2.push(all);
+
+
+  const delivery: CancellationSummeryRow = new CancellationSummeryRow();
+  delivery.type = 'delivery';
+  delivery.count = cancellationSummery.deliveryCardCount;
+  delivery.balanceDue =  this.decimalPipe.transform(cancellationSummery.deliveryCardTotal, '1.2-2');
+  delivery.refundAmount = this.decimalPipe.transform(cancellationSummery.deliveryRefundAmount, '1.2-2');
+  col2.push(delivery);
+
+  const collection: CancellationSummeryRow = {};
+  collection.type = 'collection';
+  collection.count = cancellationSummery.collectionCardCount;
+  collection.balanceDue =  this.decimalPipe.transform(cancellationSummery.collectionCardTotal, '1.2-2');
+  collection.refundAmount =  this.decimalPipe.transform(cancellationSummery.collectionRefundAmount, '1.2-2');
+
+  col2.push(collection);
+
+
+
+  console.log('created rows ', col2);
+  this.cancellationSummeryRow = col2;
 
 
 
@@ -224,7 +258,7 @@ makeCancellationSummeryTable(data){
 
 
 
-/////cancellation summary////////////
+///// cancellation summary////////////
 
 getOrderSummaryByFillter() {
 
@@ -318,7 +352,7 @@ selectStore(store: Store) {
   console.log('selected store is ', store);
   this.isStoreSearch = false;
   this.store = store;
-  if (this.reportType === 'order summery') {
+  if (this.reportType === 'orders summery') {
   this.ordersForm.value.storeId = this.store.storeUniqueId;
   this.ordersForm.setValue(this.ordersForm.value);
 } else if (this.reportType === 'cancellation summery') {
@@ -384,6 +418,26 @@ submit() {
 }
 
 ///////////////////////////////// pdf printing area start////////////////////////////
+
+printPdf() {
+
+  if (this.reportType === 'orders') {
+    this.getOrdersReportPdf();
+    console.log('orders if');
+
+  } else if (this.reportType === 'orders summery') {
+
+    this.getOrderSummaryPdf();
+    console.log('orders  summery if');
+
+  }
+  else{
+
+    this.getCancellationReportPdf();
+    console.log('cancellation  summery if');
+
+  }
+}
 
 
 getOrderSummaryPdf() {
@@ -466,6 +520,35 @@ fileCreation(blob, result) {
           const blob = new Blob([byteArray], { type: orderDocket.contentType });
           console.log('blob is' + blob);
           this.fileCreation(blob, orderDocket);
+          loader.dismiss();
+        }, err => {
+          console.log('error geting order summary', err);
+          loader.dismiss();
+          this.util.createToast('Error Loading Pdf', 'alert');
+        });
+      });
+    }
+
+    getCancellationReportPdf() {
+      this.util.createLoader().then(loader => {
+        loader.present();
+
+        this.queryResource.getCancellationReportAsPdfUsingGET({
+          storeName: this.store.storeUniqueId,
+          date: this.date,
+
+
+        }).subscribe(cancellationDocket => {
+          console.log(cancellationDocket.pdf, cancellationDocket.contentType);
+          const byteCharacters = atob(cancellationDocket.pdf);
+          const byteNumbers = new Array(byteCharacters.length);
+          for (let i = 0; i < byteCharacters.length; i++) {
+            byteNumbers[i] = byteCharacters.charCodeAt(i);
+          }
+          const byteArray = new Uint8Array(byteNumbers);
+          const blob = new Blob([byteArray], { type: cancellationDocket.contentType });
+          console.log('blob is' + blob);
+          this.fileCreation(blob, cancellationDocket);
           loader.dismiss();
         }, err => {
           console.log('error geting order summary', err);
