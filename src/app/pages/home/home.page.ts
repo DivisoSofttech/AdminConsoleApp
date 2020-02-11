@@ -43,6 +43,7 @@ export class HomePage implements OnInit {
 dashBoardCount()
 {
 
+
   this.queryService.findOrderCountByDateAndStatusNameUsingGET({
     statusName: 'delivered',
     date: this.orderService.endDate.split('T')[0]
@@ -269,7 +270,10 @@ dashBoardCount()
   }
   refresh(event) {
     this.isRefreshed = true;
-    this.refreshEvent = event;
     this.ngOnInit();
+    this.isRefreshed = false;
+
+
   }
+
 }

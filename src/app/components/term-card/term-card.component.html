@@ -1,4 +1,18 @@
 <ion-card *ngIf="term!==null" >
+  <ion-fab vertical="top" horizontal="end" slot="fixed"  *ngIf="!isTitleEdit">
+    <ion-fab-button color="success" (click)="editTitile()"  size="small" >
+      <ion-icon name="create"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+  <ion-fab vertical="top" horizontal="end" slot="fixed"  *ngIf="isTitleEdit">
+    <ion-fab-button color="success" (click)="updateTitile()"  size="small" >
+      <ion-icon name="checkmark"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+  <br>
+  <br>
+  <br>
  
   <!-- <ion-fab vertical="top" horizontal="end" >
     <ion-fab-button (click)=deleteTerm() size="small">
@@ -11,10 +25,12 @@
     <h3>  <u>{{term.title}}</u>
       </h3>
     </ion-text>
-    <ion-input [(ngModel)]="term.title"  *ngIf="isTitleEdit">
-   
-
+    <ion-item    *ngIf="isTitleEdit">
+    <ion-input [(ngModel)]="term.title" >
+      
     </ion-input>
+  </ion-item>
+
   </ion-card-header>
   <div *ngFor="let subterm of term.subTerms">
   <ion-card *ngIf="subterm.termDescription!==null" >
@@ -51,15 +67,6 @@
   </ion-fab-button>
 </ion-fab>
 
-<ion-fab vertical="top" horizontal="end" slot="fixed"  *ngIf="!isTitleEdit">
-  <ion-fab-button color="success" (click)="editTitile()" >
-    <ion-icon name="create"></ion-icon>
-  </ion-fab-button>
-</ion-fab>
-<ion-fab vertical="top" horizontal="end" slot="fixed"  *ngIf="isTitleEdit">
-  <ion-fab-button color="success" (click)="updateTitile()" >
-    <ion-icon name="checkmark"></ion-icon>
-  </ion-fab-button>
-</ion-fab>
+
 
 </ion-card>

@@ -9,17 +9,28 @@
   </ion-label>
   <ion-grid slot="end" class="borderFull">
     <ion-row>
-      <ion-col text-center (click)="decreaseProductCount()">
+      <!-- <ion-col text-center (click)="decreaseProductCount()">
         <ion-icon name="remove"></ion-icon>
+      </ion-col> -->
+      <ion-col text-center>
+        <ion-text>
+          {{orderLine.pricePerUnit}}
+        </ion-text>
       </ion-col>
+      <ion-col text-center>
+        <ion-text>
+          X
+        </ion-text>
+      </ion-col>
+
       <ion-col text-center>
         <ion-text>
           {{orderLine.quantity}}
         </ion-text>
       </ion-col>
-      <ion-col text-center (click)="increaseProductCount()">
+      <!-- <ion-col text-center (click)="increaseProductCount()">
           <ion-icon name="add" ></ion-icon>
-      </ion-col>
+      </ion-col> -->
     </ion-row>
   </ion-grid>
 </ion-item>

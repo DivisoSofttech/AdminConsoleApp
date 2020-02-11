@@ -25,11 +25,14 @@ import { OfferLine } from '../models/offer-line';
 import { PageOfOrderMaster } from '../models/page-of-order-master';
 import { Order } from '../models/order';
 import { OrderLine } from '../models/order-line';
+import { OrderMasterDTO } from '../models/order-master-dto';
 import { PageOfStore } from '../models/page-of-store';
 import { SubTerm } from '../models/sub-term';
+import { Term } from '../models/term';
 import { PageOfAbout } from '../models/page-of-about';
 import { PageOfTerm } from '../models/page-of-term';
 import { CancellationRequest } from '../models/cancellation-request';
+import { OrderMaster } from '../models/order-master';
 import { RefundDetails } from '../models/refund-details';
 import { StoreDTO } from '../models/store-dto';
 import { Store } from '../models/store';
@@ -37,7 +40,6 @@ import { DeductionValueTypeDTO } from '../models/deduction-value-type-dto';
 import { OfferDTO } from '../models/offer-dto';
 import { ReportSummary } from '../models/report-summary';
 import { DataResponse } from '../models/data-response';
-import { Term } from '../models/term';
 
 /**
  * Query Resource
@@ -67,7 +69,7 @@ class QueryResourceService extends __BaseService {
   static readonly findBannerByStoreIdUsingGETPath = '/api/query/findBannerByStoreId/{storeId}';
   static readonly findCancellationDetailsByIdUsingGETPath = '/api/query/findCancellationDetailsById/{id}';
   static readonly findCancellationRequestByStatusUsingGETPath = '/api/query/findCancellationRequestByStatus/{statusName}/{date}';
-  static readonly findCustomerByIdpCodeUsingGETPath = '/api/query/findCustomerByIdpCode/{idpCode}';
+  static readonly findCustomerByCustomerUniqueIdUsingGETPath = '/api/query/findCustomerByCustomerUniqueId/{customerUniqueId}';
   static readonly findOfferLinesByOrderNumberUsingGETPath = '/api/query/findOfferLinesByOrderNumber/{orderId}';
   static readonly findOrderByDatebetweenAndStoreIdUsingGETPath = '/api/query/findOrderByDatebetweenAndStoreId/{from}/{storeId}/{to}';
   static readonly findOrderByOrderIdUsingGETPath = '/api/query/findOrderByOrderId/{orderId}';
@@ -75,13 +77,16 @@ class QueryResourceService extends __BaseService {
   static readonly findOrderCountByStatusNameUsingGETPath = '/api/query/findOrderCountByStatusName/{statusName}';
   static readonly findOrderLinesByOrderNumberUsingGETPath = '/api/query/findOrderLinesByOrderNumber/{orderId}';
   static readonly findOrderMasterByExpectedDeliveryBetweenUsingGETPath = '/api/query/findOrderMasterByExpectedDeliveryBetween/{from}/{to}';
+  static readonly findOrderMasterByOrderMasterUsingGETPath = '/api/query/findOrderMasterByOrderNumber/{orderNumber}';
   static readonly findOrderMasterCountByExpectedDeliveryBetweenUsingGETPath = '/api/query/findOrderMasterCountByExpectedDeliveryBetween/{from}/{to}';
   static readonly findOrdersByOrderIdUsingGETPath = '/api/query/findOrdersByOrderId/{orderId}';
   static readonly findStoreBySearchTermUsingGETPath = '/api/query/findStore/{name}';
-  static readonly getSubTermsByTermIdUsingGETPath = '/api/query/findSubTermByTermId/{id}';
+  static readonly getSubTermsByTermIdUsingGETPath = '/api/query/findSubTermBySubTermId/{id}';
+  static readonly getTermByTermIdUsingGETPath = '/api/query/findTermByTermId/{id}';
   static readonly findallaboutUsingGETPath = '/api/query/findallabout';
   static readonly findalltermsUsingGETPath = '/api/query/findallterms';
   static readonly getCancellationRequestByOrderIdUsingGETPath = '/api/query/getCancellationRequest/{orderId}';
+  static readonly getOrderMasterByOrderNumberUsingGETPath = '/api/query/getOrderMasterByOrderNumber/{orderNumber}';
   static readonly getOrderSummaryByDateAndStoreNameUsingGETPath = '/api/query/getOrderSummaryByDateAndStoreName/{date}/{storeId}';
   static readonly getOrdersByFilterUsingGETPath = '/api/query/getOrdersByFilter/{fromDate}/{toDate}';
   static readonly getOrdersPdfByFilterUsingGETPath = '/api/query/getOrdersPdfByFilter/{fromDate}/{toDate}';
@@ -692,9 +697,9 @@ class QueryResourceService extends __BaseService {
   /**
    * @param params The `QueryResourceService.CancellationSummaryForViewUsingGETParams` containing the following parameters:
    *
-   * - `date`: date
-   *
    * - `storeName`: storeName
+   *
+   * - `date`: date
    *
    * @return OK
    */
@@ -703,7 +708,7 @@ class QueryResourceService extends __BaseService {
     let __headers = new HttpHeaders();
     let __body: any = null;
 
-    if (params.storeName != null) __params = __params.set('storeName', params.storeName.toString());
+
     let req = new HttpRequest<any>(
       'GET',
       this.rootUrl + `/api/query/cancellationview/${params.date}/${params.storeName}`,
@@ -724,9 +729,9 @@ class QueryResourceService extends __BaseService {
   /**
    * @param params The `QueryResourceService.CancellationSummaryForViewUsingGETParams` containing the following parameters:
    *
-   * - `date`: date
-   *
    * - `storeName`: storeName
+   *
+   * - `date`: date
    *
    * @return OK
    */
@@ -1120,17 +1125,17 @@ class QueryResourceService extends __BaseService {
   }
 
   /**
-   * @param idpCode idpCode
+   * @param customerUniqueId customerUniqueId
    * @return OK
    */
-  findCustomerByIdpCodeUsingGETResponse(idpCode: string): __Observable<__StrictHttpResponse<Customer>> {
+  findCustomerByCustomerUniqueIdUsingGETResponse(customerUniqueId: string): __Observable<__StrictHttpResponse<Customer>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
 
     let req = new HttpRequest<any>(
       'GET',
-      this.rootUrl + `/api/query/findCustomerByIdpCode/${idpCode}`,
+      this.rootUrl + `/api/query/findCustomerByCustomerUniqueId/${customerUniqueId}`,
       __body,
       {
         headers: __headers,
@@ -1146,11 +1151,11 @@ class QueryResourceService extends __BaseService {
     );
   }
   /**
-   * @param idpCode idpCode
+   * @param customerUniqueId customerUniqueId
    * @return OK
    */
-  findCustomerByIdpCodeUsingGET(idpCode: string): __Observable<Customer> {
-    return this.findCustomerByIdpCodeUsingGETResponse(idpCode).pipe(
+  findCustomerByCustomerUniqueIdUsingGET(customerUniqueId: string): __Observable<Customer> {
+    return this.findCustomerByCustomerUniqueIdUsingGETResponse(customerUniqueId).pipe(
       __map(_r => _r.body as Customer)
     );
   }
@@ -1476,6 +1481,42 @@ class QueryResourceService extends __BaseService {
   }
 
   /**
+   * @param orderNumber orderNumber
+   * @return OK
+   */
+  findOrderMasterByOrderMasterUsingGETResponse(orderNumber: string): __Observable<__StrictHttpResponse<OrderMasterDTO>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+
+    let req = new HttpRequest<any>(
+      'GET',
+      this.rootUrl + `/api/query/findOrderMasterByOrderNumber/${orderNumber}`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<OrderMasterDTO>;
+      })
+    );
+  }
+  /**
+   * @param orderNumber orderNumber
+   * @return OK
+   */
+  findOrderMasterByOrderMasterUsingGET(orderNumber: string): __Observable<OrderMasterDTO> {
+    return this.findOrderMasterByOrderMasterUsingGETResponse(orderNumber).pipe(
+      __map(_r => _r.body as OrderMasterDTO)
+    );
+  }
+
+  /**
    * @param params The `QueryResourceService.FindOrderMasterCountByExpectedDeliveryBetweenUsingGETParams` containing the following parameters:
    *
    * - `to`: to
@@ -1626,7 +1667,7 @@ class QueryResourceService extends __BaseService {
 
     let req = new HttpRequest<any>(
       'GET',
-      this.rootUrl + `/api/query/findSubTermByTermId/${id}`,
+      this.rootUrl + `/api/query/findSubTermBySubTermId/${id}`,
       __body,
       {
         headers: __headers,
@@ -1648,6 +1689,42 @@ class QueryResourceService extends __BaseService {
   getSubTermsByTermIdUsingGET(id: number): __Observable<Array<SubTerm>> {
     return this.getSubTermsByTermIdUsingGETResponse(id).pipe(
       __map(_r => _r.body as Array<SubTerm>)
+    );
+  }
+
+  /**
+   * @param id id
+   * @return OK
+   */
+  getTermByTermIdUsingGETResponse(id: number): __Observable<__StrictHttpResponse<Array<Term>>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+
+    let req = new HttpRequest<any>(
+      'GET',
+      this.rootUrl + `/api/query/findTermByTermId/${id}`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<Array<Term>>;
+      })
+    );
+  }
+  /**
+   * @param id id
+   * @return OK
+   */
+  getTermByTermIdUsingGET(id: number): __Observable<Array<Term>> {
+    return this.getTermByTermIdUsingGETResponse(id).pipe(
+      __map(_r => _r.body as Array<Term>)
     );
   }
 
@@ -1788,6 +1865,42 @@ class QueryResourceService extends __BaseService {
   getCancellationRequestByOrderIdUsingGET(orderId: string): __Observable<CancellationRequest> {
     return this.getCancellationRequestByOrderIdUsingGETResponse(orderId).pipe(
       __map(_r => _r.body as CancellationRequest)
+    );
+  }
+
+  /**
+   * @param orderNumber orderNumber
+   * @return OK
+   */
+  getOrderMasterByOrderNumberUsingGETResponse(orderNumber: string): __Observable<__StrictHttpResponse<OrderMaster>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+
+    let req = new HttpRequest<any>(
+      'GET',
+      this.rootUrl + `/api/query/getOrderMasterByOrderNumber/${orderNumber}`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<OrderMaster>;
+      })
+    );
+  }
+  /**
+   * @param orderNumber orderNumber
+   * @return OK
+   */
+  getOrderMasterByOrderNumberUsingGET(orderNumber: string): __Observable<OrderMaster> {
+    return this.getOrderMasterByOrderNumberUsingGETResponse(orderNumber).pipe(
+      __map(_r => _r.body as OrderMaster)
     );
   }
 
@@ -3052,14 +3165,14 @@ module QueryResourceService {
   export interface CancellationSummaryForViewUsingGETParams {
 
     /**
+     * storeName
+     */
+    storeName: string;
+
+    /**
      * date
      */
     date: string;
-
-    /**
-     * storeName
-     */
-    storeName?: string;
   }
 
   /**

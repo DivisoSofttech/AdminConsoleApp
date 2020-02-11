@@ -29,6 +29,7 @@ export { OfferModel } from './models/offer-model';
 export { Order } from './models/order';
 export { OrderLine } from './models/order-line';
 export { OrderMaster } from './models/order-master';
+export { OrderMasterDTO } from './models/order-master-dto';
 export { OrderModel } from './models/order-model';
 export { PageOfAbout } from './models/page-of-about';
 export { PageOfBanner } from './models/page-of-banner';

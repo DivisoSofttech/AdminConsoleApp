@@ -1,3 +1,4 @@
+import { OrderMaster } from './../../api/models/order-master';
 import { CancellationDetailsComponent } from './../../components/cancellation-details/cancellation-details.component';
 import { DecimalPipe } from '@angular/common';
 import { CancellationRequestService } from './../../services/cancellation-request.service';
@@ -31,7 +32,7 @@ export class CreateCancellationPage implements OnInit {
   orderId: string;
 
 
-  order: Order = {};
+  order: OrderMaster = {};
 
   products = [];
   comboLineItems = [];
@@ -50,19 +51,20 @@ export class CreateCancellationPage implements OnInit {
 
 
   ngOnInit() {
-  
+
     console.log('id is ');
     this.orderId = this.activeRoute.snapshot.paramMap.get('id');
     console.log('id is ', this.orderId);
 
 
-    this.query.findOrderByOrderIdUsingGET(this.orderId).subscribe(res => {
+    this.query. getOrderMasterByOrderNumberUsingGET(this.orderId).subscribe(res => {
+      console.log('got order master ', res);
 
       this.order = res;
-      if(this.order!==null){
+      if (this.order !== null) {
 
-      console.log('order is ', this.order);
-      if (this.order.paymentMode !== 'COD') {
+      // console.log('order is ', this.order);
+       if (this.order.paymentStatus === 'ORDER PAID') {
 
       this.findOrderLines();
 
@@ -72,9 +74,8 @@ export class CreateCancellationPage implements OnInit {
         this.util.createToast('cant create cancellation/refund on a cash on delivery order','waring');
         this.navCtrl.navigateBack('/cancellation');
       }
-    }
-    else{
-      this.util.createToast('Cant find the order check the given order id ','waring');
+    } else {
+      this.util.createToast('Cant find the order check the given order id ', 'waring');
       this.navCtrl.navigateBack('/cancellation');
 
     }
@@ -83,7 +84,7 @@ export class CreateCancellationPage implements OnInit {
       console.log('>>>>>>>>>>>>>>>>>>>', err);
     });
     console.log('order is ', this.order);
-  
+
 
   }
 
@@ -93,7 +94,7 @@ export class CreateCancellationPage implements OnInit {
 
     findOrderLines() {
 
-    this.query.findOrderLinesByOrderNumberUsingGET(this.order.orderId).subscribe(orderLines => {
+    this.query.findOrderLinesByOrderNumberUsingGET(this.order.orderNumber).subscribe(orderLines => {
       // this.orderLines = orderLines;
       console.log('cancelled res >>>>>>', orderLines);
       this.orderLines = orderLines;
@@ -102,7 +103,11 @@ export class CreateCancellationPage implements OnInit {
       this.orderLines.forEach(re => {
         console.log('cancelled orderline=====', re);
       });
-      this.calculateRefund();
+
+/// mark 1////
+      this.cancellationRequestDTO.amount = this.order.totalDue;
+
+      // this.calculateRefund();
     });
 
 
@@ -123,6 +128,7 @@ export class CreateCancellationPage implements OnInit {
 
     });
     this.calculateRefund();
+
 
 
 
@@ -167,12 +173,12 @@ export class CreateCancellationPage implements OnInit {
 
     this.util.createLoader().then(loader => {
       loader.present();
-      this.query.findCustomerByIdpCodeUsingGET(this.order.customerId).subscribe(res => {
+      this.query.findCustomerByCustomerUniqueIdUsingGET(this.order.customerId).subscribe(res => {
       console.log('customer is ', res);
       this.cancellationRequestDTO.customerEmail = res.contact.email;
       this.cancellationRequestDTO.customerPhone = res.contact.mobileNumber;
       this.cancellationRequestDTO.phoneCode = res.contact.phoneCode;
-      this.cancellationRequestDTO.orderId = this.order.orderId;
+      this.cancellationRequestDTO.orderId = this.order.orderNumber;
 
       this.cancellationRequestDTO.date = new Date().toISOString();
       this.cancellationRequestDTO.status = 'requested';
@@ -181,8 +187,8 @@ export class CreateCancellationPage implements OnInit {
 
       this.commandResource.createCancellationRequestUsingPOST(this.cancellationRequestDTO).subscribe(res1 => {
          console.log('created cancellation request ', res1);
-         const cancellationRequest:CancellationRequest=res1;
-         cancellationRequest.refundDetails=null;
+         const cancellationRequest: CancellationRequest = res1;
+         cancellationRequest.refundDetails = null;
          console.log('created cancellationRequest request ', cancellationRequest);
 
          this.saveCancelledOrderLines(res1.id);
@@ -216,7 +222,7 @@ export class CreateCancellationPage implements OnInit {
       cancelledOrderLine.cancellationRequestId = cancellationRequestId;
       cancelledOrderLine.ammount = element.total;
       cancelledOrderLine.itemName = element.item;
-      cancelledOrderLine.pricePerUnit = +this.decimalPipe.transform(element.total/element.quantity,'1.2-2');
+      cancelledOrderLine.pricePerUnit = +this.decimalPipe.transform(element.total / element.quantity, '1.2-2');
       cancelledOrderLine.quantity = element.quantity;
       cancelledOrderLine.productId = element.productId;
       this.cancelledOrderLines.push(cancelledOrderLine);

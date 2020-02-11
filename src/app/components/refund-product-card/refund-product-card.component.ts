@@ -20,8 +20,10 @@ export class RefundProductCardComponent implements OnInit {
 
  ngOnInit() {
    this.maxQuantity = this.orderLine.quantity;
-   console.log('initial orderline for refund ', this.orderLine);
    this.pricePerUnit = this.orderLine.total / this.orderLine.quantity;
+   this.orderLine.pricePerUnit=this.pricePerUnit;
+
+   console.log('initial orderline for refund ', this.orderLine);
    
 
 
