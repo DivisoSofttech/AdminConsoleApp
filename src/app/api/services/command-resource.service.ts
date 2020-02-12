@@ -12,6 +12,7 @@ import { BannerDTO } from '../models/banner-dto';
 import { CancellationRequestDTO } from '../models/cancellation-request-dto';
 import { CancelledOrderLineDTO } from '../models/cancelled-order-line-dto';
 import { RefundDetailsDTO } from '../models/refund-details-dto';
+import { RefundDTO } from '../models/refund-dto';
 import { CancelledAuxilaryOrderLineDTO } from '../models/cancelled-auxilary-order-line-dto';
 import { DeductionValueTypeDTO } from '../models/deduction-value-type-dto';
 import { NotificationDTO } from '../models/notification-dto';
@@ -1164,7 +1165,7 @@ module CommandResourceService {
     /**
      * refundDetailsDTO
      */
-    refundDetailsDTO: RefundDetailsDTO;
+    refundDetailsDTO: RefundDTO;
 
     /**
      * paymentId

@@ -1,3 +1,4 @@
+import { RefundDTO } from './../../api/models/refund-dto';
 import { ModalController } from '@ionic/angular';
 import { Status } from './../../api/models/status';
 import { RefundDetailsDTO } from './../../api/models/refund-details-dto';
@@ -16,7 +17,7 @@ import { CancellationDetailsComponent } from '../cancellation-details/cancellati
 export class CancellationRequestComponent implements OnInit {
 
   @Input() cancellation: CancellationRequest;
-  refundDto: RefundDetailsDTO = {};
+  refundDto: RefundDTO = {};
 
   constructor(private commandResource: CommandResourceService,
               public cancellationRequestService: CancellationRequestService,
@@ -36,7 +37,7 @@ export class CancellationRequestComponent implements OnInit {
     this.util.createLoader().then(loader => {
 
       loader.present();
-
+      //issue need fix /xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxhttp://jira.bytatech.com:8080/browse/FEXP-719x//
       this.refundDto.amount = this.cancellation.amount;
 
       this.commandResource.createRefundUsingPOST({paymentId: this.cancellation.paymentId,

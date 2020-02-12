@@ -81,7 +81,7 @@ class QueryResourceService extends __BaseService {
   static readonly findOrderMasterCountByExpectedDeliveryBetweenUsingGETPath = '/api/query/findOrderMasterCountByExpectedDeliveryBetween/{from}/{to}';
   static readonly findOrdersByOrderIdUsingGETPath = '/api/query/findOrdersByOrderId/{orderId}';
   static readonly findStoreBySearchTermUsingGETPath = '/api/query/findStore/{name}';
-  static readonly getSubTermsByTermIdUsingGETPath = '/api/query/findSubTermBySubTermId/{id}';
+  static readonly getSubTermsByTermIdUsingGETPath = '/api/query/findSubTermByTermId/{id}';
   static readonly getTermByTermIdUsingGETPath = '/api/query/findTermByTermId/{id}';
   static readonly findallaboutUsingGETPath = '/api/query/findallabout';
   static readonly findalltermsUsingGETPath = '/api/query/findallterms';
@@ -1667,7 +1667,7 @@ class QueryResourceService extends __BaseService {
 
     let req = new HttpRequest<any>(
       'GET',
-      this.rootUrl + `/api/query/findSubTermBySubTermId/${id}`,
+      this.rootUrl + `/api/query/findSubTermByTermId/${id}`,
       __body,
       {
         headers: __headers,

@@ -40,6 +40,7 @@ export { PageOfStore } from './models/page-of-store';
 export { PageOfTerm } from './models/page-of-term';
 export { PdfDTO } from './models/pdf-dto';
 export { PreOrderSettings } from './models/pre-order-settings';
+export { RefundDTO } from './models/refund-dto';
 export { RefundDetails } from './models/refund-details';
 export { RefundDetailsDTO } from './models/refund-details-dto';
 export { ReportSummary } from './models/report-summary';
