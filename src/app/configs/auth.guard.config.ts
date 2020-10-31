@@ -4,15 +4,16 @@ import { Injectable } from '@angular/core';
 
 
 export const authConfig: AuthConfig = {
-  issuer: 'https://dev.servers.divisosofttech.com/auth/realms/graeshoppe',
-  redirectUri: window.location.origin,
-  clientId: 'account',
-  scope: 'openid profile email voucher offline_access',
-  dummyClientSecret: 'd4f03412-cdad-45b0-9ccc-beddd8399ac5',
-  tokenEndpoint: 'https://dev.servers.divisosofttech.com/auth/realms/graeshoppe/protocol/openid-connect/token',
-  userinfoEndpoint: 'https://dev.servers.divisosofttech.com/auth/realms/graeshoppe/protocol/openid-connect/userinfo',
-  oidc: false,
-  requireHttps: false,
+    issuer: 'http:/dev.keycloak.divisosofttech.com:9080/auth/realms/jhipster',
+    redirectUri: window.location.origin,
+    clientId: 'web_app',
+    scope: 'openid profile email' ,
+    //scope: 'openid profile email voucher offline_access',
+    dummyClientSecret: '5a81bfcd-9f66-441b-9e9f-6c011b8c8644',
+    tokenEndpoint: 'http://dev.keycloak.divisosofttech.com:9080/auth/realms/jhipster/protocol/openid-connect/token',
+    userinfoEndpoint: 'http://dev.keycloak.divisosofttech.com:9080/auth/realms/jhipster/protocol/openid-connect/userinfo',
+    oidc: false,
+    requireHttps: false,
 };
 
 

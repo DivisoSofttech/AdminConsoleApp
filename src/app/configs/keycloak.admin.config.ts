@@ -11,7 +11,7 @@ export class KeycloakAdminConfig {
     constructor() {
       this.kcAdminClient = new KeycloakAdminClient();
       this.kcAdminClient.setConfig({
-        baseUrl: 'https://dev.servers.divisosofttech.com/auth'
+        baseUrl: 'http://dev.keycloak.divisosofttech.com:9080/auth'
       });
     }
 
@@ -21,11 +21,11 @@ export class KeycloakAdminConfig {
 
     configureKeycloakAdmin() {
      return  this.kcAdminClient.auth({
-        username: 'admin',
-        password: 'admin999',
-        grantType: 'password',
-        clientId: 'admin-cli',
-        clientSecret: '46c38386-f577-4747-bcd4-922100638f23'
+      username: 'admin',
+      password: 'FSR4gqnPbf6V5Ez',
+      grantType: 'password',
+      clientId: 'admin-cli',
+      clientSecret: '46c38386-f577-4747-bcd4-922100638f23'
       });
     }
 }

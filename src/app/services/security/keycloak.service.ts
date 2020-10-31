@@ -39,12 +39,12 @@ export class KeycloakService {
           await this.keycloakAdmin.roles
             .findOneByName({
               name: 'administator',
-              realm: 'graeshoppe'
+              realm: 'jhipster'
             })
             .then(async role => {
               await this.keycloakAdmin.users.addRealmRoleMappings({
                 id: res.id,
-                realm: 'graeshoppe',
+                realm: 'jhipster',
                 roles: [
                   {
                     id: role.id,
@@ -96,7 +96,7 @@ export class KeycloakService {
     return await this.keycloakAdmin.users.update(
       {
         id: keycloakUser.sub,
-        realm: 'graeshoppe'
+        realm: 'jhipster'
       },
       {
         firstName: keycloakUser.name.split(' ')[0],
@@ -114,7 +114,7 @@ export class KeycloakService {
         this.keycloakAdmin = this.keycloakConfig.kcAdminClient;
         this.keycloakAdmin.users.resetPassword(
           {
-            realm: 'graeshoppe',
+            realm: 'jhipster',
             id: user.sub,
             credential: {
               temporary: false,
@@ -147,7 +147,7 @@ export class KeycloakService {
           await this.keycloakConfig.kcAdminClient.users
             .listRoleMappings({
               id: user,
-              realm: 'graeshoppe'
+              realm: 'jhipster'
             })
             .then(async roles => {
               const rolesAvailable = await roles.realmMappings.filter(
